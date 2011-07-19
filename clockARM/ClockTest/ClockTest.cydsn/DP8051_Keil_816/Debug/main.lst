@@ -1,0 +1,225 @@
+C51 COMPILER V8.16   MAIN                                                                  07/15/2011 14:24:19 PAGE 1   
+
+
+C51 COMPILER V8.16, COMPILATION OF MODULE MAIN
+OBJECT MODULE PLACED IN C:/Users/Jon Moeller/Documents/PSoC Creator/clockARM/ClockTest/ClockTest.cydsn/DP8051_Keil_816/Debug/main.OBJ
+COMPILER INVOKED BY: C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\import\keil\pk51\8.16\C51\BIN\c51.exe C:\Use
+                    -rs\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\main.c NOIV LARGE MODDP2 OMF2 VB(1) PR(C:/Users
+                    -/Jon Moeller/Documents/PSoC Creator/clockARM/ClockTest/ClockTest.cydsn/DP8051_Keil_816/Debug/main.lst) CD DB NOIP OT(2,S
+                    -IZE) INCDIR(Generated_Source/PSoC3) OJ(C:/Users/Jon Moeller/Documents/PSoC Creator/clockARM/ClockTest/ClockTest.cydsn/DP
+                    -8051_Keil_816/Debug/main.OBJ)
+
+line level    source
+
+   1          /* ========================================
+   2           *
+   3           * Copyright YOUR COMPANY, THE YEAR
+   4           * All Rights Reserved
+   5           * UNPUBLISHED, LICENSED SOFTWARE.
+   6           *
+   7           * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8           * WHICH IS THE PROPERTY OF your company.
+   9           *
+  10           * ========================================
+  11          */
+  12          
+  13          
+  14          
+  15          #include <device.h>
+  16          
+  17          void main()
+  18          {
+  19   1              uint8 line[23][6] = 
+  20   1              {
+  21   1               0x00, 0xC0, 0x00, 0x01, 0x00, 0x00,
+  22   1               0x00, 0xA0, 0x00, 0x01, 0x00, 0x00,
+  23   1               0x00, 0x90, 0x00, 0x01, 0x00, 0x00,
+  24   1               0x00, 0x88, 0x00, 0x01, 0x00, 0x00,
+  25   1               0x00, 0x84, 0x00, 0x01, 0x00, 0x00,
+  26   1               0x00, 0x82, 0x00, 0x01, 0x00, 0x00,
+  27   1               0x00, 0x81, 0x00, 0x01, 0x00, 0x00,
+  28   1               0x00, 0x80, 0x80, 0x01, 0x00, 0x00, 
+  29   1               0x00, 0x80, 0x40, 0x01, 0x00, 0x00, 
+  30   1               0x00, 0x80, 0x20, 0x01, 0x00, 0x00, 
+  31   1               0x00, 0x80, 0x10, 0x01, 0x00, 0x00, 
+  32   1               0x00, 0x80, 0x08, 0x01, 0x00, 0x00, 
+  33   1               0x00, 0x80, 0x04, 0x01, 0x00, 0x00, 
+  34   1               0x00, 0x80, 0x02, 0x01, 0x00, 0x00,
+  35   1               0x00, 0x80, 0x01, 0x01, 0x00, 0x00, 
+  36   1               0x00, 0x80, 0x00, 0x81, 0x00, 0x00, 
+  37   1               0x00, 0x80, 0x00, 0x41, 0x00, 0x00, 
+  38   1               0x00, 0x80, 0x00, 0x21, 0x00, 0x00, 
+  39   1               0x00, 0x80, 0x00, 0x11, 0x00, 0x00, 
+  40   1               0x00, 0x80, 0x00, 0x09, 0x00, 0x00, 
+  41   1               0x00, 0x80, 0x00, 0x05, 0x00, 0x00, 
+  42   1               0x00, 0x80, 0x00, 0x03, 0x00, 0x00, 
+  43   1               0x00, 0x80, 0x00, 0x01, 0x00, 0x00, 
+  44   1               
+  45   1              };
+  46   1              
+  47   1              uint8 hline[6] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+  48   1              uint8 offline[6] = {0x80, 0x80, 0x80, 0x80, 0x80, 0x81};
+  49   1              
+  50   1              uint8 i,j, pwm;
+  51   1              uint16 density;
+C51 COMPILER V8.16   MAIN                                                                  07/15/2011 14:24:19 PAGE 2   
+
+  52   1          /* Place your initialization/startup code here (e.g. MyInst_Start()) */
+  53   1      
+  54   1              Counter_1_Start();
+  55   1              PRISM_Start();
+  56   1              pwm = 1;
+  57   1              density = 1;
+  58   1              
+  59   1          /* CYGlobalIntEnable; */ /* Uncomment this line to enable global interrupts. */
+  60   1              for(;;)
+  61   1          {
+  62   2                      Counter_1_WritePeriod(pwm);     
+  63   2                      pwm++;
+  64   2                      CyDelay(10);
+  65   2                      if (pwm > 250) pwm = 1;
+  66   2          }
+  67   1      }
+*** WARNING C280 IN LINE 50 OF C:\USERS\JON MOELLER\DOCUMENTS\PSOC CREATOR\CLOCKARM\CLOCKTEST\CLOCKTEST.CYDSN\MAIN.C: 'i
+             -': unreferenced local variable
+*** WARNING C280 IN LINE 50 OF C:\USERS\JON MOELLER\DOCUMENTS\PSOC CREATOR\CLOCKARM\CLOCKTEST\CLOCKTEST.CYDSN\MAIN.C: 'j
+             -': unreferenced local variable
+  68          
+  69          /* [] END OF FILE */
+C51 COMPILER V8.16   MAIN                                                                  07/15/2011 14:24:19 PAGE 3   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION main (BEGIN)
+                                           ; SOURCE LINE # 17
+                                           ; SOURCE LINE # 18
+                                           ; SOURCE LINE # 19
+0000 7BFF              MOV     R3,#0FFH
+0002 7A00        R     MOV     R2,#HIGH _?ix1000
+0004 7900        R     MOV     R1,#LOW _?ix1000
+0006 C003              PUSH    AR3
+0008 C002              PUSH    AR2
+000A C001              PUSH    AR1
+000C 7B01              MOV     R3,#01H
+000E 7A00        R     MOV     R2,#HIGH line
+0010 7900        R     MOV     R1,#LOW line
+0012 A801              MOV     R0,AR1
+0014 AC02              MOV     R4,AR2
+0016 AD03              MOV     R5,AR3
+0018 D001              POP     AR1
+001A D002              POP     AR2
+001C D003              POP     AR3
+001E 7E00              MOV     R6,#00H
+0020 7F8A              MOV     R7,#08AH
+0022 120000      E     LCALL   ?C?COPYAMD
+                                           ; SOURCE LINE # 47
+0025 7BFF              MOV     R3,#0FFH
+0027 7A00        R     MOV     R2,#HIGH _?ix1001
+0029 7900        R     MOV     R1,#LOW _?ix1001
+002B C003              PUSH    AR3
+002D C002              PUSH    AR2
+002F C001              PUSH    AR1
+0031 7B01              MOV     R3,#01H
+0033 7A00        R     MOV     R2,#HIGH hline
+0035 7900        R     MOV     R1,#LOW hline
+0037 A801              MOV     R0,AR1
+0039 AC02              MOV     R4,AR2
+003B AD03              MOV     R5,AR3
+003D D001              POP     AR1
+003F D002              POP     AR2
+0041 D003              POP     AR3
+0043 7E00              MOV     R6,#00H
+0045 7F06              MOV     R7,#06H
+0047 120000      E     LCALL   ?C?COPYAMD
+                                           ; SOURCE LINE # 48
+004A 7BFF              MOV     R3,#0FFH
+004C 7A00        R     MOV     R2,#HIGH _?ix1002
+004E 7900        R     MOV     R1,#LOW _?ix1002
+0050 C003              PUSH    AR3
+0052 C002              PUSH    AR2
+0054 C001              PUSH    AR1
+0056 7B01              MOV     R3,#01H
+0058 7A00        R     MOV     R2,#HIGH offline
+005A 7900        R     MOV     R1,#LOW offline
+005C A801              MOV     R0,AR1
+005E AC02              MOV     R4,AR2
+0060 AD03              MOV     R5,AR3
+0062 D001              POP     AR1
+0064 D002              POP     AR2
+0066 D003              POP     AR3
+0068 7E00              MOV     R6,#00H
+006A 7F06              MOV     R7,#06H
+C51 COMPILER V8.16   MAIN                                                                  07/15/2011 14:24:19 PAGE 4   
+
+006C 120000      E     LCALL   ?C?COPYAMD
+                                           ; SOURCE LINE # 54
+006F 120000      E     LCALL   Counter_1_Start
+                                           ; SOURCE LINE # 55
+0072 120000      E     LCALL   PRISM_Start
+                                           ; SOURCE LINE # 56
+0075 900000      R     MOV     DPTR,#pwm
+0078 7401              MOV     A,#01H
+007A F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 57
+007B 900000      R     MOV     DPTR,#density
+007E E4                CLR     A
+007F F0                MOVX    @DPTR,A
+0080 A3                INC     DPTR
+0081 7401              MOV     A,#01H
+0083 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 60
+0084         ?C0001:
+                                           ; SOURCE LINE # 61
+                                           ; SOURCE LINE # 62
+0084 900000      R     MOV     DPTR,#pwm
+0087 E0                MOVX    A,@DPTR
+0088 FF                MOV     R7,A
+0089 120000      E     LCALL   _Counter_1_WritePeriod
+                                           ; SOURCE LINE # 63
+008C 900000      R     MOV     DPTR,#pwm
+008F E0                MOVX    A,@DPTR
+0090 04                INC     A
+0091 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 64
+0092 7F0A              MOV     R7,#0AH
+0094 7E00              MOV     R6,#00H
+0096 7D00              MOV     R5,#00H
+0098 7C00              MOV     R4,#00H
+009A 120000      E     LCALL   _?CyDelay
+                                           ; SOURCE LINE # 65
+009D 900000      R     MOV     DPTR,#pwm
+00A0 E0                MOVX    A,@DPTR
+00A1 FF                MOV     R7,A
+00A2 EF                MOV     A,R7
+00A3 D3                SETB    C
+00A4 94FA              SUBB    A,#0FAH
+00A6 40DC              JC      ?C0001
+00A8 900000      R     MOV     DPTR,#pwm
+00AB 7401              MOV     A,#01H
+00AD F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 66
+00AE 80D4              SJMP    ?C0001
+00B0 22                RET     
+             ; FUNCTION main (END)
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =    177    ----
+   CONSTANT SIZE    =    150    ----
+   XDATA SIZE       =   ----     155
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+C51 COMPILER V8.16   MAIN                                                                  07/15/2011 14:24:19 PAGE 5   
+
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  2 WARNING(S),  0 ERROR(S)

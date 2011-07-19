@@ -1,0 +1,2306 @@
+Loading plugins phase: Elapsed time ==> 0s.374ms
+Initializing data phase: Elapsed time ==> 3s.478ms
+<CYPRESSTAG name="CyDsfit arguments...">
+cydsfit arguments: -.fdsnotice -.fdswarpdepfile=warp_dependencies.txt -.fdselabdepfile=elab_dependencies.txt -.fdsbldfile=generated_files.txt -p C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\ClockTest.cyprj -d CY8C3666AXI-052 -s C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\Generated_Source\PSoC3 -w 0 -- -yv2 -w 0 -v3 -ygs -q10 -o2 -.fftcfgtype=BE -.fftp3sirev=PRODUCTION</CYPRESSTAG>
+<CYPRESSTAG name="Design elaboration results...">
+ADD: pft.M0028: warning: Clock Warning: (Clock_1's accuracy range '24.000 MHz ?1%, (23.760 MHz - 24.240 MHz)' is not within the specified tolerance range '40.000 MHz ?5%, (38.000 MHz - 42.000 MHz)'.).
+ * C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\ClockTest.cydwr (Clock_1)
+ * C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\TopDesign\TopDesign.cysch (Instance 'Clock_1')
+
+</CYPRESSTAG>
+Elaboration phase: Elapsed time ==> 3s.494ms
+<CYPRESSTAG name="HDL generation results...">
+</CYPRESSTAG>
+HDL generation phase: Elapsed time ==> 0s.093ms
+<CYPRESSTAG name="Synthesis results...">
+
+     | | | | | | |
+   _________________
+  -|               |-
+  -|               |-
+  -|               |-
+  -|    CYPRESS    |-
+  -|               |-
+  -|               |-   Warp Verilog Synthesis Compiler: Version 6.3 IR 41
+  -|               |-   Copyright (C) 1991-2001 Cypress Semiconductor
+   |_______________|
+     | | | | | | |
+
+======================================================================
+Compiling:  ClockTest.v
+Program  :   C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\bin/warp.exe
+Options  :    -yv2 -w 0 -v3 -ygs -q10 -o2 -.fftcfgtype=BE -.fftp3sirev=PRODUCTION -ya -.fftprj=C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\ClockTest.cyprj -dcpsoc3 ClockTest.v -verilog
+======================================================================
+
+======================================================================
+Compiling:  ClockTest.v
+Program  :   C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\bin/warp.exe
+Options  :    -yv2 -w 0 -v3 -ygs -q10 -o2 -.fftcfgtype=BE -.fftp3sirev=PRODUCTION -ya -.fftprj=C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\ClockTest.cyprj -dcpsoc3 ClockTest.v -verilog
+======================================================================
+
+======================================================================
+Compiling:  ClockTest.v
+Program  :   vlogfe
+Options  :    -yv2 -w 0 -v3 -ygs -q10 -o2 -.fftcfgtype=BE -.fftp3sirev=PRODUCTION -ya -.fftprj=C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\ClockTest.cyprj -dcpsoc3 -verilog ClockTest.v
+======================================================================
+
+vlogfe V6.3 IR 41:  Verilog parser
+Fri Jul 15 14:24:10 2011
+
+
+======================================================================
+Compiling:  ClockTest.v
+Program  :   vpp
+Options  :    -yv2 -q10 ClockTest.v
+======================================================================
+
+vpp V6.3 IR 41:  Verilog Pre-Processor
+Fri Jul 15 14:24:10 2011
+
+Flattening file 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\..\psoc\content\cyprimitives\CyPrimitives.cylib\cy_virtualmux_v1_0\cy_virtualmux_v1_0.v'
+Flattening file 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\..\psoc\content\cyprimitives\CyPrimitives.cylib\ZeroTerminal\ZeroTerminal.v'
+Flattening file 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\..\psoc\content\cyprimitives\CyPrimitives.cylib\OneTerminal\OneTerminal.v'
+Flattening file 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\..\psoc\content\cyprimitives\CyPrimitives.cylib\not_v1_0\not_v1_0.v'
+Flattening file 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\..\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\PrISM_v2_0\PrISM_v2_0.v'
+Flattening file 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\cypress.v'
+Flattening file 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\cy_psoc3_inc.v'
+
+vpp:  No errors.
+
+Library 'work' => directory 'lcpsoc3'
+General_symbol_table
+General_symbol_table
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\std.vhd'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\cypress.vhd'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\work\cypress.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\ieee\work\stdlogic.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\lpmpkg.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\rtlpkg.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\mod_cnst.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\mod_mthv.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\mod_genv.vif'.
+Using control file 'ClockTest.ctl'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\cy_psoc3pkg.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\cy_psoc3.vif'.
+
+vlogfe:  No errors.
+
+
+======================================================================
+Compiling:  ClockTest.v
+Program  :   tovif
+Options  :    -yv2 -w 0 -v3 -ygs -q10 -o2 -.fftcfgtype=BE -.fftp3sirev=PRODUCTION -ya -.fftprj=C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\ClockTest.cyprj -dcpsoc3 -verilog ClockTest.v
+======================================================================
+
+tovif V6.3 IR 41:  High-level synthesis
+Fri Jul 15 14:24:10 2011
+
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\std.vhd'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\cypress.vhd'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\work\cypress.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\ieee\work\stdlogic.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\lpmpkg.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\rtlpkg.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\mod_cnst.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\mod_mthv.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\mod_genv.vif'.
+Linking 'C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\codegentemp\ClockTest.ctl'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\cy_virtualmux_v1_0\cy_virtualmux_v1_0.v'.
+Linking 'C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\codegentemp\ClockTest.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\ZeroTerminal\ZeroTerminal.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\OneTerminal\OneTerminal.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\not_v1_0\not_v1_0.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\PrISM_v2_0\PrISM_v2_0.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\cypress.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\cy_psoc3_inc.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\cy_psoc3pkg.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\cy_psoc3.vif'.
+
+tovif:  No errors.
+
+
+======================================================================
+Compiling:  ClockTest.v
+Program  :   topld
+Options  :    -yv2 -w 0 -v3 -ygs -q10 -o2 -.fftcfgtype=BE -.fftp3sirev=PRODUCTION -ya -.fftprj=C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\ClockTest.cyprj -dcpsoc3 -verilog ClockTest.v
+======================================================================
+
+topld V6.3 IR 41:  Synthesis and optimization
+Fri Jul 15 14:24:11 2011
+
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\std.vhd'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\cypress.vhd'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\work\cypress.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\ieee\work\stdlogic.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\lpmpkg.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\rtlpkg.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\mod_cnst.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\mod_mthv.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\mod_genv.vif'.
+Linking 'C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\codegentemp\ClockTest.ctl'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\cy_virtualmux_v1_0\cy_virtualmux_v1_0.v'.
+Linking 'C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\codegentemp\ClockTest.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\ZeroTerminal\ZeroTerminal.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\OneTerminal\OneTerminal.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\not_v1_0\not_v1_0.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\PrISM_v2_0\PrISM_v2_0.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\cypress.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\cy_psoc3_inc.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\cy_psoc3pkg.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\cy_psoc3.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\lcpsoc3\stdlogic\cpsoc3.vif'.
+
+----------------------------------------------------------
+Detecting unused logic.
+----------------------------------------------------------
+    User names
+	Net_163
+	\Counter_1:Net_89\
+	\Counter_1:Net_95\
+	\Counter_1:Net_102\
+
+
+Deleted 4 User equations/components.
+Deleted 0 Synthesized equations/components.
+
+------------------------------------------------------
+Alias Detection
+------------------------------------------------------
+Aliasing tmpOE__LE_net_0 to tmpOE__OE_net_0
+Aliasing tmpOE__SCLK_net_0 to tmpOE__OE_net_0
+Aliasing tmpOE__DATA_net_0 to tmpOE__OE_net_0
+Aliasing \Counter_1:Net_91\ to \Counter_1:Net_82\
+Aliasing zero to \Counter_1:Net_82\
+Aliasing one to tmpOE__OE_net_0
+Aliasing Net_79 to tmpOE__OE_net_0
+Aliasing Net_80 to \Counter_1:Net_82\
+Aliasing \PRISM:cs_addr_2\ to \Counter_1:Net_82\
+Aliasing \PRISM:cs_addr_0\ to tmpOE__OE_net_0
+Aliasing Net_81 to \Counter_1:Net_82\
+Aliasing tmpOE__MAGNET_net_0 to tmpOE__OE_net_0
+Removing Lhs of wire tmpOE__LE_net_0[8] = tmpOE__OE_net_0[1]
+Removing Rhs of wire Net_156[9] = \Counter_1:Net_48\[32]
+Removing Lhs of wire tmpOE__SCLK_net_0[15] = tmpOE__OE_net_0[1]
+Removing Lhs of wire tmpOE__DATA_net_0[21] = tmpOE__OE_net_0[1]
+Removing Lhs of wire \Counter_1:Net_91\[30] = \Counter_1:Net_82\[29]
+Removing Rhs of wire zero[31] = \Counter_1:Net_82\[29]
+Removing Rhs of wire \PRISM:ctrl_enable\[42] = \PRISM:control_0\[43]
+Removing Rhs of wire \PRISM:compare_type0\[44] = \PRISM:control_1\[45]
+Removing Rhs of wire \PRISM:compare_type1\[46] = \PRISM:control_2\[47]
+Removing Lhs of wire one[49] = tmpOE__OE_net_0[1]
+Removing Lhs of wire Net_79[58] = tmpOE__OE_net_0[1]
+Removing Lhs of wire Net_80[62] = zero[31]
+Removing Lhs of wire \PRISM:cs_addr_2\[63] = zero[31]
+Removing Lhs of wire \PRISM:cs_addr_1\[64] = \PRISM:reset_reg\[61]
+Removing Lhs of wire \PRISM:cs_addr_0\[65] = tmpOE__OE_net_0[1]
+Removing Lhs of wire Net_81[74] = zero[31]
+Removing Lhs of wire tmpOE__MAGNET_net_0[155] = tmpOE__OE_net_0[1]
+Removing Lhs of wire \PRISM:reset_reg\\D\[161] = zero[31]
+
+------------------------------------------------------
+Aliased 0 equations, 18 wires.
+------------------------------------------------------
+
+----------------------------------------------------------
+Circuit simplification
+----------------------------------------------------------
+
+Substituting virtuals - pass 1:
+
+Note:  Expanding virtual equation for 'tmpOE__OE_net_0' (cost = 0):
+tmpOE__OE_net_0 <=  ('1') ;
+
+Note:  Expanding virtual equation for 'zero' (cost = 0):
+zero <=  ('0') ;
+
+Note:  Expanding virtual equation for '\PRISM:Pd0a\' (cost = 2):
+\PRISM:Pd0a\ <= ((not \PRISM:compare_type0\ and \PRISM:cl0\)
+	OR (not \PRISM:compare_type0\ and \PRISM:ce0\));
+
+Note:  Expanding virtual equation for '\PRISM:Pd0b\' (cost = 1):
+\PRISM:Pd0b\ <= ((not \PRISM:cl0\ and \PRISM:compare_type0\));
+
+Note:  Expanding virtual equation for '\PRISM:Pd1a\' (cost = 2):
+\PRISM:Pd1a\ <= ((not \PRISM:compare_type1\ and \PRISM:cl1\)
+	OR (not \PRISM:compare_type1\ and \PRISM:ce1\));
+
+Note:  Expanding virtual equation for '\PRISM:Pd1b\' (cost = 1):
+\PRISM:Pd1b\ <= ((not \PRISM:cl1\ and \PRISM:compare_type1\));
+
+
+Substituting virtuals - pass 2:
+
+
+----------------------------------------------------------
+Circuit simplification results:
+
+	Expanded 6 signals.
+	Turned 0 signals into soft nodes.
+	Maximum default expansion cost was set at 3.
+----------------------------------------------------------
+
+------------------------------------------------------
+Alias Detection
+------------------------------------------------------
+Removing Lhs of wire \PRISM:enable_final_reg\\D\[160] = \PRISM:ctrl_enable\[42]
+
+------------------------------------------------------
+Aliased 0 equations, 1 wires.
+------------------------------------------------------
+
+----------------------------------------------------------
+Circuit simplification
+----------------------------------------------------------
+
+Eliminating unused logic - pass 1:
+
+
+Eliminating unused logic - pass 2:
+
+
+Substituting virtuals - pass 1:
+
+
+----------------------------------------------------------
+Circuit simplification results:
+
+	Expanded 0 signals.
+	Turned 0 signals into soft nodes.
+	Maximum default expansion cost was set at 3.
+----------------------------------------------------------
+
+topld:  No errors.
+
+CYPRESS_DIR    : C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp
+Warp Program   : C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\bin/warp.exe
+Warp Arguments : -yv2 -w 0 -v3 -ygs -q10 -o2 -.fftcfgtype=BE -.fftp3sirev=PRODUCTION -ya "-.fftprj=C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\ClockTest.cyprj" -dcpsoc3 ClockTest.v -verilog
+</CYPRESSTAG>
+Warp synthesis phase: Elapsed time ==> 1s.762ms
+Setting sirev to PRODUCTION
+<CYPRESSTAG name="Fitter results...">
+<CYPRESSTAG name="Fitter startup details...">
+cyp3fit: V1.0.0.7727, Family: PSoC3, Started at: Friday, 15 July 2011 14:24:12
+Options: -yv2 -w 0 -v3 -ygs -q10 -o2 -.fftcfgtype=BE -.fftp3sirev=PRODUCTION -ya -.fftprj=C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\ClockTest.cyprj -dCY8C3666AXI-052 ClockTest.v -verilog
+</CYPRESSTAG>
+<CYPRESSTAG name="Design parsing">
+Design parsing phase: Elapsed time ==> 0s.031ms
+</CYPRESSTAG>
+<CYPRESSTAG name="Tech mapping">
+<CYPRESSTAG name="Initial Mapping" icon="FILE_RPT_TECHM">
+    Converted constant MacroCell: \PRISM:reset_reg\ from registered to combinatorial
+
+Removing unused cells resulting from optimization
+    Removed unused cell/equation 'Net_87:macrocell'
+    Removed unused cell/equation 'Net_87D:macrocell'
+Done removing unused cells.
+<CYPRESSTAG name="Global Clock Selection" icon="FILE_RPT_TECHM">
+    Digital Clock 0: Automatic-assigning  clock 'Clock_1'. Fanout=2, Signal=Net_78
+    Digital Clock 1: Automatic-assigning  clock 'Clock_2'. Fanout=1, Signal=Net_162
+</CYPRESSTAG>
+<CYPRESSTAG name="UDB Clock/Enable Remapping Results">
+    UDB Clk/Enable \PRISM:ClkSync\: with output requested to be synchronous
+        ClockIn: Clock_1 was determined to be a global clock that is synchronous to BUS_CLK
+        EnableIn: \PRISM:enable_final_reg\:macrocell.q was determined to be synchronous to ClockIn
+        ClockOut: Clock_1, EnableOut: \PRISM:enable_final_reg\:macrocell.q
+    UDB Clk/Enable \PRISM:CtlClkSync\: with output requested to be synchronous
+        ClockIn: Clock_1 was determined to be a global clock that is synchronous to BUS_CLK
+        EnableIn: Constant 1 was determined to be synchronous to ClockIn
+        ClockOut: Clock_1, EnableOut: Constant 1
+</CYPRESSTAG>
+
+Removing unused cells resulting from optimization
+    Removed unused cell/equation 'Net_113D:macrocell'
+    Removed unused cell/equation '\PRISM:reset_reg\:macrocell'
+    Removed unused cell/equation '__ZERO__:macrocell'
+Done removing unused cells.
+<CYPRESSTAG name="Duplicate Macrocell detection">
+</CYPRESSTAG>
+</CYPRESSTAG>
+<CYPRESSTAG name="Duplicate Macrocell detection">
+</CYPRESSTAG>
+<CYPRESSTAG name="Design Equations" icon="FILE_RPT_EQUATION">
+
+------------------------------------------------------------
+Design Equations
+------------------------------------------------------------
+    <CYPRESSTAG name="Pin listing">
+
+    ------------------------------------------------------------
+    Pin listing
+    ------------------------------------------------------------
+
+    Pin : Name = DATA(0)
+        Attributes:
+            In Group/Port: True
+            In Sync Option: AUTO
+            Out Sync Option: NOSYNC
+            Interrupt generated: False
+            Interrupt mode: NONE
+            Drive mode: CMOS_OUT
+            VTrip: EITHER
+            Slew: FAST
+            Input Sync needed: False
+            Output Sync needed: False
+            SC shield enabled: False
+            POR State: ANY
+            LCD Mode: COMMON
+            Register Mode: RegComb
+            CaSense Mode: NEITHER
+            Treat as pin: True
+            Is OE Registered: False
+            Uses Analog: False
+            Can contain Digital: True
+            Is SIO: False
+            SIO Output Buf: NONREGULATED
+            SIO Input Buf: SINGLE_ENDED
+            SIO HiFreq: LOW
+            SIO Hyst: DISABLED
+            SIO Vtrip: MULTIPLIER_0_5
+            SIO RefSel: VCC_IO
+            Required Capabilitites: 1
+            Initial Value: 0
+            IO Voltage: 0
+        PORT MAP (
+            input => Net_175 ,
+            pad => DATA(0)_PAD );
+        Properties:
+        {
+        }
+
+    Pin : Name = LE(0)
+        Attributes:
+            In Group/Port: True
+            In Sync Option: AUTO
+            Out Sync Option: NOSYNC
+            Interrupt generated: False
+            Interrupt mode: NONE
+            Drive mode: CMOS_OUT
+            VTrip: EITHER
+            Slew: FAST
+            Input Sync needed: False
+            Output Sync needed: False
+            SC shield enabled: False
+            POR State: ANY
+            LCD Mode: COMMON
+            Register Mode: RegComb
+            CaSense Mode: NEITHER
+            Treat as pin: True
+            Is OE Registered: False
+            Uses Analog: False
+            Can contain Digital: True
+            Is SIO: False
+            SIO Output Buf: NONREGULATED
+            SIO Input Buf: SINGLE_ENDED
+            SIO HiFreq: LOW
+            SIO Hyst: DISABLED
+            SIO Vtrip: MULTIPLIER_0_5
+            SIO RefSel: VCC_IO
+            Required Capabilitites: 1
+            Initial Value: 0
+            IO Voltage: 0
+        PORT MAP (
+            input => Net_156 ,
+            pad => LE(0)_PAD );
+        Properties:
+        {
+        }
+
+    Pin : Name = MAGNET(0)
+        Attributes:
+            In Group/Port: True
+            In Sync Option: SYNC
+            Out Sync Option: AUTO
+            Interrupt generated: False
+            Interrupt mode: NONE
+            Drive mode: HI_Z_DIGITAL
+            VTrip: CMOS
+            Slew: FAST
+            Input Sync needed: True
+            Output Sync needed: False
+            SC shield enabled: False
+            POR State: ANY
+            LCD Mode: COMMON
+            Register Mode: RegComb
+            CaSense Mode: NEITHER
+            Treat as pin: True
+            Is OE Registered: False
+            Uses Analog: False
+            Can contain Digital: True
+            Is SIO: False
+            SIO Output Buf: NONREGULATED
+            SIO Input Buf: SINGLE_ENDED
+            SIO HiFreq: LOW
+            SIO Hyst: DISABLED
+            SIO Vtrip: MULTIPLIER_0_5
+            SIO RefSel: VCC_IO
+            Required Capabilitites: 1
+            Initial Value: 0
+            IO Voltage: 0
+        PORT MAP (
+            fb => Net_173 ,
+            pad => MAGNET(0)_PAD );
+        Properties:
+        {
+        }
+
+    Pin : Name = OE(0)
+        Attributes:
+            In Group/Port: True
+            In Sync Option: AUTO
+            Out Sync Option: NOSYNC
+            Interrupt generated: False
+            Interrupt mode: NONE
+            Drive mode: CMOS_OUT
+            VTrip: EITHER
+            Slew: FAST
+            Input Sync needed: False
+            Output Sync needed: False
+            SC shield enabled: False
+            POR State: ANY
+            LCD Mode: COMMON
+            Register Mode: RegComb
+            CaSense Mode: NEITHER
+            Treat as pin: True
+            Is OE Registered: False
+            Uses Analog: False
+            Can contain Digital: True
+            Is SIO: False
+            SIO Output Buf: NONREGULATED
+            SIO Input Buf: SINGLE_ENDED
+            SIO HiFreq: LOW
+            SIO Hyst: DISABLED
+            SIO Vtrip: MULTIPLIER_0_5
+            SIO RefSel: VCC_IO
+            Required Capabilitites: 1
+            Initial Value: 0
+            IO Voltage: 0
+        PORT MAP (
+            input => Net_113 ,
+            pad => OE(0)_PAD );
+        Properties:
+        {
+        }
+
+    Pin : Name = SCLK(0)
+        Attributes:
+            In Group/Port: True
+            In Sync Option: AUTO
+            Out Sync Option: NOSYNC
+            Interrupt generated: False
+            Interrupt mode: NONE
+            Drive mode: CMOS_OUT
+            VTrip: EITHER
+            Slew: FAST
+            Input Sync needed: False
+            Output Sync needed: False
+            SC shield enabled: False
+            POR State: ANY
+            LCD Mode: COMMON
+            Register Mode: RegComb
+            CaSense Mode: NEITHER
+            Treat as pin: True
+            Is OE Registered: False
+            Uses Analog: False
+            Can contain Digital: True
+            Is SIO: False
+            SIO Output Buf: NONREGULATED
+            SIO Input Buf: SINGLE_ENDED
+            SIO HiFreq: LOW
+            SIO Hyst: DISABLED
+            SIO Vtrip: MULTIPLIER_0_5
+            SIO RefSel: VCC_IO
+            Required Capabilitites: 1
+            Initial Value: 0
+            IO Voltage: 0
+        PORT MAP (
+            input => Net_156 ,
+            pad => SCLK(0)_PAD );
+        Properties:
+        {
+        }
+    </CYPRESSTAG>
+    <CYPRESSTAG name="Macrocell listing" icon="FILE_RPT_EQUATION">
+
+    ------------------------------------------------------------
+    Macrocell listing
+    ------------------------------------------------------------
+
+    MacroCell: Name=Net_113, Mode=(D-Register)
+        Total # of inputs        : 3
+        Total # of product terms : 2
+        List of special equations: 
+            Clock  = (Net_78) => Global
+            Clock Enable: PosEdge(\PRISM:enable_final_reg\)
+        Main Equation            : 2 pterms
+        !(
+              !\PRISM:compare_type0\ * !\PRISM:ce0\ * !\PRISM:cl0\
+            + \PRISM:compare_type0\ * \PRISM:cl0\
+        );
+        Output = Net_113 (fanout=1)
+
+    MacroCell: Name=Net_175, Mode=(Combinatorial)
+        Total # of inputs        : 1
+        Total # of product terms : 1
+            Clock Enable: True
+        Main Equation            : 1 pterm
+        (
+              !Net_173
+        );
+        Output = Net_175 (fanout=1)
+
+    MacroCell: Name=\PRISM:enable_final_reg\, Mode=(D-Register)
+        Total # of inputs        : 1
+        Total # of product terms : 1
+        List of special equations: 
+            Clock  = (Net_78) => Global
+            Clock Enable: True
+        Main Equation            : 1 pterm
+        (
+              \PRISM:ctrl_enable\
+        );
+        Output = \PRISM:enable_final_reg\ (fanout=3)
+
+    MacroCell: Name=__ONE__, Mode=(Combinatorial)
+        Total # of inputs        : 0
+        Total # of product terms : 0
+            Clock Enable: True
+        Main Equation            : 0 pterms
+        !(
+            0
+        );
+        Output = __ONE__ (fanout=2)
+    </CYPRESSTAG>
+    <CYPRESSTAG name="Datapath listing">
+
+    ------------------------------------------------------------
+    Datapath listing
+    ------------------------------------------------------------
+
+    datapathcell: Name =\PRISM:sC16:PrISMdp:u0\
+        PORT MAP (
+            clk => Net_78 ,
+            cs_addr_0 => __ONE__ ,
+            chain_out => \PRISM:sC16:PrISMdp:carry\ ,
+            clk_en => \PRISM:enable_final_reg\ );
+        Properties:
+        {
+            a0_init = "00000000"
+            a1_init = "00000000"
+            ce0_sync = 1
+            ce1_sync = 1
+            cl0_sync = 1
+            cl1_sync = 1
+            cmsb_sync = 1
+            co_msb_sync = 1
+            cy_dpconfig = "0000000000000000101011010100100000000000110000000000000011000000000000000000000000000000000000000000000000000000000000000000000011111111000000001111111111111111001000000000001000000000111110000000000000000000"
+            d0_init = "00000000"
+            d1_init = "00000000"
+            f0_blk_sync = 1
+            f0_bus_sync = 1
+            f1_blk_sync = 1
+            f1_bus_sync = 1
+            ff0_sync = 1
+            ff1_sync = 1
+            ov_msb_sync = 1
+            so_sync = 1
+            z0_sync = 1
+            z1_sync = 1
+        }
+        Clock Polarity: Active High
+        Clock Enable: PosEdge(\PRISM:enable_final_reg\)
+        Next in chain : \PRISM:sC16:PrISMdp:u1\
+
+    datapathcell: Name =\PRISM:sC16:PrISMdp:u1\
+        PORT MAP (
+            clk => Net_78 ,
+            cs_addr_0 => __ONE__ ,
+            ce0_comb => \PRISM:ce0\ ,
+            cl0_comb => \PRISM:cl0\ ,
+            ce1_comb => \PRISM:ce1\ ,
+            cl1_comb => \PRISM:cl1\ ,
+            chain_in => \PRISM:sC16:PrISMdp:carry\ ,
+            clk_en => \PRISM:enable_final_reg\ );
+        Properties:
+        {
+            a0_init = "00000000"
+            a1_init = "00000000"
+            ce0_sync = 1
+            ce1_sync = 1
+            cl0_sync = 1
+            cl1_sync = 1
+            cmsb_sync = 1
+            co_msb_sync = 1
+            cy_dpconfig = "0000000000000000101011010100100000000000110000000000000011000000000000000000000000000000000000000000000000000000000000000000000011111111000000001111111111111111001000000000001100000000111101110000000000000000"
+            d0_init = "00000000"
+            d1_init = "00000000"
+            f0_blk_sync = 1
+            f0_bus_sync = 1
+            f1_blk_sync = 1
+            f1_bus_sync = 1
+            ff0_sync = 1
+            ff1_sync = 1
+            ov_msb_sync = 1
+            so_sync = 1
+            z0_sync = 1
+            z1_sync = 1
+        }
+        Clock Polarity: Active High
+        Clock Enable: PosEdge(\PRISM:enable_final_reg\)
+        Previous in chain : \PRISM:sC16:PrISMdp:u0\
+    </CYPRESSTAG>
+    <CYPRESSTAG name="Status register listing">
+    </CYPRESSTAG>
+    <CYPRESSTAG name="StatusI register listing">
+    </CYPRESSTAG>
+    <CYPRESSTAG name="Sync listing">
+    </CYPRESSTAG>
+    <CYPRESSTAG name="Control register listing">
+
+    ------------------------------------------------------------
+    Control register listing
+    ------------------------------------------------------------
+
+    controlcell: Name =\PRISM:SyncCtl:ControlReg\
+        PORT MAP (
+            clock => Net_78 ,
+            control_7 => \PRISM:control_7\ ,
+            control_6 => \PRISM:control_6\ ,
+            control_5 => \PRISM:control_5\ ,
+            control_4 => \PRISM:control_4\ ,
+            control_3 => \PRISM:control_3\ ,
+            control_2 => \PRISM:compare_type1\ ,
+            control_1 => \PRISM:compare_type0\ ,
+            control_0 => \PRISM:ctrl_enable\ );
+        Properties:
+        {
+            cy_ctrl_mode_0 = "00000111"
+            cy_ctrl_mode_1 = "00000000"
+            cy_ext_reset = 0
+            cy_force_order = 1
+            cy_init_value = "00000000"
+        }
+        Clock Polarity: Active High
+        Clock Enable: True
+    </CYPRESSTAG>
+    <CYPRESSTAG name="Count7 listing">
+    </CYPRESSTAG>
+    <CYPRESSTAG name="DRQ listing">
+    </CYPRESSTAG>
+    <CYPRESSTAG name="Interrupt listing">
+    </CYPRESSTAG>
+</CYPRESSTAG>
+<CYPRESSTAG name="Technology mapping summary" expanded>
+
+------------------------------------------------------------
+Technology mapping summary
+------------------------------------------------------------
+
+                Resource Type : Used : Free :  Max :  % Used
+============================================================
+Digital domain clock dividers :    2 :    6 :    8 :  25.00%
+ Analog domain clock dividers :    0 :    4 :    4 :   0.00%
+                         Pins :    8 :   62 :   70 :  11.43%
+                   Macrocells :    4 :  188 :  192 :   2.08%
+                Unique Pterms :    4 :  380 :  384 :   1.04%
+                 Total Pterms :    4 :      :      : 
+               Datapath Cells :    2 :   22 :   24 :   8.33%
+                 Status Cells :    0 :   24 :   24 :   0.00%
+         Control/Count7 Cells :    1 :   23 :   24 :   4.17%
+                   Sync Cells :    0 :   96 :   96 :   0.00%
+                         Drqs :    0 :   24 :   24 :   0.00%
+                   Interrupts :    0 :   32 :   32 :   0.00%
+             DSM Fixed Blocks :    0 :    1 :    1 :   0.00%
+           VIDAC Fixed Blocks :    0 :    4 :    4 :   0.00%
+              SC Fixed Blocks :    0 :    4 :    4 :   0.00%
+      Comparator Fixed Blocks :    0 :    4 :    4 :   0.00%
+           Opamp Fixed Blocks :    0 :    4 :    4 :   0.00%
+             CapSense Buffers :    0 :    2 :    2 :   0.00%
+       Decimator Fixed Blocks :    0 :    1 :    1 :   0.00%
+             I2C Fixed Blocks :    0 :    1 :    1 :   0.00%
+           Timer Fixed Blocks :    1 :    3 :    4 :  25.00%
+             DFB Fixed Blocks :    0 :    1 :    1 :   0.00%
+            EMIF Fixed Blocks :    0 :    1 :    1 :   0.00%
+             LPF Fixed Blocks :    0 :    2 :    2 :   0.00%
+</CYPRESSTAG>
+Technology Mapping: Elapsed time ==> 1s.060ms
+Tech mapping phase: Elapsed time ==> 1s.700ms
+</CYPRESSTAG>
+<CYPRESSTAG name="Analog Placement">
+Initial Analog Placement Results:
+IO_3@[Chip=0][IOP=(5)][IoId=(3)]: DATA(0) (fixed)
+IO_1@[Chip=0][IOP=(5)][IoId=(1)]: LE(0) (fixed)
+IO_7@[Chip=0][IOP=(1)][IoId=(7)]: MAGNET(0) (fixed)
+IO_0@[Chip=0][IOP=(5)][IoId=(0)]: OE(0) (fixed)
+IO_2@[Chip=0][IOP=(5)][IoId=(2)]: SCLK(0) (fixed)
+Analog Placement phase: Elapsed time ==> 0s.015ms
+</CYPRESSTAG>
+<CYPRESSTAG name="Analog Routing">
+============ VeraRouter Final Answer Routes ============
+Analog Routing phase: Elapsed time ==> 1s.435ms
+</CYPRESSTAG>
+<CYPRESSTAG name="Digital Placement">
+<CYPRESSTAG name="PLD Packing">
+<CYPRESSTAG name="PLD Packing Summary" expanded>
+
+------------------------------------------------------------
+PLD Packing Summary
+------------------------------------------------------------
+            Resource Type : Used : Free :  Max :  % Used
+    ====================================================
+                     PLDs :    2 :   46 :   48 :   4.17%
+
+<CYPRESSTAG name="PLD Statistics">
+
+        PLD Resource Type :     Average/LAB
+    =======================================
+                   Inputs :            2.50
+                   Pterms :            2.00
+               Macrocells :            2.00
+</CYPRESSTAG>
+<CYPRESSTAG name="Packed PLD Contents">
+Packed PLD Contents not displayed at this verbose level.</CYPRESSTAG>
+</CYPRESSTAG>
+PLD Packing: Elapsed time ==> 0s.000ms
+</CYPRESSTAG>
+<CYPRESSTAG name="Partitioning">
+<CYPRESSTAG name="Initial Partitioning Summary">
+Initial Partitioning Summary not displayed at this verbose level.</CYPRESSTAG>
+<CYPRESSTAG name="Final Partitioning Summary">
+Final Partitioning Summary not displayed at this verbose level.</CYPRESSTAG>
+Partitioning: Elapsed time ==> 0s.031ms
+</CYPRESSTAG>
+<CYPRESSTAG name="Simulated Annealing">
+Annealing: Elapsed time ==> 0s.312ms
+<CYPRESSTAG name="Simulated Annealing Results">
+The seed used for moves was 114161200.
+Inital cost was 152, final cost is 55 (63.82% improvement).</CYPRESSTAG>
+</CYPRESSTAG>
+<CYPRESSTAG name="Final Placement Summary">
+
+------------------------------------------------------------
+Final Placement Summary
+------------------------------------------------------------
+
+       Resource Type :      Count : Avg Inputs : Avg Outputs
+    ========================================================
+                 UDB :          2 :       2.50 :       2.00
+<CYPRESSTAG name="Final Placement Details">
+<CYPRESSTAG name="Component Details">
+
+------------------------------------------------------------
+Component Placement Details
+------------------------------------------------------------
+UDB [Chip=0][UDB=(0,0)] is empty.
+UDB [Chip=0][UDB=(0,1)] contents:
+LAB@[Chip=0][UDB=(0,1)][LB=0] #macrocells=1, #inputs=1, #pterms=1
+{
+    [McSlotId=0]:     MacroCell: Name=\PRISM:enable_final_reg\, Mode=(D-Register)
+        Total # of inputs        : 1
+        Total # of product terms : 1
+        List of special equations: 
+            Clock  = (Net_78) => Global
+            Clock Enable: True
+        Main Equation            : 1 pterm
+        (
+              \PRISM:ctrl_enable\
+        );
+        Output = \PRISM:enable_final_reg\ (fanout=3)
+
+    [McSlotId=1]: (empty)
+    [McSlotId=2]: (empty)
+    [McSlotId=3]: (empty)
+}
+
+LAB@[Chip=0][UDB=(0,1)][LB=1] #macrocells=3, #inputs=4, #pterms=3
+{
+    [McSlotId=0]:     MacroCell: Name=Net_113, Mode=(D-Register)
+        Total # of inputs        : 3
+        Total # of product terms : 2
+        List of special equations: 
+            Clock  = (Net_78) => Global
+            Clock Enable: PosEdge(\PRISM:enable_final_reg\)
+        Main Equation            : 2 pterms
+        !(
+              !\PRISM:compare_type0\ * !\PRISM:ce0\ * !\PRISM:cl0\
+            + \PRISM:compare_type0\ * \PRISM:cl0\
+        );
+        Output = Net_113 (fanout=1)
+
+    [McSlotId=1]:     MacroCell: Name=Net_175, Mode=(Combinatorial)
+        Total # of inputs        : 1
+        Total # of product terms : 1
+            Clock Enable: True
+        Main Equation            : 1 pterm
+        (
+              !Net_173
+        );
+        Output = Net_175 (fanout=1)
+
+    [McSlotId=2]:     MacroCell: Name=__ONE__, Mode=(Combinatorial)
+        Total # of inputs        : 0
+        Total # of product terms : 0
+            Clock Enable: True
+        Main Equation            : 0 pterms
+        !(
+            0
+        );
+        Output = __ONE__ (fanout=2)
+
+    [McSlotId=3]: (empty)
+}
+
+datapathcell: Name =\PRISM:sC16:PrISMdp:u1\
+    PORT MAP (
+        clk => Net_78 ,
+        cs_addr_0 => __ONE__ ,
+        ce0_comb => \PRISM:ce0\ ,
+        cl0_comb => \PRISM:cl0\ ,
+        ce1_comb => \PRISM:ce1\ ,
+        cl1_comb => \PRISM:cl1\ ,
+        chain_in => \PRISM:sC16:PrISMdp:carry\ ,
+        clk_en => \PRISM:enable_final_reg\ );
+    Properties:
+    {
+        a0_init = "00000000"
+        a1_init = "00000000"
+        ce0_sync = 1
+        ce1_sync = 1
+        cl0_sync = 1
+        cl1_sync = 1
+        cmsb_sync = 1
+        co_msb_sync = 1
+        cy_dpconfig = "0000000000000000101011010100100000000000110000000000000011000000000000000000000000000000000000000000000000000000000000000000000011111111000000001111111111111111001000000000001100000000111101110000000000000000"
+        d0_init = "00000000"
+        d1_init = "00000000"
+        f0_blk_sync = 1
+        f0_bus_sync = 1
+        f1_blk_sync = 1
+        f1_bus_sync = 1
+        ff0_sync = 1
+        ff1_sync = 1
+        ov_msb_sync = 1
+        so_sync = 1
+        z0_sync = 1
+        z1_sync = 1
+    }
+    Clock Polarity: Active High
+    Clock Enable: PosEdge(\PRISM:enable_final_reg\)
+    Previous in chain : \PRISM:sC16:PrISMdp:u0\
+
+controlcell: Name =\PRISM:SyncCtl:ControlReg\
+    PORT MAP (
+        clock => Net_78 ,
+        control_7 => \PRISM:control_7\ ,
+        control_6 => \PRISM:control_6\ ,
+        control_5 => \PRISM:control_5\ ,
+        control_4 => \PRISM:control_4\ ,
+        control_3 => \PRISM:control_3\ ,
+        control_2 => \PRISM:compare_type1\ ,
+        control_1 => \PRISM:compare_type0\ ,
+        control_0 => \PRISM:ctrl_enable\ );
+    Properties:
+    {
+        cy_ctrl_mode_0 = "00000111"
+        cy_ctrl_mode_1 = "00000000"
+        cy_ext_reset = 0
+        cy_force_order = 1
+        cy_init_value = "00000000"
+    }
+    Clock Polarity: Active High
+    Clock Enable: True
+
+UDB [Chip=0][UDB=(0,2)] is empty.
+UDB [Chip=0][UDB=(0,3)] is empty.
+UDB [Chip=0][UDB=(0,4)] is empty.
+UDB [Chip=0][UDB=(0,5)] is empty.
+UDB [Chip=0][UDB=(1,0)] is empty.
+UDB [Chip=0][UDB=(1,1)] contents:
+datapathcell: Name =\PRISM:sC16:PrISMdp:u0\
+    PORT MAP (
+        clk => Net_78 ,
+        cs_addr_0 => __ONE__ ,
+        chain_out => \PRISM:sC16:PrISMdp:carry\ ,
+        clk_en => \PRISM:enable_final_reg\ );
+    Properties:
+    {
+        a0_init = "00000000"
+        a1_init = "00000000"
+        ce0_sync = 1
+        ce1_sync = 1
+        cl0_sync = 1
+        cl1_sync = 1
+        cmsb_sync = 1
+        co_msb_sync = 1
+        cy_dpconfig = "0000000000000000101011010100100000000000110000000000000011000000000000000000000000000000000000000000000000000000000000000000000011111111000000001111111111111111001000000000001000000000111110000000000000000000"
+        d0_init = "00000000"
+        d1_init = "00000000"
+        f0_blk_sync = 1
+        f0_bus_sync = 1
+        f1_blk_sync = 1
+        f1_bus_sync = 1
+        ff0_sync = 1
+        ff1_sync = 1
+        ov_msb_sync = 1
+        so_sync = 1
+        z0_sync = 1
+        z1_sync = 1
+    }
+    Clock Polarity: Active High
+    Clock Enable: PosEdge(\PRISM:enable_final_reg\)
+    Next in chain : \PRISM:sC16:PrISMdp:u1\
+
+UDB [Chip=0][UDB=(1,2)] is empty.
+UDB [Chip=0][UDB=(1,3)] is empty.
+UDB [Chip=0][UDB=(1,4)] is empty.
+UDB [Chip=0][UDB=(1,5)] is empty.
+UDB [Chip=0][UDB=(2,0)] is empty.
+UDB [Chip=0][UDB=(2,1)] is empty.
+UDB [Chip=0][UDB=(2,2)] is empty.
+UDB [Chip=0][UDB=(2,3)] is empty.
+UDB [Chip=0][UDB=(2,4)] is empty.
+UDB [Chip=0][UDB=(2,5)] is empty.
+UDB [Chip=0][UDB=(3,0)] is empty.
+UDB [Chip=0][UDB=(3,1)] is empty.
+UDB [Chip=0][UDB=(3,2)] is empty.
+UDB [Chip=0][UDB=(3,3)] is empty.
+UDB [Chip=0][UDB=(3,4)] is empty.
+UDB [Chip=0][UDB=(3,5)] is empty.
+Intr hod @ [Chip=0][IntrHod=(0)]: empty
+Drq hod @ [Chip=0][DrqHod=(0)]: empty
+Port 0 is empty
+Port 1 contains the following IO cells:
+[IoId=7]: 
+Pin : Name = MAGNET(0)
+    Attributes:
+        In Group/Port: True
+        In Sync Option: SYNC
+        Out Sync Option: AUTO
+        Interrupt generated: False
+        Interrupt mode: NONE
+        Drive mode: HI_Z_DIGITAL
+        VTrip: CMOS
+        Slew: FAST
+        Input Sync needed: True
+        Output Sync needed: False
+        SC shield enabled: False
+        POR State: ANY
+        LCD Mode: COMMON
+        Register Mode: RegComb
+        CaSense Mode: NEITHER
+        Treat as pin: True
+        Is OE Registered: False
+        Uses Analog: False
+        Can contain Digital: True
+        Is SIO: False
+        SIO Output Buf: NONREGULATED
+        SIO Input Buf: SINGLE_ENDED
+        SIO HiFreq: LOW
+        SIO Hyst: DISABLED
+        SIO Vtrip: MULTIPLIER_0_5
+        SIO RefSel: VCC_IO
+        Required Capabilitites: 1
+        Initial Value: 0
+        IO Voltage: 0
+    PORT MAP (
+        fb => Net_173 ,
+        pad => MAGNET(0)_PAD );
+    Properties:
+    {
+    }
+
+Port 2 is empty
+Port 3 is empty
+Port 4 is empty
+Port 5 contains the following IO cells:
+[IoId=0]: 
+Pin : Name = OE(0)
+    Attributes:
+        In Group/Port: True
+        In Sync Option: AUTO
+        Out Sync Option: NOSYNC
+        Interrupt generated: False
+        Interrupt mode: NONE
+        Drive mode: CMOS_OUT
+        VTrip: EITHER
+        Slew: FAST
+        Input Sync needed: False
+        Output Sync needed: False
+        SC shield enabled: False
+        POR State: ANY
+        LCD Mode: COMMON
+        Register Mode: RegComb
+        CaSense Mode: NEITHER
+        Treat as pin: True
+        Is OE Registered: False
+        Uses Analog: False
+        Can contain Digital: True
+        Is SIO: False
+        SIO Output Buf: NONREGULATED
+        SIO Input Buf: SINGLE_ENDED
+        SIO HiFreq: LOW
+        SIO Hyst: DISABLED
+        SIO Vtrip: MULTIPLIER_0_5
+        SIO RefSel: VCC_IO
+        Required Capabilitites: 1
+        Initial Value: 0
+        IO Voltage: 0
+    PORT MAP (
+        input => Net_113 ,
+        pad => OE(0)_PAD );
+    Properties:
+    {
+    }
+
+[IoId=1]: 
+Pin : Name = LE(0)
+    Attributes:
+        In Group/Port: True
+        In Sync Option: AUTO
+        Out Sync Option: NOSYNC
+        Interrupt generated: False
+        Interrupt mode: NONE
+        Drive mode: CMOS_OUT
+        VTrip: EITHER
+        Slew: FAST
+        Input Sync needed: False
+        Output Sync needed: False
+        SC shield enabled: False
+        POR State: ANY
+        LCD Mode: COMMON
+        Register Mode: RegComb
+        CaSense Mode: NEITHER
+        Treat as pin: True
+        Is OE Registered: False
+        Uses Analog: False
+        Can contain Digital: True
+        Is SIO: False
+        SIO Output Buf: NONREGULATED
+        SIO Input Buf: SINGLE_ENDED
+        SIO HiFreq: LOW
+        SIO Hyst: DISABLED
+        SIO Vtrip: MULTIPLIER_0_5
+        SIO RefSel: VCC_IO
+        Required Capabilitites: 1
+        Initial Value: 0
+        IO Voltage: 0
+    PORT MAP (
+        input => Net_156 ,
+        pad => LE(0)_PAD );
+    Properties:
+    {
+    }
+
+[IoId=2]: 
+Pin : Name = SCLK(0)
+    Attributes:
+        In Group/Port: True
+        In Sync Option: AUTO
+        Out Sync Option: NOSYNC
+        Interrupt generated: False
+        Interrupt mode: NONE
+        Drive mode: CMOS_OUT
+        VTrip: EITHER
+        Slew: FAST
+        Input Sync needed: False
+        Output Sync needed: False
+        SC shield enabled: False
+        POR State: ANY
+        LCD Mode: COMMON
+        Register Mode: RegComb
+        CaSense Mode: NEITHER
+        Treat as pin: True
+        Is OE Registered: False
+        Uses Analog: False
+        Can contain Digital: True
+        Is SIO: False
+        SIO Output Buf: NONREGULATED
+        SIO Input Buf: SINGLE_ENDED
+        SIO HiFreq: LOW
+        SIO Hyst: DISABLED
+        SIO Vtrip: MULTIPLIER_0_5
+        SIO RefSel: VCC_IO
+        Required Capabilitites: 1
+        Initial Value: 0
+        IO Voltage: 0
+    PORT MAP (
+        input => Net_156 ,
+        pad => SCLK(0)_PAD );
+    Properties:
+    {
+    }
+
+[IoId=3]: 
+Pin : Name = DATA(0)
+    Attributes:
+        In Group/Port: True
+        In Sync Option: AUTO
+        Out Sync Option: NOSYNC
+        Interrupt generated: False
+        Interrupt mode: NONE
+        Drive mode: CMOS_OUT
+        VTrip: EITHER
+        Slew: FAST
+        Input Sync needed: False
+        Output Sync needed: False
+        SC shield enabled: False
+        POR State: ANY
+        LCD Mode: COMMON
+        Register Mode: RegComb
+        CaSense Mode: NEITHER
+        Treat as pin: True
+        Is OE Registered: False
+        Uses Analog: False
+        Can contain Digital: True
+        Is SIO: False
+        SIO Output Buf: NONREGULATED
+        SIO Input Buf: SINGLE_ENDED
+        SIO HiFreq: LOW
+        SIO Hyst: DISABLED
+        SIO Vtrip: MULTIPLIER_0_5
+        SIO RefSel: VCC_IO
+        Required Capabilitites: 1
+        Initial Value: 0
+        IO Voltage: 0
+    PORT MAP (
+        input => Net_175 ,
+        pad => DATA(0)_PAD );
+    Properties:
+    {
+    }
+
+Port 6 is empty
+Port 12 is empty
+Port 15 is empty
+Fixed Function block hod @ [Chip=0][FFB(CAN,0)]: empty
+Fixed Function block hod @ [Chip=0][FFB(Cache,0)]: empty
+Fixed Function block hod @ [Chip=0][FFB(CapSense,0)]: empty
+Fixed Function block hod @ [Chip=0][FFB(Clock,0)]: 
+    Clock Block @ [Chip=0][FFB(Clock,0)]: 
+    clockblockcell: Name =ClockBlock
+        PORT MAP (
+            clk_bus => ClockBlock_BUS_CLK ,
+            clk_sync => ClockBlock_MASTER_CLK ,
+            clk_32k_xtal => ClockBlock_XTAL 32kHz ,
+            xtal => ClockBlock_XTAL ,
+            ilo => ClockBlock_ILO ,
+            clk_100k => ClockBlock_100k ,
+            clk_1k => ClockBlock_1k ,
+            clk_32k => ClockBlock_32k ,
+            pllout => ClockBlock_PLL_OUT ,
+            imo => ClockBlock_IMO ,
+            dclk_glb_0 => Net_78 ,
+            dclk_0 => Net_78_local ,
+            dclk_glb_1 => Net_162 ,
+            dclk_1 => Net_162_local );
+Fixed Function block hod @ [Chip=0][FFB(Comparator,0)]: empty
+Fixed Function block hod @ [Chip=0][FFB(DFB,0)]: empty
+Fixed Function block hod @ [Chip=0][FFB(DSM,0)]: empty
+Fixed Function block hod @ [Chip=0][FFB(Decimator,0)]: empty
+Fixed Function block hod @ [Chip=0][FFB(EMIF,0)]: empty
+Fixed Function block hod @ [Chip=0][FFB(I2C,0)]: empty
+Fixed Function block hod @ [Chip=0][FFB(LCD,0)]: empty
+Fixed Function block hod @ [Chip=0][FFB(LVD,0)]: empty
+Fixed Function block hod @ [Chip=0][FFB(PM,0)]: empty
+Fixed Function block hod @ [Chip=0][FFB(SC,0)]: empty
+Fixed Function block hod @ [Chip=0][FFB(SPC,0)]: empty
+Fixed Function block hod @ [Chip=0][FFB(Timer,0)]: 
+    Timer Block @ [Chip=0][FFB(Timer,0)]: 
+    timercell: Name =\Counter_1:CounterHW\
+        PORT MAP (
+            clock => Net_162 ,
+            tc => Net_156 ,
+            cmp => \Counter_1:Net_54\ ,
+            irq => \Counter_1:Net_42\ );
+        Properties:
+        {
+            cy_registers = ""
+        }
+Fixed Function block hod @ [Chip=0][FFB(USB,0)]: empty
+Fixed Function block hod @ [Chip=0][FFB(VIDAC,0)]: empty
+Fixed Function block hod @ [Chip=0][FFB(Abuf,0)]: empty
+Fixed Function block hod @ [Chip=0][FFB(CsAbuf,0)]: empty
+Fixed Function block hod @ [Chip=0][FFB(Vref,0)]: empty
+Fixed Function block hod @ [Chip=0][FFB(LPF,0)]: empty
+Fixed Function block hod @ [Chip=0][FFB(SAR,0)]: empty
+</CYPRESSTAG>
+<CYPRESSTAG name="Port Configuration Details">
+
+------------------------------------------------------------
+Port Configuration report
+------------------------------------------------------------
+     |     |       | Interrupt |                  |           | 
+Port | Pin | Fixed |      Type |       Drive Mode |      Name | Connections
+-----+-----+-------+-----------+------------------+-----------+------------
+   1 |   7 |     * |      NONE |     HI_Z_DIGITAL | MAGNET(0) | FB(Net_173)
+-----+-----+-------+-----------+------------------+-----------+------------
+   5 |   0 |     * |      NONE |         CMOS_OUT |     OE(0) | In(Net_113)
+     |   1 |     * |      NONE |         CMOS_OUT |     LE(0) | In(Net_156)
+     |   2 |     * |      NONE |         CMOS_OUT |   SCLK(0) | In(Net_156)
+     |   3 |     * |      NONE |         CMOS_OUT |   DATA(0) | In(Net_175)
+---------------------------------------------------------------------------
+</CYPRESSTAG>
+</CYPRESSTAG>
+</CYPRESSTAG>
+Digital component placer commit/Report: Elapsed time ==> 0s.000ms
+Digital Placement phase: Elapsed time ==> 0s.405ms
+</CYPRESSTAG>
+<CYPRESSTAG name="Digital Routing">
+Would route: (Signal Net_173)
+IO_7@[Chip=0][IOP=(1)][IoId=(7)] right@[Chip=0][UDB=(0,1)][LB=1] 
+Would route: (Signal Net_113)
+right@[Chip=0][UDB=(0,1)][LB=1] IO_0@[Chip=0][IOP=(5)][IoId=(0)] 
+Would route: (Signal Net_156)
+'tc' on Timer[0]@[Chip=0][FFB(Timer,0)] @ JackIdx=6 IO_1@[Chip=0][IOP=(5)][IoId=(1)] IO_2@[Chip=0][IOP=(5)][IoId=(2)] 
+Would route: (Signal Net_175)
+right@[Chip=0][UDB=(0,1)][LB=1] IO_3@[Chip=0][IOP=(5)][IoId=(3)] 
+Would route: (Signal \PRISM:enable_final_reg\)
+left@[Chip=0][UDB=(0,1)][LB=0] cr@[Chip=0][UDB=(0,1)] cr@[Chip=0][UDB=(1,1)] 
+Would route: (Signal __ONE__)
+right@[Chip=0][UDB=(0,1)][LB=1] dpu@[Chip=0][UDB=(0,1)] dpu@[Chip=0][UDB=(1,1)] 
+Would route: (Signal \PRISM:ce0\)
+dpu@[Chip=0][UDB=(0,1)] right@[Chip=0][UDB=(0,1)][LB=1] 
+Would route: (Signal \PRISM:cl0\)
+dpu@[Chip=0][UDB=(0,1)] right@[Chip=0][UDB=(0,1)][LB=1] 
+Would route: (Signal \PRISM:ctrl_enable\)
+'outcontrol_0' on control@[Chip=0][UDB=(0,1)] @ JackIdx=0 left@[Chip=0][UDB=(0,1)][LB=0] 
+Would route: (Signal \PRISM:compare_type0\)
+'outcontrol_1' on control@[Chip=0][UDB=(0,1)] @ JackIdx=1 right@[Chip=0][UDB=(0,1)][LB=1] 
+
+Routed Successfully
+Routing Results:
+Net_173: Jack[1]@IO_7@[Chip=0][IOP=(1)][IoId=(7)] Jack[1]@IO_7@[Chip=0][IOP=(1)][IoId=(7)] dsi@[Chip=0][DSI=(0,1)]_dsi_bus[7(0)] Jack[200]@dsiswitch_top@[Chip=0][DSI=(0,1)][side=top] hchan_0[72(1)] Jack[88]@hvswitch@[Chip=0][UDB=(0,0)][side=right] vchan_0[16(0)] Jack[2]@vchan_0@[Chip=0]_SegSwitch@[Chip=0][SegId=(16)] vchan_0[16(1)] Jack[16]@hvswitch@[Chip=0][UDB=(1,0)][side=right] hchan_1[0(1)] Jack[128]@udbswitch@[Chip=0][UDB=(0,1)][side=top] udb_bus[31(0)] Jack[0]@right@[Chip=0][UDB=(0,1)][LB=1] 
+Net_173: 6
+Net_113: Jack[14]@right@[Chip=0][UDB=(0,1)][LB=1] udb_bus[17(0)] Jack[210]@udbswitch@[Chip=0][UDB=(0,1)][side=top] hchan_1[82(1)] Jack[3]@hchan_1@[Chip=0]_SegSwitch@[Chip=0][SegId=(82)] hchan_1[82(0)] Jack[98]@hvswitch@[Chip=0][UDB=(1,0)][side=left] vchan_0[12(1)] Jack[3]@vchan_0@[Chip=0]_SegSwitch@[Chip=0][SegId=(12)] vchan_0[12(0)] Jack[100]@hvswitch@[Chip=0][UDB=(0,0)][side=left] hchan_0[84(0)] Jack[212]@dsiswitch_top@[Chip=0][DSI=(0,0)][side=top] dsi@[Chip=0][DSI=(0,0)]_dsi_bus[43(0)] Jack[4]@O_0_4_to_1_output_mux@[Chip=0][IOP=(5)][IoId=(0)][MuxId=(0)] ioport_5@[Chip=0][IOP=(5)]_port_bus[0(0)] Jack[0]@IO_0@[Chip=0][IOP=(5)][IoId=(0)] 
+Net_113: 8
+Net_156: Jack[6]@Timer[0]@[Chip=0][FFB(Timer,0)] Jack[6]@Timer[0]@[Chip=0][FFB(Timer,0)] Jack[6]@Timer[0]@[Chip=0][FFB(Timer,0)] dsi@[Chip=0][DSI=(1,3)]_dsi_bus[8(0)] Jack[195]@dsiswitch_top@[Chip=0][DSI=(1,3)][side=top] hchan_3[67(3)] Jack[3]@hchan_3@[Chip=0]_SegSwitch@[Chip=0][SegId=(259)] hchan_3[67(2)] Jack[83]@hvswitch@[Chip=0][UDB=(3,1)][side=right] vchan_1[28(3)] Jack[3]@vchan_1@[Chip=0]_SegSwitch@[Chip=0][SegId=(92)] vchan_1[28(2)] Jack[3]@vchan_1@[Chip=0]_SegSwitch@[Chip=0][SegId=(60)] vchan_1[28(1)] Jack[3]@vchan_1@[Chip=0]_SegSwitch@[Chip=0][SegId=(28)] vchan_1[28(0)] Jack[21]@hvswitch@[Chip=0][UDB=(0,1)][side=right] hchan_0[5(2)] Jack[3]@hchan_0@[Chip=0]_SegSwitch@[Chip=0][SegId=(101)] hchan_0[5(1)] Jack[3]@hchan_0@[Chip=0]_SegSwitch@[Chip=0][SegId=(5)] hchan_0[5(0)] Jack[133]@dsiswitch_top@[Chip=0][DSI=(0,0)][side=top] dsi@[Chip=0][DSI=(0,0)]_dsi_bus[42(0)] Jack[4]@O_2_4_to_1_output_mux@[Chip=0][IOP=(5)][IoId=(2)][MuxId=(0)] ioport_5@[Chip=0][IOP=(5)]_port_bus[2(0)] Jack[0]@IO_2@[Chip=0][IOP=(5)][IoId=(2)] Jack[4]@O_1_4_to_1_output_mux@[Chip=0][IOP=(5)][IoId=(1)][MuxId=(0)] ioport_5@[Chip=0][IOP=(5)]_port_bus[1(0)] Jack[0]@IO_1@[Chip=0][IOP=(5)][IoId=(1)] 
+Net_156: 13
+Net_175: Jack[15]@right@[Chip=0][UDB=(0,1)][LB=1] udb_bus[16(0)] Jack[204]@udbswitch@[Chip=0][UDB=(0,1)][side=top] hchan_1[76(1)] Jack[3]@hchan_1@[Chip=0]_SegSwitch@[Chip=0][SegId=(76)] hchan_1[76(0)] Jack[92]@hvswitch@[Chip=0][UDB=(1,0)][side=left] vchan_0[10(1)] Jack[3]@vchan_0@[Chip=0]_SegSwitch@[Chip=0][SegId=(10)] vchan_0[10(0)] Jack[99]@hvswitch@[Chip=0][UDB=(0,0)][side=left] hchan_0[83(0)] Jack[211]@dsiswitch_top@[Chip=0][DSI=(0,0)][side=top] dsi@[Chip=0][DSI=(0,0)]_dsi_bus[41(0)] Jack[4]@O_3_4_to_1_output_mux@[Chip=0][IOP=(5)][IoId=(3)][MuxId=(0)] ioport_5@[Chip=0][IOP=(5)]_port_bus[3(0)] Jack[0]@IO_3@[Chip=0][IOP=(5)][IoId=(3)] 
+Net_175: 8
+\PRISM:enable_final_reg\: Jack[12]@left@[Chip=0][UDB=(0,1)][LB=0] udb_bus[12(0)] Jack[146]@udbswitch@[Chip=0][UDB=(0,1)][side=top] hchan_1[18(1)] udb_bus[60(0)] Jack[0]@cr@[Chip=0][UDB=(1,1)] Jack[15]@left@[Chip=0][UDB=(0,1)][LB=0] udb_bus[15(0)] Jack[220]@udbswitch@[Chip=0][UDB=(0,1)][side=top] hchan_1[92(1)] udb_bus[63(0)] Jack[3]@cr@[Chip=0][UDB=(0,1)] 
+\PRISM:enable_final_reg\: 6
+__ONE__: Jack[12]@right@[Chip=0][UDB=(0,1)][LB=1] udb_bus[19(0)] Jack[218]@udbswitch@[Chip=0][UDB=(0,1)][side=top] hchan_1[90(1)] udb_bus[36(0)] Jack[4]@dpu@[Chip=0][UDB=(0,1)] Jack[13]@right@[Chip=0][UDB=(0,1)][LB=1] udb_bus[18(0)] Jack[163]@udbswitch@[Chip=0][UDB=(0,1)][side=top] hchan_1[35(1)] udb_bus[34(0)] Jack[2]@dpu@[Chip=0][UDB=(1,1)] 
+__ONE__: 6
+\PRISM:ce0\: Jack[8]@dpu@[Chip=0][UDB=(0,1)] udb_bus[40(0)] Jack[149]@udbswitch@[Chip=0][UDB=(0,1)][side=top] hchan_1[21(1)] udb_bus[28(0)] Jack[3]@right@[Chip=0][UDB=(0,1)][LB=1] 
+\PRISM:ce0\: 3
+\PRISM:cl0\: Jack[7]@dpu@[Chip=0][UDB=(0,1)] udb_bus[39(0)] Jack[153]@udbswitch@[Chip=0][UDB=(0,1)][side=top] hchan_1[25(1)] udb_bus[27(0)] Jack[4]@right@[Chip=0][UDB=(0,1)][LB=1] 
+\PRISM:cl0\: 3
+\PRISM:ctrl_enable\: Jack[0]@control@[Chip=0][UDB=(0,1)] Jack[0]@control@[Chip=0][UDB=(0,1)] udb_bus[52(0)] Jack[130]@udbswitch@[Chip=0][UDB=(0,1)][side=top] hchan_1[2(1)] udb_bus[0(0)] Jack[0]@left@[Chip=0][UDB=(0,1)][LB=0] 
+\PRISM:ctrl_enable\: 3
+\PRISM:compare_type0\: Jack[1]@control@[Chip=0][UDB=(0,1)] Jack[1]@control@[Chip=0][UDB=(0,1)] udb_bus[53(0)] Jack[164]@udbswitch@[Chip=0][UDB=(0,1)][side=top] hchan_1[36(1)] udb_bus[29(0)] Jack[2]@right@[Chip=0][UDB=(0,1)][LB=1] 
+\PRISM:compare_type0\: 3
+Routed 10 signals
+Routing took 0.2652 second(s)
+Digital Routing phase: Elapsed time ==> 0s.748ms
+</CYPRESSTAG>
+<CYPRESSTAG name="Bitstream and API generation">
+Bitstream and API generation phase: Elapsed time ==> 0s.436ms
+</CYPRESSTAG>
+<CYPRESSTAG name="Bitstream verification">
+Bitstream verification phase: Elapsed time ==> 0s.109ms
+</CYPRESSTAG>
+<CYPRESSTAG name="Static timing analysis">
+Static timing analysis report
+
+Project: C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\ClockTest.cyprj
+07/15/2011 14:24:16
+
+Operating Conditions:
+Vddd=5.0V Vddio0=5.0V Vddio1=5.0V Vddio2=5.0V Vddio3=5.0V
+Selected Parameter Set:
+Voltage: 1.65V, Temperature: -40 degrees C, Speed Grade: default, Silicon Rev: PRODUCTION
+<CYPRESSTAG name="Propagation delays">
++-----------------------------------------------------+-----------------------------------------------------+----------+
+|Start                                                |End                                                  |Delay (ns)|
++-----------------------------------------------------+-----------------------------------------------------+----------+
+|\Counter_1:CounterHW\:timercell.cmp                  |\Counter_1:CounterHW\:timercell.cmp                  |     0.000|
++-----------------------------------------------------+-----------------------------------------------------+----------+
+|                                                                                                                      |
++-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+|Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
++-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+|cell |F(Timer,0)      |\Counter_1:CounterHW\         |.cmp           |.cmp           |     0.000|     0.000|          |
++-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+|                                                                                                                      |
++-----------------------------------------------------+-----------------------------------------------------+----------+
+|\Counter_1:CounterHW\:timercell.irq                  |\Counter_1:CounterHW\:timercell.irq                  |     0.000|
++-----------------------------------------------------+-----------------------------------------------------+----------+
+|                                                                                                                      |
++-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+|Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
++-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+|cell |F(Timer,0)      |\Counter_1:CounterHW\         |.irq           |.irq           |     0.000|     0.000|          |
++-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+|                                                                                                                      |
++-----------------------------------------------------+-----------------------------------------------------+----------+
+|\Counter_1:CounterHW\:timercell.tc                   |LE(0):iocell.pad_out                                 |    25.156|
++-----------------------------------------------------+-----------------------------------------------------+----------+
+|                                                                                                                      |
++-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+|Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
++-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+|cell |F(Timer,0)      |\Counter_1:CounterHW\         |.tc            |.tc            |     0.000|     0.000|          |
+|route|                |Net_156                       |.tc            |.input         |     8.956|     8.956|          |
+|cell |P5[1]           |LE(0)                         |.input         |.pad_out       |    16.200|    25.156|          |
++-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+|                                                                                                                      |
++-----------------------------------------------------+-----------------------------------------------------+----------+
+|\Counter_1:CounterHW\:timercell.tc                   |SCLK(0):iocell.pad_out                               |    25.156|
++-----------------------------------------------------+-----------------------------------------------------+----------+
+|                                                                                                                      |
++-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+|Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
++-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+|cell |F(Timer,0)      |\Counter_1:CounterHW\         |.tc            |.tc            |     0.000|     0.000|          |
+|route|                |Net_156                       |.tc            |.input         |     8.956|     8.956|          |
+|cell |P5[2]           |SCLK(0)                       |.input         |.pad_out       |    16.200|    25.156|          |
++-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+|                                                                                                                      |
++-----------------------------------------------------+-----------------------------------------------------+----------+
+|\Counter_1:CounterHW\:timercell.tc                   |\Counter_1:CounterHW\:timercell.tc                   |     0.000|
++-----------------------------------------------------+-----------------------------------------------------+----------+
+|                                                                                                                      |
++-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+|Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
++-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+|cell |F(Timer,0)      |\Counter_1:CounterHW\         |.tc            |.tc            |     0.000|     0.000|          |
++-----+----------------+------------------------------+---------------+---------------+----------+----------+----------+
+</CYPRESSTAG>
+
+<CYPRESSTAG name="Setup times">
+<CYPRESSTAG name="Setup times to clock BUS_CLK">
++-----------------------------------+-----------------------------------+-----------------------------------+----------+
+|Start                              |Register                           |Clock                              |Delay (ns)|
++-----------------------------------+-----------------------------------+-----------------------------------+----------+
+|MAGNET(0):iocell.pad_in            |MAGNET(0):iocell.ind               |BUS_CLK                            |     8.500|
++-----------------------------------+-----------------------------------+-----------------------------------+----------+
+|                                                                                                                      |
++-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+|Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
++-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+|cell |P1[7]           |MAGNET(0)                     |.pad_in        |.ind           |     8.500|     8.500|          |
+|clock|                |                              |.ind           |.clock         |    -8.500|     0.000|          |
++-----+----------------+------------------------------+---------------+---------------+----------+----------+----------+
+</CYPRESSTAG>
+
+</CYPRESSTAG>
+
+<CYPRESSTAG name="Clock Summary">
++----------------------------------------+-----------+-----------+----------+
+|Clock                                   |Actual Freq|   Max Freq|Violation |
++----------------------------------------+-----------+-----------+----------+
+|BUS_CLK                                 | 24.000 MHz|    UNKNOWN|          |
++----------------------------------------+-----------+-----------+----------+
+|Clock_1                                 | 24.000 MHz| 74.571 MHz|          |
++----------------------------------------+-----------+-----------+----------+
+</CYPRESSTAG>
+
+<CYPRESSTAG name="Register-to-register times">
+<CYPRESSTAG name="Destination clock Clock_1">
+Destination clock Clock_1 (Actual freq: 24.000 MHz)
+   <CYPRESSTAG name="Source clock Clock_1">
+   Source clock Clock_1 (Actual freq: 24.000 MHz)
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |Start                              |End                                |Period (ns)|   Max Freq|  Frequency|Violation |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u1\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|     13.410| 74.571 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sync_so                          |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.dp_clk        |.cmsbo         |     3.120|     3.120|          |
+   |other|U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.cmsbo         |.cmsbi         |     0.570|     3.690|          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.cmsbi         |.cfbo          |     2.400|     6.090|          |
+   |other|U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.cfbo          |.cfbi          |     0.570|     6.660|          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.cfbi          |.sync_so       |     6.750|    13.410|          |
+   |other|                |                              |               |.skew          |     0.000|    13.410|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|Net_113:macrocell.mc_d             |     12.976| 77.067 MHz| 24.000 MHz|          |
+   |l.regq_d0                          |                                   |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.cl0_ch        |     4.140|     4.140|          |
+   |other|U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.cl0_ch        |.cl0i          |     0.570|     4.710|          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.cl0i          |.cl0_comb      |     2.460|     7.170|          |
+   |route|                |\PRISM:cl0\                   |.cl0_comb      |.main_2        |     2.296|     9.466|          |
+   |cell |U(0,1)          |Net_113                       |.main_2        |.mc_d          |     3.510|    12.976|          |
+   |other|                |                              |               |.skew          |     0.000|    12.976|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|Net_113:macrocell.mc_d             |     12.976| 77.067 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |                                   |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.cl0_ch        |     4.140|     4.140|          |
+   |other|U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.cl0_ch        |.cl0i          |     0.570|     4.710|          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.cl0i          |.cl0_comb      |     2.460|     7.170|          |
+   |route|                |\PRISM:cl0\                   |.cl0_comb      |.main_2        |     2.296|     9.466|          |
+   |cell |U(0,1)          |Net_113                       |.main_2        |.mc_d          |     3.510|    12.976|          |
+   |other|                |                              |               |.skew          |     0.000|    12.976|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u1\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|     12.650| 79.051 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.regd_a0                          |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.dp_clk        |.cmsbo         |     3.120|     3.120|          |
+   |other|U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.cmsbo         |.cmsbi         |     0.570|     3.690|          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.cmsbi         |.sol_ch        |     4.720|     8.410|          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.sol_ch        |.regd_a0       |     4.240|    12.650|          |
+   |other|                |                              |               |.skew          |     0.000|    12.650|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u1\:datapathcel|\PRISM:sC16:PrISMdp:u0\:datapathcel|     11.570| 86.430 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sync_so                          |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.dp_clk        |.cmsbo         |     3.120|     3.120|          |
+   |other|U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.cmsbo         |.cmsbi         |     0.570|     3.690|          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.cmsbi         |.sync_so       |     7.880|    11.570|          |
+   |other|                |                              |               |.skew          |     0.000|    11.570|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u1\:datapathcel|Net_113:macrocell.mc_d             |     11.476| 87.140 MHz| 24.000 MHz|          |
+   |l.regq_d0                          |                                   |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.dp_clk        |.cl0_comb      |     5.670|     5.670|          |
+   |route|                |\PRISM:cl0\                   |.cl0_comb      |.main_2        |     2.296|     7.966|          |
+   |cell |U(0,1)          |Net_113                       |.main_2        |.mc_d          |     3.510|    11.476|          |
+   |other|                |                              |               |.skew          |     0.000|    11.476|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u1\:datapathcel|Net_113:macrocell.mc_d             |     11.476| 87.140 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |                                   |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.dp_clk        |.cl0_comb      |     5.670|     5.670|          |
+   |route|                |\PRISM:cl0\                   |.cl0_comb      |.main_2        |     2.296|     7.966|          |
+   |cell |U(0,1)          |Net_113                       |.main_2        |.mc_d          |     3.510|    11.476|          |
+   |other|                |                              |               |.skew          |     0.000|    11.476|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u1\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|     11.420| 87.566 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sol_d                            |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.dp_clk        |.cmsbo         |     3.120|     3.120|          |
+   |other|U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.cmsbo         |.cmsbi         |     0.570|     3.690|          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.cmsbi         |.cfbo          |     2.400|     6.090|          |
+   |other|U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.cfbo          |.cfbi          |     0.570|     6.660|          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.cfbi          |.sol_d         |     4.760|    11.420|          |
+   |other|                |                              |               |.skew          |     0.000|    11.420|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u1\:datapathcel|\PRISM:sC16:PrISMdp:u0\:datapathcel|      9.880|101.215 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.regd_a0                          |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.dp_clk        |.cmsbo         |     3.120|     3.120|          |
+   |other|U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.cmsbo         |.cmsbi         |     0.570|     3.690|          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.cmsbi         |.regd_a0       |     6.190|     9.880|          |
+   |other|                |                              |               |.skew          |     0.000|     9.880|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u1\:datapathcel|\PRISM:sC16:PrISMdp:u0\:datapathcel|      9.580|104.384 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sol_d                            |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.dp_clk        |.cmsbo         |     3.120|     3.120|          |
+   |other|U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.cmsbo         |.cmsbi         |     0.570|     3.690|          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.cmsbi         |.sol_d         |     5.890|     9.580|          |
+   |other|                |                              |               |.skew          |     0.000|     9.580|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:SyncCtl:ControlReg\:controlc|\PRISM:enable_final_reg\:macrocell.|      8.402|119.026 MHz| 24.000 MHz|          |
+   |ell.control_0                      |mc_d                               |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |other|U(0,1)          |\PRISM:SyncCtl:ControlReg\    |.sc_clk        |.control_0     |     2.580|     2.580|          |
+   |route|                |\PRISM:ctrl_enable\           |.control_0     |.main_0        |     2.312|     4.892|          |
+   |cell |U(0,1)          |\PRISM:enable_final_reg\      |.main_0        |.mc_d          |     3.510|     8.402|          |
+   |other|                |                              |               |.skew          |     0.000|     8.402|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:SyncCtl:ControlReg\:controlc|Net_113:macrocell.mc_d             |      8.400|119.052 MHz| 24.000 MHz|          |
+   |ell.control_1                      |                                   |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |other|U(0,1)          |\PRISM:SyncCtl:ControlReg\    |.sc_clk        |.control_1     |     2.580|     2.580|          |
+   |route|                |\PRISM:compare_type0\         |.control_1     |.main_0        |     2.310|     4.890|          |
+   |cell |U(0,1)          |Net_113                       |.main_0        |.mc_d          |     3.510|     8.400|          |
+   |other|                |                              |               |.skew          |     0.000|     8.400|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      8.290|120.627 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sync_cl1                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.cl1_ch        |     4.900|     4.900|          |
+   |other|U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.cl1_ch        |.cl1i          |     0.570|     5.470|          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.cl1i          |.sync_cl1      |     2.820|     8.290|          |
+   |other|                |                              |               |.skew          |     0.000|     8.290|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      8.290|120.627 MHz| 24.000 MHz|          |
+   |l.regq_d1                          |l.sync_cl1                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.cl1_ch        |     4.900|     4.900|          |
+   |other|U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.cl1_ch        |.cl1i          |     0.570|     5.470|          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.cl1i          |.sync_cl1      |     2.820|     8.290|          |
+   |other|                |                              |               |.skew          |     0.000|     8.290|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      7.830|127.714 MHz| 24.000 MHz|          |
+   |l.regq_a1                          |l.regd_a0                          |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.sol_ch        |     3.590|     3.590|          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.sol_ch        |.regd_a0       |     4.240|     7.830|          |
+   |other|                |                              |               |.skew          |     0.000|     7.830|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      7.800|128.205 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.regd_a0                          |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.sol_ch        |     3.560|     3.560|          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.sol_ch        |.regd_a0       |     4.240|     7.800|          |
+   |other|                |                              |               |.skew          |     0.000|     7.800|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      7.500|133.333 MHz| 24.000 MHz|          |
+   |l.regq_d0                          |l.sync_cl0                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.cl0_ch        |     4.140|     4.140|          |
+   |other|U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.cl0_ch        |.cl0i          |     0.570|     4.710|          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.cl0i          |.sync_cl0      |     2.790|     7.500|          |
+   |other|                |                              |               |.skew          |     0.000|     7.500|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      7.500|133.333 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sync_cl0                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.cl0_ch        |     4.140|     4.140|          |
+   |other|U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.cl0_ch        |.cl0i          |     0.570|     4.710|          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.cl0i          |.sync_cl0      |     2.790|     7.500|          |
+   |other|                |                              |               |.skew          |     0.000|     7.500|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      6.910|144.718 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sync_ce1                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.ce1_ch        |     3.520|     3.520|          |
+   |other|U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.ce1_ch        |.ce1i          |     0.570|     4.090|          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.ce1i          |.sync_ce1      |     2.820|     6.910|          |
+   |other|                |                              |               |.skew          |     0.000|     6.910|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      6.910|144.718 MHz| 24.000 MHz|          |
+   |l.regq_d1                          |l.sync_ce1                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.ce1_ch        |     3.520|     3.520|          |
+   |other|U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.ce1_ch        |.ce1i          |     0.570|     4.090|          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.ce1i          |.sync_ce1      |     2.820|     6.910|          |
+   |other|                |                              |               |.skew          |     0.000|     6.910|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      6.900|144.928 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sync_ce0                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.ce0_ch        |     3.540|     3.540|          |
+   |other|U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.ce0_ch        |.ce0i          |     0.570|     4.110|          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.ce0i          |.sync_ce0      |     2.790|     6.900|          |
+   |other|                |                              |               |.skew          |     0.000|     6.900|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      6.900|144.928 MHz| 24.000 MHz|          |
+   |l.regq_d0                          |l.sync_ce0                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.ce0_ch        |     3.540|     3.540|          |
+   |other|U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.ce0_ch        |.ce0i          |     0.570|     4.110|          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.ce0i          |.sync_ce0      |     2.790|     6.900|          |
+   |other|                |                              |               |.skew          |     0.000|     6.900|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u0\:datapathcel|      6.760|147.929 MHz| 24.000 MHz|          |
+   |l.regq_d1                          |l.sync_cl1                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.sync_cl1      |     6.760|     6.760|          |
+   |other|                |                              |               |.skew          |     0.000|     6.760|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u1\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      6.760|147.929 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sync_cl1                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.dp_clk        |.sync_cl1      |     6.760|     6.760|          |
+   |other|                |                              |               |.skew          |     0.000|     6.760|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u1\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      6.760|147.929 MHz| 24.000 MHz|          |
+   |l.regq_d1                          |l.sync_cl1                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.dp_clk        |.sync_cl1      |     6.760|     6.760|          |
+   |other|                |                              |               |.skew          |     0.000|     6.760|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u0\:datapathcel|      6.760|147.929 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sync_cl1                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.sync_cl1      |     6.760|     6.760|          |
+   |other|                |                              |               |.skew          |     0.000|     6.760|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u0\:datapathcel|      6.750|148.148 MHz| 24.000 MHz|          |
+   |l.regq_a1                          |l.sync_so                          |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.sync_so       |     6.750|     6.750|          |
+   |other|                |                              |               |.skew          |     0.000|     6.750|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u1\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      6.750|148.148 MHz| 24.000 MHz|          |
+   |l.regq_a1                          |l.sync_so                          |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.dp_clk        |.sync_so       |     6.750|     6.750|          |
+   |other|                |                              |               |.skew          |     0.000|     6.750|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u0\:datapathcel|      6.720|148.810 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sync_so                          |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.sync_so       |     6.720|     6.720|          |
+   |other|                |                              |               |.skew          |     0.000|     6.720|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u1\:datapathcel|\PRISM:sC16:PrISMdp:u0\:datapathcel|      6.380|156.740 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sync_cmsb                        |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.dp_clk        |.cmsbo         |     3.120|     3.120|          |
+   |other|U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.cmsbo         |.cmsbi         |     0.570|     3.690|          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.cmsbi         |.sync_cmsb     |     2.690|     6.380|          |
+   |other|                |                              |               |.skew          |     0.000|     6.380|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u0\:datapathcel|      6.000|166.667 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sync_cl0                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.sync_cl0      |     6.000|     6.000|          |
+   |other|                |                              |               |.skew          |     0.000|     6.000|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u1\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      6.000|166.667 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sync_cl0                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.dp_clk        |.sync_cl0      |     6.000|     6.000|          |
+   |other|                |                              |               |.skew          |     0.000|     6.000|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u0\:datapathcel|      6.000|166.667 MHz| 24.000 MHz|          |
+   |l.regq_d0                          |l.sync_cl0                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.sync_cl0      |     6.000|     6.000|          |
+   |other|                |                              |               |.skew          |     0.000|     6.000|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u1\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      6.000|166.667 MHz| 24.000 MHz|          |
+   |l.regq_d0                          |l.sync_cl0                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.dp_clk        |.sync_cl0      |     6.000|     6.000|          |
+   |other|                |                              |               |.skew          |     0.000|     6.000|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      5.990|166.945 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sync_ff0                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.ff0_ch        |     2.730|     2.730|          |
+   |other|U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.ff0_ch        |.ff0i          |     0.570|     3.300|          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.ff0i          |.sync_ff0      |     2.690|     5.990|          |
+   |other|                |                              |               |.skew          |     0.000|     5.990|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:enable_final_reg\:macrocell.|clockreset_U(0,1):clockreset.dp_en_|      5.692|175.685 MHz| 24.000 MHz|          |
+   |mc_q                               |reg                                |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:enable_final_reg\      |.pld0_clk      |.q             |     1.250|     1.250|          |
+   |route|                |\PRISM:enable_final_reg\      |.q             |.Net_113_clk_en|     2.342|     3.592|          |
+   |cell |U(0,1)          |clockreset_U(0,1)             |.Net_113_clk_en|.dp_en_reg     |     2.100|     5.692|          |
+   |other|                |                              |               |.skew          |     0.000|     5.692|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:enable_final_reg\:macrocell.|clockreset_U(0,1):clockreset.pld1_e|      5.692|175.685 MHz| 24.000 MHz|          |
+   |mc_q                               |n_reg                              |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:enable_final_reg\      |.pld0_clk      |.q             |     1.250|     1.250|          |
+   |route|                |\PRISM:enable_final_reg\      |.q             |.Net_113_clk_en|     2.342|     3.592|          |
+   |cell |U(0,1)          |clockreset_U(0,1)             |.Net_113_clk_en|.pld1_en_reg   |     2.100|     5.692|          |
+   |other|                |                              |               |.skew          |     0.000|     5.692|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:enable_final_reg\:macrocell.|clockreset_U(1,1):clockreset.dp_en_|      5.669|176.412 MHz| 24.000 MHz|          |
+   |mc_q                               |reg                                |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:enable_final_reg\      |.pld0_clk      |.q             |     1.250|     1.250|          |
+   |route|                |\PRISM:enable_final_reg\      |.q             |.\PRISM:sC16:Pr|     2.319|     3.569|          |
+   |     |                |                              |               |ISMdp:u0\_clk_e|          |          |          |
+   |     |                |                              |               |n              |          |          |          |
+   |cell |U(1,1)          |clockreset_U(1,1)             |.\PRISM:sC16:Pr|.dp_en_reg     |     2.100|     5.669|          |
+   |     |                |                              |ISMdp:u0\_clk_e|               |          |          |          |
+   |     |                |                              |n              |               |          |          |          |
+   |other|                |                              |               |.skew          |     0.000|     5.669|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      5.580|179.211 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sync_z0                          |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.z0_ch         |     2.320|     2.320|          |
+   |other|U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.z0_ch         |.z0i           |     0.570|     2.890|          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.z0i           |.sync_z0       |     2.690|     5.580|          |
+   |other|                |                              |               |.skew          |     0.000|     5.580|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      5.550|180.180 MHz| 24.000 MHz|          |
+   |l.regq_a1                          |l.sync_z1                          |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.z1_ch         |     2.290|     2.290|          |
+   |other|U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.z1_ch         |.z1i           |     0.570|     2.860|          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.z1i           |.sync_z1       |     2.690|     5.550|          |
+   |other|                |                              |               |.skew          |     0.000|     5.550|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      5.430|184.162 MHz| 24.000 MHz|          |
+   |l.regq_a1                          |l.sync_ff1                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.ff1_ch        |     2.170|     2.170|          |
+   |other|U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.ff1_ch        |.ff1i          |     0.570|     2.740|          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.ff1i          |.sync_ff1      |     2.690|     5.430|          |
+   |other|                |                              |               |.skew          |     0.000|     5.430|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u0\:datapathcel|      5.400|185.185 MHz| 24.000 MHz|          |
+   |l.regq_d0                          |l.sync_ce0                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.sync_ce0      |     5.400|     5.400|          |
+   |other|                |                              |               |.skew          |     0.000|     5.400|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u1\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      5.400|185.185 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sync_ce0                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.dp_clk        |.sync_ce0      |     5.400|     5.400|          |
+   |other|                |                              |               |.skew          |     0.000|     5.400|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u1\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      5.400|185.185 MHz| 24.000 MHz|          |
+   |l.regq_d0                          |l.sync_ce0                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.dp_clk        |.sync_ce0      |     5.400|     5.400|          |
+   |other|                |                              |               |.skew          |     0.000|     5.400|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u0\:datapathcel|      5.400|185.185 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sync_ce0                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.sync_ce0      |     5.400|     5.400|          |
+   |other|                |                              |               |.skew          |     0.000|     5.400|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u0\:datapathcel|      5.380|185.874 MHz| 24.000 MHz|          |
+   |l.regq_d1                          |l.sync_ce1                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.sync_ce1      |     5.380|     5.380|          |
+   |other|                |                              |               |.skew          |     0.000|     5.380|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u0\:datapathcel|      5.380|185.874 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sync_ce1                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.sync_ce1      |     5.380|     5.380|          |
+   |other|                |                              |               |.skew          |     0.000|     5.380|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u1\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      5.380|185.874 MHz| 24.000 MHz|          |
+   |l.regq_d1                          |l.sync_ce1                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.dp_clk        |.sync_ce1      |     5.380|     5.380|          |
+   |other|                |                              |               |.skew          |     0.000|     5.380|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u1\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      5.380|185.874 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sync_ce1                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.dp_clk        |.sync_ce1      |     5.380|     5.380|          |
+   |other|                |                              |               |.skew          |     0.000|     5.380|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u1\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      5.060|197.628 MHz| 24.000 MHz|          |
+   |l.regq_a1                          |l.regd_a0                          |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.dp_clk        |.regd_a0       |     5.060|     5.060|          |
+   |other|                |                              |               |.skew          |     0.000|     5.060|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u0\:datapathcel|      5.060|197.628 MHz| 24.000 MHz|          |
+   |l.regq_a1                          |l.regd_a0                          |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.regd_a0       |     5.060|     5.060|          |
+   |other|                |                              |               |.skew          |     0.000|     5.060|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u0\:datapathcel|      5.030|198.807 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.regd_a0                          |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.regd_a0       |     5.030|     5.030|          |
+   |other|                |                              |               |.skew          |     0.000|     5.030|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u1\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      5.000|200.000 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sync_cmsb                        |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.dp_clk        |.sync_cmsb     |     5.000|     5.000|          |
+   |other|                |                              |               |.skew          |     0.000|     5.000|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u1\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      4.760|210.084 MHz| 24.000 MHz|          |
+   |l.regq_a1                          |l.sol_d                            |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.dp_clk        |.sol_d         |     4.760|     4.760|          |
+   |other|                |                              |               |.skew          |     0.000|     4.760|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u0\:datapathcel|      4.760|210.084 MHz| 24.000 MHz|          |
+   |l.regq_a1                          |l.sol_d                            |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.sol_d         |     4.760|     4.760|          |
+   |other|                |                              |               |.skew          |     0.000|     4.760|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u0\:datapathcel|      4.730|211.416 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sol_d                            |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.sol_d         |     4.730|     4.730|          |
+   |other|                |                              |               |.skew          |     0.000|     4.730|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u1\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      4.560|219.298 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sync_ff0                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.dp_clk        |.sync_ff0      |     4.560|     4.560|          |
+   |other|                |                              |               |.skew          |     0.000|     4.560|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u0\:datapathcel|      4.560|219.298 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sync_ff0                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.sync_ff0      |     4.560|     4.560|          |
+   |other|                |                              |               |.skew          |     0.000|     4.560|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u0\:datapathcel|      4.150|240.964 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sync_z0                          |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.sync_z0       |     4.150|     4.150|          |
+   |other|                |                              |               |.skew          |     0.000|     4.150|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u1\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      4.150|240.964 MHz| 24.000 MHz|          |
+   |l.regq_a0                          |l.sync_z0                          |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.dp_clk        |.sync_z0       |     4.150|     4.150|          |
+   |other|                |                              |               |.skew          |     0.000|     4.150|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u1\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      4.120|242.718 MHz| 24.000 MHz|          |
+   |l.regq_a1                          |l.sync_z1                          |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.dp_clk        |.sync_z1       |     4.120|     4.120|          |
+   |other|                |                              |               |.skew          |     0.000|     4.120|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u0\:datapathcel|      4.120|242.718 MHz| 24.000 MHz|          |
+   |l.regq_a1                          |l.sync_z1                          |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.sync_z1       |     4.120|     4.120|          |
+   |other|                |                              |               |.skew          |     0.000|     4.120|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u1\:datapathcel|\PRISM:sC16:PrISMdp:u1\:datapathcel|      4.000|250.000 MHz| 24.000 MHz|          |
+   |l.regq_a1                          |l.sync_ff1                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(0,1)          |\PRISM:sC16:PrISMdp:u1\       |.dp_clk        |.sync_ff1      |     4.000|     4.000|          |
+   |other|                |                              |               |.skew          |     0.000|     4.000|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |                                                                                                                      |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |\PRISM:sC16:PrISMdp:u0\:datapathcel|\PRISM:sC16:PrISMdp:u0\:datapathcel|      4.000|250.000 MHz| 24.000 MHz|          |
+   |l.regq_a1                          |l.sync_ff1                         |           |           |           |          |
+   +-----------------------------------+-----------------------------------+-----------+-----------+-----------+----------+
+   |                                                                                                                      |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+   |cell |U(1,1)          |\PRISM:sC16:PrISMdp:u0\       |.dp_clk        |.sync_ff1      |     4.000|     4.000|          |
+   |other|                |                              |               |.skew          |     0.000|     4.000|          |
+   +-----+----------------+------------------------------+---------------+---------------+----------+----------+----------+
+   </CYPRESSTAG>
+
+</CYPRESSTAG>
+
+</CYPRESSTAG>
+
+<CYPRESSTAG name="Clock to output times">
+<CYPRESSTAG name="Clock to output times from clock BUS_CLK">
++-----------------------------------+-----------------------------------+-----------------------------------+----------+
+|Start                              |Register                           |End                                |Delay (ns)|
++-----------------------------------+-----------------------------------+-----------------------------------+----------+
+|BUS_CLK                            |MAGNET(0):iocell.inq               |DATA(0):iocell.pad_out             |    36.887|
++-----------------------------------+-----------------------------------+-----------------------------------+----------+
+|                                                                                                                      |
++-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+|Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
++-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+|other|P1[7]           |MAGNET(0)                     |.clk_bus       |.clock         |     0.000|     0.000|          |
+|cell |P1[7]           |MAGNET(0)                     |.clock         |.fb            |     6.160|     6.160|          |
+|route|                |Net_173                       |.fb            |.main_0        |     5.609|    11.769|          |
+|cell |U(0,1)          |Net_175                       |.main_0        |.q             |     3.350|    15.119|          |
+|route|                |Net_175                       |.q             |.input         |     5.568|    20.687|          |
+|cell |P5[3]           |DATA(0)                       |.input         |.pad_out       |    16.200|    36.887|          |
++-----+----------------+------------------------------+---------------+---------------+----------+----------+----------+
+</CYPRESSTAG>
+
+<CYPRESSTAG name="Clock to output times from clock Clock_1">
++-----------------------------------+-----------------------------------+-----------------------------------+----------+
+|Start                              |Register                           |End                                |Delay (ns)|
++-----------------------------------+-----------------------------------+-----------------------------------+----------+
+|Clock_1                            |Net_113:macrocell.mc_q             |OE(0):iocell.pad_out               |    23.018|
++-----------------------------------+-----------------------------------+-----------------------------------+----------+
+|                                                                                                                      |
++-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+|Type |Location        |Instance/Net                  |Source         |Destination    |Delay (ns)|Total (ns)|          |
++-----+----------------+------------------------------+---------------+---------------+----------+----------+          |
+|other|U(0,1)          |clockreset_U(0,1)             |.dclk_glb_0    |.pld1_clk      |     0.000|     0.000|          |
+|cell |U(0,1)          |Net_113                       |.pld1_clk      |.q             |     1.250|     1.250|          |
+|route|                |Net_113                       |.q             |.input         |     5.568|     6.818|          |
+|cell |P5[0]           |OE(0)                         |.input         |.pad_out       |    16.200|    23.018|          |
++-----+----------------+------------------------------+---------------+---------------+----------+----------+----------+
+</CYPRESSTAG>
+
+</CYPRESSTAG>
+
+<CYPRESSTAG name="Output enable delays">
+</CYPRESSTAG>
+
+<CYPRESSTAG name="Clock to output enable times">
+</CYPRESSTAG>
+
+Static timing analysis phase: Elapsed time ==> 0s.218ms
+</CYPRESSTAG>
+<CYPRESSTAG name="Data reporting">
+Data reporting phase: Elapsed time ==> 0s.000ms
+</CYPRESSTAG>
+<CYPRESSTAG name="Database update...">
+Design database save phase: Elapsed time ==> 0s.452ms
+</CYPRESSTAG>
+cydsfit: Elapsed time ==> 5s.569ms
+</CYPRESSTAG>
+Fitter phase: Elapsed time ==> 5s.678ms
+API generation phase: Elapsed time ==> 0s.514ms
+Dependency generation phase: Elapsed time ==> 0s.031ms
+Cleanup phase: Elapsed time ==> 0s.046ms

@@ -1,0 +1,648 @@
+AX51 MACRO ASSEMBLER  CYMEM                                                                 07/11/11 11:33:49 PAGE     1
+
+
+MACRO ASSEMBLER AX51 V3.06a
+OBJECT MODULE PLACED IN C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\DP8051_Keil_816\Debug\cymem.OBJ
+ASSEMBLER INVOKED BY: C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\import\keil\pk51\8.16\C51\BIN\Ax51.exe C:\U
+                      sers\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\Generated_Source\PSoC3\
+                      cymem.a51 NOCO MACRO DB PR(C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTes
+                      t.cydsn\DP8051_Keil_816\Debug\cymem.lst) EP CASE INCDIR(Generated_Source/PSoC3) OJ(C:\Users\Jon Mo
+                      eller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\DP8051_Keil_816\Debug\cymem.OBJ) 
+
+LOC    OBJ             LINE     SOURCE
+
+                          1     ;***************************************************************************
+                          2     ; FILENAME: cymem.a51
+                          3     ; Version 2.20
+                          4     ;
+                          5     ;  DESCRIPTION:
+                          6     ;    Specialized memory routines for Keil bootup. These functions accept
+                          7     ;    3-byte pointers, but the pointers are interpreted as absolute locations
+                          8     ;    rather than as Keil generic/far pointers. Interrupts should be disabled
+                          9     ;    while these functions are executing unless the interrupt handler is
+                         10     ;    aware of dual DPTRs (DPS register), extended DPTRs (DPX0/DPX1), and
+                         11     ;    extended register-indirect memory access (MXAX register).
+                         12     ;
+                         13     ;   C DECLARATIONS:
+                         14     ;    extern void cymemzero(void far *addr, unsigned int size);
+                         15     ;    extern void cyconfigcpy(unsigned short size, const void far *src, void far *dest) s
+                               mall;
+                         16     ;    extern void cyconfigcpycode(unsigned short size, const void code *src, void far *de
+                               st);
+                         17     ;    extern void cfg_write_bytes_code(const void code *table);
+                         18     ;    extern void cfg_write_bytes(const void far *table);
+                         19     ;    extern unsigned char cyread8(const void far *addr);
+                         20     ;    extern unsigned char cyread8_nodpx(const void far *addr);
+                         21     ;    extern void cywrite8(void far *addr, unsigned char value);
+                         22     ;    extern void cywrite8_nodpx(void far *addr, unsigned char value);
+                         23     ;    extern unsigned int cyread16(const void far *addr);
+                         24     ;    extern unsigned int cyread16_nodpx(const void far *addr);
+                         25     ;    extern void cywrite16(void far *addr, unsigned int value);
+                         26     ;    extern void cywrite16_nodpx(void far *addr, unsigned int value);
+                         27     ;    extern unsigned long cyread24(const void far *addr);
+                         28     ;    extern unsigned long cyread24_nodpx(const void far *addr);
+                         29     ;    extern void cywrite24(void far *addr, unsigned long value);
+                         30     ;    extern void cywrite24_nodpx(void far *addr, unsigned long value);
+                         31     ;    extern unsigned long cyread32(const void far *addr);
+                         32     ;    extern unsigned long cyread32_nodpx(const void far *addr);
+                         33     ;    extern void cywrite32(void far *addr, unsigned long value);
+                         34     ;    extern void cywrite32_nodpx(void far *addr, unsigned long value);
+                         35     ;
+                         36     ;*******************************************************************************
+                         37     ; Copyright 2008-2010, Cypress Semiconductor Corporation.  All rights reserved.
+                         38     ; You may use this file only in accordance with the license, terms, conditions, 
+                         39     ; disclaimers, and limitations in the end user license agreement accompanying 
+                         40     ; the software package with which this file was provided.
+                         41     ;*******************************************************************************
+                         42     $nomod51 
+                         43     
+                         44     ;*******************************************************************************
+                         45     ;* SFRs
+                         46     ;*******************************************************************************
+ 0082                    47     DPL0    EQU 082H
+ 0083                    48     DPH0    EQU 083H
+ 0084                    49     DPL1    EQU 084H
+ 0085                    50     DPH1    EQU 085H
+ 0086                    51     DPS     EQU 086H
+ 0093                    52     DPX0    EQU 093H
+AX51 MACRO ASSEMBLER  CYMEM                                                                 07/11/11 11:33:49 PAGE     2
+
+ 0095                    53     DPX1    EQU 095H
+ 00A0                    54     P2      EQU 0A0H
+ 00EA                    55     MXAX    EQU 0EAH
+                         56     
+                         57     ;*******************************************************************************
+                         58     ;* Symbols
+                         59     ;*******************************************************************************
+                         60     NAME CYMEM
+                         61     
+                         62     PUBLIC _cyconfigcpy
+                         63     PUBLIC ?_cyconfigcpy?BYTE
+                         64     PUBLIC _cfg_write_bytes
+                         65     PUBLIC _cfg_write_bytes_code
+                         66     PUBLIC _cyconfigcpycode
+                         67     PUBLIC _cymemzero
+                         68     PUBLIC _cyread8
+                         69     PUBLIC _cyread8_nodpx
+                         70     PUBLIC _cywrite8
+                         71     PUBLIC _cywrite8_nodpx
+                         72     PUBLIC _cyread16
+                         73     PUBLIC _cyread16_nodpx
+                         74     PUBLIC _cywrite16
+                         75     PUBLIC _cywrite16_nodpx
+                         76     PUBLIC _cyread24
+                         77     PUBLIC _cyread24_nodpx
+                         78     PUBLIC _cywrite24
+                         79     PUBLIC _cywrite24_nodpx
+                         80     PUBLIC _cyread32
+                         81     PUBLIC _cyread32_nodpx
+                         82     PUBLIC _cywrite32
+                         83     PUBLIC _cywrite32_nodpx
+                         84     
+                         85     ;*******************************************************************************
+                         86     ;* void cymemzero(void far *, unsigned short);
+                         87     ;* Zero memory in extended XDATA
+                         88     ;* Parameters:
+                         89     ;* R3: Bits [23:16] of start address
+                         90     ;* R2: Bits [15:8] of start address
+                         91     ;* R1: Bits [7:0] of start address
+                         92     ;* R4: Bits [15:8] of size
+                         93     ;* R5: Bits [7:0] of size
+                         94     ;*******************************************************************************
+------                   95     ?PR?CYMEMZERO?CYMEM SEGMENT CODE
+------                   96     RSEG ?PR?CYMEMZERO?CYMEM
+000000                   97     _cymemzero:
+000000 EC                98         MOV A,R4
+000001 4D                99         ORL A,R5
+000002 6019             100         JZ _cymemzero_end   ; Exit if size is 0
+000004 ED               101         MOV A,R5
+000005 6001             102         JZ _cymemzero_noinc
+000007 0C               103         INC R4              ; Tweak loop count for DJNZ
+000008                  104     _cymemzero_noinc:
+000008 8B93             105         MOV DPX0,R3
+00000A 8A83             106         MOV DPH0,R2
+00000C 8982             107         MOV DPL0,R1
+00000E                  108     _cymemzero_loop:
+00000E E4               109         CLR A
+00000F F0               110         MOVX @DPTR,A        ; Zero memory
+000010 A3               111         INC DPTR
+000011 E583             112         MOV A,DPH0
+000013 4582             113         ORL A,DPL0
+000015 7002             114         JNZ _cymemzero_continue
+000017 0593             115         INC DPX0            ; Increment DPX0 when DPH0:DPL0 wraps
+000019                  116     _cymemzero_continue:
+000019 DDF3             117         DJNZ R5,_cymemzero_loop
+00001B DCF1             118         DJNZ R4,_cymemzero_loop
+AX51 MACRO ASSEMBLER  CYMEM                                                                 07/11/11 11:33:49 PAGE     3
+
+00001D                  119     _cymemzero_end:
+00001D 759300           120         MOV DPX0,#0
+000020 22               121         RET
+                        122     
+                        123     ;*******************************************************************************
+                        124     ;* void cyconfigcpy(unsigned short, const void far *, void far *) small;
+                        125     ;* Copy memory from extended XDATA to extended XDATA
+                        126     ;* Parameters:
+                        127     ;* R6: Bits [15:8] of size
+                        128     ;* R7: Bits [7:0] of size
+                        129     ;* R3: Bits [23:16] of source address
+                        130     ;* R2: Bits [15:8] of source address
+                        131     ;* R1: Bits [7:0] of source address
+                        132     ;* Memory parameters: see ?_cyconfigcpy?BYTE
+                        133     ;*******************************************************************************
+------                  134     ?PR?CYCONFIGCPY?CYMEM SEGMENT CODE
+------                  135     RSEG ?PR?CYCONFIGCPY?CYMEM
+000000                  136     _cyconfigcpy:
+000000 758600           137         MOV DPS,#000h           ; Select DP0
+000003 EF               138         MOV A,R7                ; Size in R6:R7 (MSB in R6)
+000004 4E               139         ORL A,R6
+000005 602F             140         JZ _cyconfigcpy_end     ; Exit if size is 0
+000007 EF               141         MOV A,R7
+000008 6001             142         JZ _cyconfigcpy_noinc
+00000A 0E               143         INC R6                  ; Tweak loop count for DJNZ
+00000B                  144     _cyconfigcpy_noinc:
+00000B 8B93             145         MOV DPX0,R3             ; Source address in R3:R2:R1
+00000D 8A83             146         MOV DPH0,R2
+00000F 8982             147         MOV DPL0,R1
+000011 850095     F     148         MOV DPX1,_cyconfigcpy_dstx ; Destination address
+000014 850085     F     149         MOV DPH1,_cyconfigcpy_dsth
+000017 850084     F     150         MOV DPL1,_cyconfigcpy_dstl
+00001A                  151     _cyconfigcpy_loop:
+00001A E0               152         MOVX A,@DPTR
+00001B A3               153         INC DPTR
+00001C 0586             154         INC DPS                 ; Select DP1
+00001E F0               155         MOVX @DPTR,A
+00001F A3               156         INC DPTR
+000020 1586             157         DEC DPS                 ; Select DP0
+000022 E583             158         MOV A,DPH0
+000024 4582             159         ORL A,DPL0
+000026 7002             160         JNZ _cyconfigcpy_noincdpx0
+000028 0593             161         INC DPX0                ; Increment DPX0 when DPH0:DPL0 wraps
+00002A                  162     _cyconfigcpy_noincdpx0:
+00002A E585             163         MOV A,DPH1
+00002C 4584             164         ORL A,DPL1
+00002E 7002             165         JNZ _cyconfigcpy_noincdpx1
+000030 0595             166         INC DPX1                ; Increment DPX1 when DPH1:DPL1 wraps
+000032                  167     _cyconfigcpy_noincdpx1:
+000032 DFE6             168         DJNZ R7,_cyconfigcpy_loop
+000034 DEE4             169         DJNZ R6,_cyconfigcpy_loop
+000036                  170     _cyconfigcpy_end:
+000036 E4               171         CLR A
+000037 F593             172         MOV DPX0,A
+000039 F595             173         MOV DPX1,A
+00003B 22               174         RET
+                        175     
+------                  176     ?DT?CYCONFIGCPY?CYMEM SEGMENT DATA OVERLAYABLE
+------                  177     RSEG ?DT?CYCONFIGCPY?CYMEM
+000000                  178     ?_cyconfigcpy?BYTE:
+000000                  179     _cyconfigcpy_reserved: DS 5
+000005                  180     _cyconfigcpy_dstx:     DS 1
+000006                  181     _cyconfigcpy_dsth:     DS 1
+000007                  182     _cyconfigcpy_dstl:     DS 1
+                        183     
+                        184     ;*******************************************************************************
+AX51 MACRO ASSEMBLER  CYMEM                                                                 07/11/11 11:33:49 PAGE     4
+
+                        185     ;* void cyconfigcpycode(unsigned short, const void code *, void far *);
+                        186     ;* Copy memory from CODE to extended XDATA
+                        187     ;* Parameters:
+                        188     ;* R6: Bits [15:8] of size
+                        189     ;* R7: Bits [7:0] of size
+                        190     ;* R3: Bits [23:16] of destination address
+                        191     ;* R2: Bits [15:8] of destination address
+                        192     ;* R1: Bits [7:0] of destination address
+                        193     ;* R4: Bits[15:8] of source address
+                        194     ;* R5: Bits [7:0] of source address
+                        195     ;*******************************************************************************
+------                  196     ?PR?CYCONFIGCPYCODE?CYMEM  SEGMENT CODE
+------                  197     RSEG ?PR?CYCONFIGCPYCODE?CYMEM
+000000                  198     _cyconfigcpycode:
+000000 758600           199         MOV DPS,#000h           ; Select DP0
+000003 EF               200         MOV A,R7                ; Size in R6:R7 (MSB in R6)
+000004 4E               201         ORL A,R6
+000005 6023             202         JZ _cyconfigcpycode_end ; Exit if size is 0
+000007 EF               203         MOV A,R7
+000008 6001             204         JZ _cyconfigcpycode_noinc
+00000A 0E               205         INC R6                  ; Tweak loop count for DJNZ
+00000B                  206     _cyconfigcpycode_noinc:
+00000B 8C83             207         MOV DPH0,R4             ; Source address in R4:R5
+00000D 8D82             208         MOV DPL0,R5
+00000F 8B95             209         MOV DPX1,R3             ; Destination address in R3:R2:R1
+000011 8A85             210         MOV DPH1,R2
+000013 8984             211         MOV DPL1,R1
+000015                  212     _cyconfigcpycode_loop:
+000015 E4               213         CLR A
+000016 93               214         MOVC A,@A+DPTR
+000017 A3               215         INC DPTR
+000018 0586             216         INC DPS                 ; Select DP1
+00001A F0               217         MOVX @DPTR,A
+00001B A3               218         INC DPTR
+00001C 1586             219         DEC DPS                 ; Select DP0
+00001E E585             220         MOV A,DPH1
+000020 4584             221         ORL A,DPL1
+000022 7002             222         JNZ _cyconfigcpycode_noincdpx1
+000024 0595             223         INC DPX1                ; Increment DPX1 when DPH1:DPL1 wraps
+000026                  224     _cyconfigcpycode_noincdpx1:
+000026 DFED             225         DJNZ R7,_cyconfigcpycode_loop
+000028 DEEB             226         DJNZ R6,_cyconfigcpycode_loop
+00002A                  227     _cyconfigcpycode_end:
+00002A E4               228         CLR A
+00002B F595             229         MOV DPX1,A
+00002D 22               230         RET
+                        231     
+                        232     ;*******************************************************************************
+                        233     ;* void cfg_write_bytes(const void far *table);
+                        234     ;* R3: Bits [23:16] of pointer to start of table
+                        235     ;* R2: Bits [15:8] of pointer to start of table
+                        236     ;* R1: Bits [7:0] of pointer to start of table
+                        237     ;* Reads data from cfg_byte_table and writes it to memory
+                        238     ;* cfg_byte_table contains a byte representing the number of records, followed
+                        239     ;* by a sequence of records:
+                        240     ;* struct cfg_byte_table_record_s {
+                        241     ;*     unsigned char dpx;
+                        242     ;*     unsigned char dph;
+                        243     ;*     unsigned char value[];
+                        244     ;* };
+                        245     ;*******************************************************************************
+------                  246     ?PR?CFG_WRITE_BYTES?CYMEM   SEGMENT CODE
+------                  247     RSEG ?PR?CFG_WRITE_BYTES?CYMEM
+000000                  248     _cfg_write_bytes:
+000000 ACEA             249         MOV R4,MXAX                     ; Save
+000002 ADA0             250         MOV R5,P2
+AX51 MACRO ASSEMBLER  CYMEM                                                                 07/11/11 11:33:49 PAGE     5
+
+000004 8B93             251         MOV DPX0,R3                     ; Start at beginning of table
+000006 8A83             252         MOV DPH0,R2
+000008 8982             253         MOV DPL0,R1
+00000A E0               254         MOVX A,@DPTR
+00000B F9               255         MOV R1,A                        ; Number of ranges
+00000C 601C             256         JZ _cfg_write_bytes_end
+                        257     
+00000E                  258     _cfg_write_bytes_outer:
+00000E 120000     F     259         LCALL _cfg_readnextdp0
+000011 F5EA             260         MOV MXAX,A                      ; Extended address byte
+000013 120000     F     261         LCALL _cfg_readnextdp0
+000016 F5A0             262         MOV P2,A                        ; High address byte
+000018 120000     F     263         LCALL _cfg_readnextdp0
+00001B 60F1             264         JZ _cfg_write_bytes_outer
+00001D FA               265         MOV R2,A                        ; Count
+                        266     
+00001E                  267     _cfg_write_bytes_inner:
+00001E 120000     F     268         LCALL _cfg_readnextdp0          ; Low address byte
+000021 F8               269         MOV R0,A
+000022 120000     F     270         LCALL _cfg_readnextdp0          ; Value
+000025 F2               271         MOVX @R0,A                      ; Write to MXAX:P2:R0
+000026 DAF6             272         DJNZ R2,_cfg_write_bytes_inner
+                        273     
+000028 D9E4             274         DJNZ R1,_cfg_write_bytes_outer
+                        275     
+00002A                  276     _cfg_write_bytes_end:
+00002A 8DA0             277         MOV P2,R5                       ; Restore
+00002C 8CEA             278         MOV MXAX,R4
+00002E E4               279         CLR A
+00002F F593             280         MOV DPX0,A
+000031 22               281         RET
+                        282     
+000032                  283     _cfg_readnextdp0:
+000032 A3               284         INC DPTR                        ; Increment DPTR0
+000033 E582             285         MOV A,DPL0
+000035 4583             286         ORL A,DPH0
+000037 7002             287         JNZ _cfg_readnextdp0_end
+000039 0593             288         INC DPX0                        ; If DPH0:DPL0 wraps, increment DPX0
+00003B                  289     _cfg_readnextdp0_end:
+00003B E0               290         MOVX A,@DPTR                    ; Read a byte
+00003C 22               291         RET
+                        292     
+                        293     ;*******************************************************************************
+                        294     ;* void cfg_write_bytes_code(const void code *table);
+                        295     ;* R6:R7: Pointer to cfg_byte_table
+                        296     ;* Reads data from cfg_byte_table and writes it to memory
+                        297     ;* cfg_byte_table contains a byte representing the number of records, followed
+                        298     ;* by a sequence of records:
+                        299     ;* struct cfg_byte_table_record_s {
+                        300     ;*     unsigned char dpx;
+                        301     ;*     unsigned char dph;
+                        302     ;*     unsigned char value[];
+                        303     ;* };
+                        304     ;*******************************************************************************
+------                  305     ?PR?CY_WRITE_BYTES_CODE?CYMEM   SEGMENT CODE
+------                  306     RSEG ?PR?CY_WRITE_BYTES_CODE?CYMEM
+000000                  307     _cfg_write_bytes_code:
+000000 ACEA             308         MOV R4,MXAX                     ; Save
+000002 ADA0             309         MOV R5,P2
+000004 8E83             310         MOV DPH0,R6                     ; Start at beginning of table
+000006 8F82             311         MOV DPL0,R7
+000008 E4               312         CLR A
+000009 93               313         MOVC A,@A+DPTR
+00000A F9               314         MOV R1,A                        ; Number of ranges
+00000B 601C             315         JZ _cfg_write_bytes_code_end
+                        316     
+AX51 MACRO ASSEMBLER  CYMEM                                                                 07/11/11 11:33:49 PAGE     6
+
+00000D                  317     _cfg_write_bytes_code_outer:
+00000D A3               318         INC DPTR
+00000E E4               319         CLR A
+00000F 93               320         MOVC A,@A+DPTR                  ; Extended address byte
+000010 F5EA             321         MOV MXAX,A
+000012 A3               322         INC DPTR
+000013 E4               323         CLR A
+000014 93               324         MOVC A,@A+DPTR                  ; High address byte
+000015 F5A0             325         MOV P2,A
+000017 A3               326         INC DPTR
+000018 E4               327         CLR A
+000019 93               328         MOVC A,@A+DPTR                  ; Count
+00001A 60F1             329         JZ _cfg_write_bytes_code_outer
+00001C FA               330         MOV R2,A
+                        331     
+00001D                  332     _cfg_write_bytes_code_inner:
+00001D A3               333         INC DPTR
+00001E E4               334         CLR A
+00001F 93               335         MOVC A,@A+DPTR                  ; Low address byte
+000020 F8               336         MOV R0,A
+000021 A3               337         INC DPTR
+000022 E4               338         CLR A
+000023 93               339         MOVC A,@A+DPTR                  ; Value
+000024 F2               340         MOVX @R0,A                      ; Write to MXAX:P2:R0
+000025 DAF6             341         DJNZ R2,_cfg_write_bytes_code_inner
+                        342     
+000027 D9E4             343         DJNZ R1,_cfg_write_bytes_code_outer
+                        344     
+000029                  345     _cfg_write_bytes_code_end:
+000029 8DA0             346         MOV P2,R5                       ; Restore
+00002B 8CEA             347         MOV MXAX,R4
+00002D 22               348         RET
+                        349     
+                        350     ;*******************************************************************************
+                        351     ;* Read a byte
+                        352     ;* R3:R2:R1: Address
+                        353     ;* Return value in R7
+                        354     ;*******************************************************************************
+------                  355     ?PR?CYREAD8?CYMEM   SEGMENT CODE
+------                  356     RSEG ?PR?CYREAD8?CYMEM
+000000                  357     _cyread8:
+000000 8B93             358         MOV DPX0,R3
+000002                  359     _cyread8_nodpx:
+000002 8A83             360         MOV DPH0,R2
+000004 8982             361         MOV DPL0,R1
+000006 E0               362         MOVX A,@DPTR
+000007 759300           363         MOV DPX0,#0
+00000A FF               364         MOV R7,A
+00000B 22               365         RET
+                        366     
+                        367     ;*******************************************************************************
+                        368     ;* Write a byte
+                        369     ;* R3:R2:R1: Address
+                        370     ;* R5: Value
+                        371     ;*******************************************************************************
+------                  372     ?PR?CYWRITE8?CYMEM  SEGMENT CODE
+------                  373     RSEG ?PR?CYWRITE8?CYMEM
+000000                  374     _cywrite8:
+000000 8B93             375         MOV DPX0,R3
+000002                  376     _cywrite8_nodpx:
+000002 8A83             377         MOV DPH0,R2
+000004 8982             378         MOV DPL0,R1
+000006 ED               379         MOV A,R5
+000007 F0               380         MOVX @DPTR,A
+000008 759300           381         MOV DPX0,#0
+00000B 22               382         RET
+AX51 MACRO ASSEMBLER  CYMEM                                                                 07/11/11 11:33:49 PAGE     7
+
+                        383     
+                        384     ;*******************************************************************************
+                        385     ;* Read a little-endian 16-bit value
+                        386     ;* R3:R2:R1: Address
+                        387     ;* May not cross a 64k boundary
+                        388     ;* Return value in R6:R7 (big endian, R6 is MSB)
+                        389     ;*******************************************************************************
+------                  390     ?PR?CYREAD16?CYMEM  SEGMENT CODE
+------                  391     RSEG ?PR?CYREAD16?CYMEM
+000000                  392     _cyread16:
+000000 8B93             393         MOV DPX0,R3
+000002                  394     _cyread16_nodpx:
+000002 8A83             395         MOV DPH0,R2
+000004 8982             396         MOV DPL0,R1
+000006 E0               397         MOVX A,@DPTR
+000007 FF               398         MOV R7,A    ; LSB
+000008 A3               399         INC DPTR
+000009 E0               400         MOVX A,@DPTR
+00000A FE               401         MOV R6,A    ; MSB
+00000B 759300           402         MOV DPX0,#0
+00000E 22               403         RET
+                        404     
+                        405     ;*******************************************************************************
+                        406     ;* Write a little-endian 16-bit value
+                        407     ;* R3:R2:R1: Address
+                        408     ;* R4:R5: Value (big endian, R4 is MSB)
+                        409     ;* May not cross a 64k boundary
+                        410     ;*******************************************************************************
+------                  411     ?PR?CYWRITE16?CYMEM SEGMENT CODE
+------                  412     RSEG ?PR?CYWRITE16?CYMEM
+000000                  413     _cywrite16:
+000000 8B93             414         MOV DPX0,R3
+000002                  415     _cywrite16_nodpx:
+000002 8A83             416         MOV DPH0,R2
+000004 8982             417         MOV DPL0,R1
+000006 ED               418         MOV A,R5    ; LSB
+000007 F0               419         MOVX @DPTR,A
+000008 A3               420         INC DPTR
+000009 EC               421         MOV A,R4    ; MSB
+00000A F0               422         MOVX @DPTR,A
+00000B 759300           423         MOV DPX0,#0
+00000E 22               424         RET
+                        425     
+                        426     ;*******************************************************************************
+                        427     ;* Read a little-endian 24-bit value
+                        428     ;* R3:R2:R1: Address
+                        429     ;* May not cross a 64k boundary
+                        430     ;* Return value in R4:R5:R6:R7 (big endian, R4 is MSB, R4 always 0)
+                        431     ;*******************************************************************************
+------                  432     ?PR?CYREAD24?CYMEM  SEGMENT CODE
+------                  433     RSEG ?PR?CYREAD24?CYMEM
+000000                  434     _cyread24:
+000000 8B93             435         MOV DPX0,R3
+000002                  436     _cyread24_nodpx:
+000002 8A83             437         MOV DPH0,R2
+000004 8982             438         MOV DPL0,R1
+000006 E0               439         MOVX A,@DPTR
+000007 FF               440         MOV R7,A    ; LSB
+000008 A3               441         INC DPTR
+000009 E0               442         MOVX A,@DPTR
+00000A FE               443         MOV R6,A
+00000B A3               444         INC DPTR
+00000C E0               445         MOVX A,@DPTR
+00000D FD               446         MOV R5,A
+00000E E4               447         CLR A
+00000F FC               448         MOV R4,A    ; MSB
+AX51 MACRO ASSEMBLER  CYMEM                                                                 07/11/11 11:33:49 PAGE     8
+
+000010 F593             449         MOV DPX0,A
+000012 22               450         RET
+                        451     
+                        452     ;*******************************************************************************
+                        453     ;* Write a little-endian 24-bit value
+                        454     ;* R3:R2:R1: Address
+                        455     ;* R4:R5:R6:R7: Value (big endian, R4 is MSB, R4 ignored)
+                        456     ;* May not cross a 64k boundary
+                        457     ;*******************************************************************************
+------                  458     ?PR?CYWRITE24?CYMEM SEGMENT CODE
+------                  459     RSEG ?PR?CYWRITE24?CYMEM
+000000                  460     _cywrite24:
+000000 8B93             461         MOV DPX0,R3
+000002                  462     _cywrite24_nodpx:
+000002 8A83             463         MOV DPH0,R2
+000004 8982             464         MOV DPL0,R1
+000006 EF               465         MOV A,R7    ; LSB
+000007 F0               466         MOVX @DPTR,A
+000008 A3               467         INC DPTR
+000009 EE               468         MOV A,R6
+00000A F0               469         MOVX @DPTR,A
+00000B A3               470         INC DPTR
+00000C ED               471         MOV A,R5
+00000D F0               472         MOVX @DPTR,A
+00000E 759300           473         MOV DPX0,#0
+000011 22               474         RET
+                        475     
+                        476     ;*******************************************************************************
+                        477     ;* Read a little-endian 32-bit value
+                        478     ;* R3:R2:R1: Address
+                        479     ;* May not cross a 64k boundary
+                        480     ;* Return value in R4:R5:R6:R7 (big endian, R4 is MSB)
+                        481     ;*******************************************************************************
+------                  482     ?PR?CYREAD32?CYMEM  SEGMENT CODE
+------                  483     RSEG ?PR?CYREAD32?CYMEM
+000000                  484     _cyread32:
+000000 8B93             485         MOV DPX0,R3
+000002                  486     _cyread32_nodpx:
+000002 8A83             487         MOV DPH0,R2
+000004 8982             488         MOV DPL0,R1
+000006 E0               489         MOVX A,@DPTR
+000007 FF               490         MOV R7,A    ; LSB
+000008 A3               491         INC DPTR
+000009 E0               492         MOVX A,@DPTR
+00000A FE               493         MOV R6,A
+00000B A3               494         INC DPTR
+00000C E0               495         MOVX A,@DPTR
+00000D FD               496         MOV R5,A
+00000E A3               497         INC DPTR
+00000F E0               498         MOVX A,@DPTR
+000010 FC               499         MOV R4,A    ; MSB
+000011 759300           500         MOV DPX0,#0
+000014 22               501         RET
+                        502     
+                        503     ;*******************************************************************************
+                        504     ;* Write a little-endian 32-bit value
+                        505     ;* R3:R2:R1: Address
+                        506     ;* R4:R5:R6:R7: Value (big endian, R4 is MSB)
+                        507     ;* May not cross a 64k boundary
+                        508     ;*******************************************************************************
+------                  509     ?PR?CYWRITE32?CYMEM SEGMENT CODE
+------                  510     RSEG ?PR?CYWRITE32?CYMEM
+000000                  511     _cywrite32:
+000000 8B93             512         MOV DPX0,R3
+000002                  513     _cywrite32_nodpx:
+000002 8A83             514         MOV DPH0,R2
+AX51 MACRO ASSEMBLER  CYMEM                                                                 07/11/11 11:33:49 PAGE     9
+
+000004 8982             515         MOV DPL0,R1
+000006 EF               516         MOV A,R7    ; LSB
+000007 F0               517         MOVX @DPTR,A
+000008 A3               518         INC DPTR
+000009 EE               519         MOV A,R6
+00000A F0               520         MOVX @DPTR,A
+00000B A3               521         INC DPTR
+00000C ED               522         MOV A,R5
+00000D F0               523         MOVX @DPTR,A
+00000E A3               524         INC DPTR
+00000F EC               525         MOV A,R4    ; MSB
+000010 F0               526         MOVX @DPTR,A
+000011 759300           527         MOV DPX0,#0
+000014 22               528         RET
+                        529     
+                        530         END
+AX51 MACRO ASSEMBLER  CYMEM                                                                 07/11/11 11:33:49 PAGE    10
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E                                    T Y P E  V A L U E     ATTRIBUTES
+
+?DT?CYCONFIGCPY?CYMEM . . . . . . . . .    D  SEG   000008H       REL=UNIT, ALN=BYTE
+?PR?CFG_WRITE_BYTES?CYMEM . . . . . . .    C  SEG   00003DH       REL=UNIT, ALN=BYTE
+?PR?CYCONFIGCPY?CYMEM . . . . . . . . .    C  SEG   00003CH       REL=UNIT, ALN=BYTE
+?PR?CYCONFIGCPYCODE?CYMEM . . . . . . .    C  SEG   00002EH       REL=UNIT, ALN=BYTE
+?PR?CYMEMZERO?CYMEM . . . . . . . . . .    C  SEG   000021H       REL=UNIT, ALN=BYTE
+?PR?CYREAD16?CYMEM. . . . . . . . . . .    C  SEG   00000FH       REL=UNIT, ALN=BYTE
+?PR?CYREAD24?CYMEM. . . . . . . . . . .    C  SEG   000013H       REL=UNIT, ALN=BYTE
+?PR?CYREAD32?CYMEM. . . . . . . . . . .    C  SEG   000015H       REL=UNIT, ALN=BYTE
+?PR?CYREAD8?CYMEM . . . . . . . . . . .    C  SEG   00000CH       REL=UNIT, ALN=BYTE
+?PR?CYWRITE16?CYMEM . . . . . . . . . .    C  SEG   00000FH       REL=UNIT, ALN=BYTE
+?PR?CYWRITE24?CYMEM . . . . . . . . . .    C  SEG   000012H       REL=UNIT, ALN=BYTE
+?PR?CYWRITE32?CYMEM . . . . . . . . . .    C  SEG   000015H       REL=UNIT, ALN=BYTE
+?PR?CYWRITE8?CYMEM. . . . . . . . . . .    C  SEG   00000CH       REL=UNIT, ALN=BYTE
+?PR?CY_WRITE_BYTES_CODE?CYMEM . . . . .    C  SEG   00002EH       REL=UNIT, ALN=BYTE
+?_cyconfigcpy?BYTE. . . . . . . . . . .    D  ADDR  0000H     R   SEG=?DT?CYCONFIGCPY?CYMEM
+CYMEM . . . . . . . . . . . . . . . . .    -- ----  -------       
+DPH0. . . . . . . . . . . . . . . . . .    N  NUMB  0083H     A   
+DPH1. . . . . . . . . . . . . . . . . .    N  NUMB  0085H     A   
+DPL0. . . . . . . . . . . . . . . . . .    N  NUMB  0082H     A   
+DPL1. . . . . . . . . . . . . . . . . .    N  NUMB  0084H     A   
+DPS . . . . . . . . . . . . . . . . . .    N  NUMB  0086H     A   
+DPX0. . . . . . . . . . . . . . . . . .    N  NUMB  0093H     A   
+DPX1. . . . . . . . . . . . . . . . . .    N  NUMB  0095H     A   
+MXAX. . . . . . . . . . . . . . . . . .    N  NUMB  00EAH     A   
+P2. . . . . . . . . . . . . . . . . . .    N  NUMB  00A0H     A   
+_cfg_readnextdp0. . . . . . . . . . . .    C  ADDR  0032H     R   SEG=?PR?CFG_WRITE_BYTES?CYMEM
+_cfg_readnextdp0_end. . . . . . . . . .    C  ADDR  003BH     R   SEG=?PR?CFG_WRITE_BYTES?CYMEM
+_cfg_write_bytes. . . . . . . . . . . .    C  ADDR  0000H     R   SEG=?PR?CFG_WRITE_BYTES?CYMEM
+_cfg_write_bytes_code . . . . . . . . .    C  ADDR  0000H     R   SEG=?PR?CY_WRITE_BYTES_CODE?CYMEM
+_cfg_write_bytes_code_end . . . . . . .    C  ADDR  0029H     R   SEG=?PR?CY_WRITE_BYTES_CODE?CYMEM
+_cfg_write_bytes_code_inner . . . . . .    C  ADDR  001DH     R   SEG=?PR?CY_WRITE_BYTES_CODE?CYMEM
+_cfg_write_bytes_code_outer . . . . . .    C  ADDR  000DH     R   SEG=?PR?CY_WRITE_BYTES_CODE?CYMEM
+_cfg_write_bytes_end. . . . . . . . . .    C  ADDR  002AH     R   SEG=?PR?CFG_WRITE_BYTES?CYMEM
+_cfg_write_bytes_inner. . . . . . . . .    C  ADDR  001EH     R   SEG=?PR?CFG_WRITE_BYTES?CYMEM
+_cfg_write_bytes_outer. . . . . . . . .    C  ADDR  000EH     R   SEG=?PR?CFG_WRITE_BYTES?CYMEM
+_cyconfigcpy. . . . . . . . . . . . . .    C  ADDR  0000H     R   SEG=?PR?CYCONFIGCPY?CYMEM
+_cyconfigcpy_dsth . . . . . . . . . . .    D  ADDR  0006H     R   SEG=?DT?CYCONFIGCPY?CYMEM
+_cyconfigcpy_dstl . . . . . . . . . . .    D  ADDR  0007H     R   SEG=?DT?CYCONFIGCPY?CYMEM
+_cyconfigcpy_dstx . . . . . . . . . . .    D  ADDR  0005H     R   SEG=?DT?CYCONFIGCPY?CYMEM
+_cyconfigcpy_end. . . . . . . . . . . .    C  ADDR  0036H     R   SEG=?PR?CYCONFIGCPY?CYMEM
+_cyconfigcpy_loop . . . . . . . . . . .    C  ADDR  001AH     R   SEG=?PR?CYCONFIGCPY?CYMEM
+_cyconfigcpy_noinc. . . . . . . . . . .    C  ADDR  000BH     R   SEG=?PR?CYCONFIGCPY?CYMEM
+_cyconfigcpy_noincdpx0. . . . . . . . .    C  ADDR  002AH     R   SEG=?PR?CYCONFIGCPY?CYMEM
+_cyconfigcpy_noincdpx1. . . . . . . . .    C  ADDR  0032H     R   SEG=?PR?CYCONFIGCPY?CYMEM
+_cyconfigcpy_reserved . . . . . . . . .    D  ADDR  0000H     R   SEG=?DT?CYCONFIGCPY?CYMEM
+_cyconfigcpycode. . . . . . . . . . . .    C  ADDR  0000H     R   SEG=?PR?CYCONFIGCPYCODE?CYMEM
+_cyconfigcpycode_end. . . . . . . . . .    C  ADDR  002AH     R   SEG=?PR?CYCONFIGCPYCODE?CYMEM
+_cyconfigcpycode_loop . . . . . . . . .    C  ADDR  0015H     R   SEG=?PR?CYCONFIGCPYCODE?CYMEM
+_cyconfigcpycode_noinc. . . . . . . . .    C  ADDR  000BH     R   SEG=?PR?CYCONFIGCPYCODE?CYMEM
+_cyconfigcpycode_noincdpx1. . . . . . .    C  ADDR  0026H     R   SEG=?PR?CYCONFIGCPYCODE?CYMEM
+_cymemzero. . . . . . . . . . . . . . .    C  ADDR  0000H     R   SEG=?PR?CYMEMZERO?CYMEM
+_cymemzero_continue . . . . . . . . . .    C  ADDR  0019H     R   SEG=?PR?CYMEMZERO?CYMEM
+_cymemzero_end. . . . . . . . . . . . .    C  ADDR  001DH     R   SEG=?PR?CYMEMZERO?CYMEM
+_cymemzero_loop . . . . . . . . . . . .    C  ADDR  000EH     R   SEG=?PR?CYMEMZERO?CYMEM
+_cymemzero_noinc. . . . . . . . . . . .    C  ADDR  0008H     R   SEG=?PR?CYMEMZERO?CYMEM
+_cyread16 . . . . . . . . . . . . . . .    C  ADDR  0000H     R   SEG=?PR?CYREAD16?CYMEM
+_cyread16_nodpx . . . . . . . . . . . .    C  ADDR  0002H     R   SEG=?PR?CYREAD16?CYMEM
+_cyread24 . . . . . . . . . . . . . . .    C  ADDR  0000H     R   SEG=?PR?CYREAD24?CYMEM
+_cyread24_nodpx . . . . . . . . . . . .    C  ADDR  0002H     R   SEG=?PR?CYREAD24?CYMEM
+_cyread32 . . . . . . . . . . . . . . .    C  ADDR  0000H     R   SEG=?PR?CYREAD32?CYMEM
+AX51 MACRO ASSEMBLER  CYMEM                                                                 07/11/11 11:33:49 PAGE    11
+
+_cyread32_nodpx . . . . . . . . . . . .    C  ADDR  0002H     R   SEG=?PR?CYREAD32?CYMEM
+_cyread8. . . . . . . . . . . . . . . .    C  ADDR  0000H     R   SEG=?PR?CYREAD8?CYMEM
+_cyread8_nodpx. . . . . . . . . . . . .    C  ADDR  0002H     R   SEG=?PR?CYREAD8?CYMEM
+_cywrite16. . . . . . . . . . . . . . .    C  ADDR  0000H     R   SEG=?PR?CYWRITE16?CYMEM
+_cywrite16_nodpx. . . . . . . . . . . .    C  ADDR  0002H     R   SEG=?PR?CYWRITE16?CYMEM
+_cywrite24. . . . . . . . . . . . . . .    C  ADDR  0000H     R   SEG=?PR?CYWRITE24?CYMEM
+_cywrite24_nodpx. . . . . . . . . . . .    C  ADDR  0002H     R   SEG=?PR?CYWRITE24?CYMEM
+_cywrite32. . . . . . . . . . . . . . .    C  ADDR  0000H     R   SEG=?PR?CYWRITE32?CYMEM
+_cywrite32_nodpx. . . . . . . . . . . .    C  ADDR  0002H     R   SEG=?PR?CYWRITE32?CYMEM
+_cywrite8 . . . . . . . . . . . . . . .    C  ADDR  0000H     R   SEG=?PR?CYWRITE8?CYMEM
+_cywrite8_nodpx . . . . . . . . . . . .    C  ADDR  0002H     R   SEG=?PR?CYWRITE8?CYMEM
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S).

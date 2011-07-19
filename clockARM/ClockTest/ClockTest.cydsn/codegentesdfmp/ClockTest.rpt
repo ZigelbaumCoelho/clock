@@ -1,0 +1,156 @@
+Loading plugins phase: Elapsed time ==> 0s.372ms
+Initializing data phase: Elapsed time ==> 3s.790ms
+<CYPRESSTAG name="CyDsfit arguments...">
+cydsfit arguments: -.fdsnotice -.fdswarpdepfile=warp_dependencies.txt -.fdselabdepfile=elab_dependencies.txt -.fdsbldfile=generated_files.txt -p C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\ClockTest.cyprj -d CY8C3666AXI-052 -s C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\Generated_Source\PSoC3 -w 0 -- -yv2 -w 0 -v3 -ygs -q10 -o2 -.fftcfgtype=BE -.fftp3sirev=PRODUCTION</CYPRESSTAG>
+<CYPRESSTAG name="Design elaboration results...">
+ADD: pft.M0028: warning: Clock Warning: (Clock_2's accuracy range '12.000 MHz ?1%, (11.880 MHz - 12.120 MHz)' is not within the specified tolerance range '16.000 MHz ?5%, (15.200 MHz - 16.800 MHz)'.).
+ * C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\ClockTest.cydwr (Clock_2)
+ * C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\TopDesign\TopDesign.cysch (Instance 'Clock_2')
+
+</CYPRESSTAG>
+Elaboration phase: Elapsed time ==> 4s.708ms
+<CYPRESSTAG name="HDL generation results...">
+</CYPRESSTAG>
+HDL generation phase: Elapsed time ==> 0s.054ms
+<CYPRESSTAG name="Synthesis results...">
+
+     | | | | | | |
+   _________________
+  -|               |-
+  -|               |-
+  -|               |-
+  -|    CYPRESS    |-
+  -|               |-
+  -|               |-   Warp Verilog Synthesis Compiler: Version 6.3 IR 41
+  -|               |-   Copyright (C) 1991-2001 Cypress Semiconductor
+   |_______________|
+     | | | | | | |
+
+======================================================================
+Compiling:  ClockTest.v
+Program  :   C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\bin/warp.exe
+Options  :    -yv2 -w 0 -v3 -ygs -q10 -o2 -.fftcfgtype=BE -.fftp3sirev=PRODUCTION -ya -.fftprj=C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\ClockTest.cyprj -dcpsoc3 ClockTest.v -verilog
+======================================================================
+
+======================================================================
+Compiling:  ClockTest.v
+Program  :   C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\bin/warp.exe
+Options  :    -yv2 -w 0 -v3 -ygs -q10 -o2 -.fftcfgtype=BE -.fftp3sirev=PRODUCTION -ya -.fftprj=C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\ClockTest.cyprj -dcpsoc3 ClockTest.v -verilog
+======================================================================
+
+======================================================================
+Compiling:  ClockTest.v
+Program  :   vlogfe
+Options  :    -yv2 -w 0 -v3 -ygs -q10 -o2 -.fftcfgtype=BE -.fftp3sirev=PRODUCTION -ya -.fftprj=C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\ClockTest.cyprj -dcpsoc3 -verilog ClockTest.v
+======================================================================
+
+vlogfe V6.3 IR 41:  Verilog parser
+Mon Jul 11 13:18:55 2011
+
+
+======================================================================
+Compiling:  ClockTest.v
+Program  :   vpp
+Options  :    -yv2 -q10 ClockTest.v
+======================================================================
+
+vpp V6.3 IR 41:  Verilog Pre-Processor
+Mon Jul 11 13:18:55 2011
+
+Flattening file 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\..\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\B_PWM_v2_0\B_PWM_v2_0.v'
+Flattening file 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\cypress.v'
+Flattening file 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\cy_psoc3_inc.v'
+Flattening file 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\..\psoc\content\cyprimitives\CyPrimitives.cylib\cy_virtualmux_v1_0\cy_virtualmux_v1_0.v'
+Flattening file 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\..\psoc\content\cyprimitives\CyPrimitives.cylib\OneTerminal\OneTerminal.v'
+Flattening file 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\..\psoc\content\cyprimitives\CyPrimitives.cylib\ZeroTerminal\ZeroTerminal.v'
+Flattening file 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\..\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\B_SPI_Master_v2_10\B_SPI_Master_v2_10.v'
+Flattening file 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\cypress.v'
+
+vpp:  No errors.
+
+Library 'work' => directory 'lcpsoc3'
+General_symbol_table
+General_symbol_table
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\std.vhd'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\cypress.vhd'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\work\cypress.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\ieee\work\stdlogic.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\lpmpkg.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\rtlpkg.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\mod_cnst.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\mod_mthv.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\mod_genv.vif'.
+Using control file 'ClockTest.ctl'.
+C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\..\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\B_PWM_v2_0\B_PWM_v2_0.v (line 685, col 42):  Note: Substituting module 'sub_vi_vv' for '-'.
+C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\..\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\B_PWM_v2_0\B_PWM_v2_0.v (line 705, col 46):  Note: Substituting module 'add_vi_vv' for '+'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\cy_psoc3pkg.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\cy_psoc3.vif'.
+
+vlogfe:  No errors.
+
+
+======================================================================
+Compiling:  ClockTest.v
+Program  :   tovif
+Options  :    -yv2 -w 0 -v3 -ygs -q10 -o2 -.fftcfgtype=BE -.fftp3sirev=PRODUCTION -ya -.fftprj=C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\ClockTest.cyprj -dcpsoc3 -verilog ClockTest.v
+======================================================================
+
+tovif V6.3 IR 41:  High-level synthesis
+Mon Jul 11 13:18:56 2011
+
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\std.vhd'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\cypress.vhd'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\work\cypress.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\ieee\work\stdlogic.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\lpmpkg.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\rtlpkg.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\mod_cnst.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\mod_mthv.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\mod_genv.vif'.
+Linking 'C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\codegentemp\ClockTest.ctl'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\B_PWM_v2_0\B_PWM_v2_0.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\cypress.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\cy_psoc3_inc.v'.
+Linking 'C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\codegentemp\ClockTest.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\cy_virtualmux_v1_0\cy_virtualmux_v1_0.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\OneTerminal\OneTerminal.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\ZeroTerminal\ZeroTerminal.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\B_SPI_Master_v2_10\B_SPI_Master_v2_10.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\cy_psoc3pkg.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\cy_psoc3.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\lcpsoc3\stdlogic\mod_cnst.vif'.
+
+tovif:  No errors.
+
+
+======================================================================
+Compiling:  ClockTest.v
+Program  :   topld
+Options  :    -yv2 -w 0 -v3 -ygs -q10 -o2 -.fftcfgtype=BE -.fftp3sirev=PRODUCTION -ya -.fftprj=C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\ClockTest.cyprj -dcpsoc3 -verilog ClockTest.v
+======================================================================
+
+topld V6.3 IR 41:  Synthesis and optimization
+Mon Jul 11 13:18:58 2011
+
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\std.vhd'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\cypress.vhd'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\work\cypress.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\ieee\work\stdlogic.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\lpmpkg.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\rtlpkg.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\mod_cnst.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\mod_mthv.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\mod_genv.vif'.
+Linking 'C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\codegentemp\ClockTest.ctl'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\B_PWM_v2_0\B_PWM_v2_0.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\cypress.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\cy_psoc3_inc.v'.
+Linking 'C:\Users\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\codegentemp\ClockTest.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\cy_virtualmux_v1_0\cy_virtualmux_v1_0.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\OneTerminal\OneTerminal.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\psoc\content\cyprimitives\CyPrimitives.cylib\ZeroTerminal\ZeroTerminal.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\B_SPI_Master_v2_10\B_SPI_Master_v2_10.v'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\cy_psoc3pkg.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\common\stdlogic\cy_psoc3.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\lcpsoc3\stdlogic\mod_cnst.vif'.
+Linking 'C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\warp\lib\lcpsoc3\stdlogic\cpsoc3.vif'.

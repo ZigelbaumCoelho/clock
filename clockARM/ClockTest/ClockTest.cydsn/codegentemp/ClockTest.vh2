@@ -1,0 +1,652 @@
+--
+--	Conversion of ClockTest.v to vh2:
+--
+--	Cypress Semiconductor - WARP Version 6.3 IR 41
+--	Fri Jul 15 14:24:11 2011
+--
+
+USE cypress.cypress.all;
+USE cypress.rtlpkg.all;
+ENTITY top_RTL IS
+ATTRIBUTE part_name of top_RTL:TYPE IS "cpsoc3";
+END top_RTL;
+--------------------------------------------------------
+ARCHITECTURE R_T_L OF top_RTL IS
+SIGNAL tmpOE__OE_net_0 : bit;
+SIGNAL Net_113 : bit;
+SIGNAL tmpFB_0__OE_net_0 : bit;
+SIGNAL tmpIO_0__OE_net_0 : bit;
+TERMINAL tmpSIOVREF__OE_net_0 : bit;
+SIGNAL tmpINTERRUPT_0__OE_net_0 : bit;
+SIGNAL tmpOE__LE_net_0 : bit;
+SIGNAL Net_156 : bit;
+SIGNAL tmpFB_0__LE_net_0 : bit;
+SIGNAL tmpIO_0__LE_net_0 : bit;
+TERMINAL tmpSIOVREF__LE_net_0 : bit;
+SIGNAL tmpINTERRUPT_0__LE_net_0 : bit;
+SIGNAL tmpOE__SCLK_net_0 : bit;
+SIGNAL tmpFB_0__SCLK_net_0 : bit;
+SIGNAL tmpIO_0__SCLK_net_0 : bit;
+TERMINAL tmpSIOVREF__SCLK_net_0 : bit;
+SIGNAL tmpINTERRUPT_0__SCLK_net_0 : bit;
+SIGNAL tmpOE__DATA_net_0 : bit;
+SIGNAL Net_175 : bit;
+SIGNAL tmpFB_0__DATA_net_0 : bit;
+SIGNAL tmpIO_0__DATA_net_0 : bit;
+TERMINAL tmpSIOVREF__DATA_net_0 : bit;
+SIGNAL tmpINTERRUPT_0__DATA_net_0 : bit;
+SIGNAL Net_162 : bit;
+SIGNAL \Counter_1:Net_82\ : bit;
+SIGNAL \Counter_1:Net_91\ : bit;
+SIGNAL zero : bit;
+SIGNAL \Counter_1:Net_48\ : bit;
+SIGNAL \Counter_1:Net_54\ : bit;
+SIGNAL \Counter_1:Net_42\ : bit;
+SIGNAL Net_163 : bit;
+SIGNAL \Counter_1:Net_89\ : bit;
+SIGNAL \Counter_1:Net_95\ : bit;
+SIGNAL \Counter_1:Net_102\ : bit;
+SIGNAL Net_78 : bit;
+SIGNAL Net_173 : bit;
+SIGNAL \PRISM:ctrl_enable\ : bit;
+SIGNAL \PRISM:control_0\ : bit;
+SIGNAL \PRISM:compare_type0\ : bit;
+SIGNAL \PRISM:control_1\ : bit;
+SIGNAL \PRISM:compare_type1\ : bit;
+SIGNAL \PRISM:control_2\ : bit;
+SIGNAL one : bit;
+SIGNAL \PRISM:clock_cnt\ : bit;
+SIGNAL \PRISM:control_7\ : bit;
+SIGNAL \PRISM:control_6\ : bit;
+SIGNAL \PRISM:control_5\ : bit;
+SIGNAL \PRISM:control_4\ : bit;
+SIGNAL \PRISM:control_3\ : bit;
+SIGNAL \PRISM:enable_final_reg\ : bit;
+SIGNAL Net_79 : bit;
+SIGNAL \PRISM:clock_op\ : bit;
+SIGNAL \PRISM:reset_reg\ : bit;
+SIGNAL Net_80 : bit;
+SIGNAL \PRISM:cs_addr_2\ : bit;
+SIGNAL \PRISM:cs_addr_1\ : bit;
+SIGNAL \PRISM:cs_addr_0\ : bit;
+SIGNAL \PRISM:Pd0a\ : bit;
+SIGNAL \PRISM:ce0\ : bit;
+SIGNAL \PRISM:cl0\ : bit;
+SIGNAL \PRISM:Pd0b\ : bit;
+SIGNAL \PRISM:Pd1a\ : bit;
+SIGNAL \PRISM:ce1\ : bit;
+SIGNAL \PRISM:cl1\ : bit;
+SIGNAL \PRISM:Pd1b\ : bit;
+SIGNAL Net_81 : bit;
+SIGNAL Net_87 : bit;
+SIGNAL \PRISM:chained1\ : bit;
+SIGNAL \PRISM:chained2\ : bit;
+SIGNAL \PRISM:sC16:PrISMdp:z0_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:z0_0\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:ff0_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:ff0_0\:SIGNAL IS 2;
+SIGNAL \PRISM:chained4\ : bit;
+SIGNAL \PRISM:chained5\ : bit;
+SIGNAL \PRISM:sC16:PrISMdp:z1_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:z1_0\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:ff1_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:ff1_0\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:ov_msb_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:ov_msb_0\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:co_msb_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:co_msb_0\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:cmsb_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:cmsb_0\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:so_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:so_0\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:f0_bus_stat_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:f0_bus_stat_0\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:f0_blk_stat_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:f0_blk_stat_0\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:f1_bus_stat_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:f1_bus_stat_0\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:f1_blk_stat_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:f1_blk_stat_0\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:ce0_reg_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:ce0_reg_0\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:cl0_reg_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:cl0_reg_0\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:z0_reg_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:z0_reg_0\:SIGNAL IS 2;
+SIGNAL \PRISM:chained3\ : bit;
+SIGNAL \PRISM:sC16:PrISMdp:ce1_reg_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:ce1_reg_0\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:cl1_reg_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:cl1_reg_0\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:z1_reg_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:z1_reg_0\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:ff1_reg_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:ff1_reg_0\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:ov_msb_reg_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:ov_msb_reg_0\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:co_msb_reg_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:co_msb_reg_0\:SIGNAL IS 2;
+SIGNAL \PRISM:nc1\ : bit;
+SIGNAL \PRISM:sC16:PrISMdp:so_reg_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:so_reg_0\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:f0_bus_stat_reg_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:f0_bus_stat_reg_0\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:f0_blk_stat_reg_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:f0_blk_stat_reg_0\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:f1_bus_stat_reg_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:f1_bus_stat_reg_0\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:f1_blk_stat_reg_0\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:f1_blk_stat_reg_0\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:carry\ : bit;
+SIGNAL \PRISM:sC16:PrISMdp:sh_right\ : bit;
+SIGNAL \PRISM:sC16:PrISMdp:sh_left\ : bit;
+SIGNAL \PRISM:sC16:PrISMdp:msb\ : bit;
+SIGNAL \PRISM:sC16:PrISMdp:cmp_eq_1\ : bit;
+SIGNAL \PRISM:sC16:PrISMdp:cmp_eq_0\ : bit;
+SIGNAL \PRISM:sC16:PrISMdp:cmp_lt_1\ : bit;
+SIGNAL \PRISM:sC16:PrISMdp:cmp_lt_0\ : bit;
+SIGNAL \PRISM:sC16:PrISMdp:cmp_zero_1\ : bit;
+SIGNAL \PRISM:sC16:PrISMdp:cmp_zero_0\ : bit;
+SIGNAL \PRISM:sC16:PrISMdp:cmp_ff_1\ : bit;
+SIGNAL \PRISM:sC16:PrISMdp:cmp_ff_0\ : bit;
+SIGNAL \PRISM:sC16:PrISMdp:cap_1\ : bit;
+SIGNAL \PRISM:sC16:PrISMdp:cap_0\ : bit;
+SIGNAL \PRISM:sC16:PrISMdp:cfb\ : bit;
+SIGNAL \PRISM:sC16:PrISMdp:z0_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:z0_1\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:ff0_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:ff0_1\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:z1_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:z1_1\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:ff1_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:ff1_1\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:ov_msb_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:ov_msb_1\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:co_msb_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:co_msb_1\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:cmsb_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:cmsb_1\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:so_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:so_1\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:f0_bus_stat_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:f0_bus_stat_1\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:f0_blk_stat_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:f0_blk_stat_1\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:f1_bus_stat_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:f1_bus_stat_1\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:f1_blk_stat_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:f1_blk_stat_1\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:ce0_reg_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:ce0_reg_1\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:cl0_reg_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:cl0_reg_1\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:z0_reg_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:z0_reg_1\:SIGNAL IS 2;
+SIGNAL Net_89 : bit;
+SIGNAL \PRISM:sC16:PrISMdp:ce1_reg_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:ce1_reg_1\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:cl1_reg_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:cl1_reg_1\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:z1_reg_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:z1_reg_1\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:ff1_reg_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:ff1_reg_1\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:ov_msb_reg_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:ov_msb_reg_1\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:co_msb_reg_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:co_msb_reg_1\:SIGNAL IS 2;
+SIGNAL Net_88 : bit;
+SIGNAL \PRISM:sC16:PrISMdp:so_reg_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:so_reg_1\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:f0_bus_stat_reg_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:f0_bus_stat_reg_1\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:f0_blk_stat_reg_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:f0_blk_stat_reg_1\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:f1_bus_stat_reg_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:f1_bus_stat_reg_1\:SIGNAL IS 2;
+SIGNAL \PRISM:sC16:PrISMdp:f1_blk_stat_reg_1\ : bit;
+ATTRIBUTE port_state_att of \PRISM:sC16:PrISMdp:f1_blk_stat_reg_1\:SIGNAL IS 2;
+SIGNAL tmpOE__MAGNET_net_0 : bit;
+SIGNAL tmpIO_0__MAGNET_net_0 : bit;
+TERMINAL tmpSIOVREF__MAGNET_net_0 : bit;
+SIGNAL tmpINTERRUPT_0__MAGNET_net_0 : bit;
+SIGNAL Net_113D : bit;
+SIGNAL \PRISM:enable_final_reg\\D\ : bit;
+SIGNAL \PRISM:reset_reg\\D\ : bit;
+SIGNAL Net_87D : bit;
+BEGIN
+
+tmpOE__OE_net_0 <=  ('1') ;
+
+zero <=  ('0') ;
+
+Net_175 <= (not Net_173);
+
+Net_113D <= ((not \PRISM:reset_reg\ and not \PRISM:cl0\ and \PRISM:ce0\)
+	OR (not \PRISM:reset_reg\ and not \PRISM:cl0\ and \PRISM:compare_type0\)
+	OR (not \PRISM:compare_type0\ and not \PRISM:reset_reg\ and \PRISM:cl0\));
+
+Net_87D <= ((not \PRISM:reset_reg\ and not \PRISM:cl1\ and \PRISM:ce1\)
+	OR (not \PRISM:reset_reg\ and not \PRISM:cl1\ and \PRISM:compare_type1\)
+	OR (not \PRISM:compare_type1\ and not \PRISM:reset_reg\ and \PRISM:cl1\));
+
+OE:cy_psoc3_pins_v1_10
+	GENERIC MAP(id=>"ed092b9b-d398-4703-be89-cebf998501f6",
+		drive_mode=>"110",
+		ibuf_enabled=>"1",
+		init_dr_st=>"0",
+		input_sync=>"1",
+		intr_mode=>"00",
+		io_voltage=>"",
+		layout_mode=>"CONTIGUOUS",
+		output_conn=>"1",
+		output_sync=>"0",
+		pin_aliases=>"",
+		pin_mode=>"O",
+		por_state=>4,
+		sio_group_cnt=>0,
+		sio_hifreq=>"",
+		sio_hyst=>"0",
+		sio_ibuf=>"00000000",
+		sio_info=>"00",
+		sio_obuf=>"00000000",
+		sio_refsel=>"00000000",
+		sio_vtrip=>"00000000",
+		slew_rate=>"0",
+		spanning=>'0',
+		sw_only=>'0',
+		vtrip=>"10",
+		width=>1,
+		port_alias_required=>'0',
+		port_alias_group=>"")
+	PORT MAP(oe=>(tmpOE__OE_net_0),
+		y=>Net_113,
+		fb=>(tmpFB_0__OE_net_0),
+		analog=>(open),
+		io=>(tmpIO_0__OE_net_0),
+		siovref=>(tmpSIOVREF__OE_net_0),
+		interrupt=>tmpINTERRUPT_0__OE_net_0);
+LE:cy_psoc3_pins_v1_10
+	GENERIC MAP(id=>"00ec895c-d1f8-4603-ac0d-ca2466bd8471",
+		drive_mode=>"110",
+		ibuf_enabled=>"1",
+		init_dr_st=>"0",
+		input_sync=>"1",
+		intr_mode=>"00",
+		io_voltage=>"",
+		layout_mode=>"CONTIGUOUS",
+		output_conn=>"1",
+		output_sync=>"0",
+		pin_aliases=>"",
+		pin_mode=>"O",
+		por_state=>4,
+		sio_group_cnt=>0,
+		sio_hifreq=>"",
+		sio_hyst=>"0",
+		sio_ibuf=>"00000000",
+		sio_info=>"00",
+		sio_obuf=>"00000000",
+		sio_refsel=>"00000000",
+		sio_vtrip=>"00000000",
+		slew_rate=>"0",
+		spanning=>'0',
+		sw_only=>'0',
+		vtrip=>"10",
+		width=>1,
+		port_alias_required=>'0',
+		port_alias_group=>"")
+	PORT MAP(oe=>(tmpOE__OE_net_0),
+		y=>Net_156,
+		fb=>(tmpFB_0__LE_net_0),
+		analog=>(open),
+		io=>(tmpIO_0__LE_net_0),
+		siovref=>(tmpSIOVREF__LE_net_0),
+		interrupt=>tmpINTERRUPT_0__LE_net_0);
+SCLK:cy_psoc3_pins_v1_10
+	GENERIC MAP(id=>"64e61631-9930-471b-97b6-b1c676b6e132",
+		drive_mode=>"110",
+		ibuf_enabled=>"1",
+		init_dr_st=>"0",
+		input_sync=>"1",
+		intr_mode=>"00",
+		io_voltage=>"",
+		layout_mode=>"CONTIGUOUS",
+		output_conn=>"1",
+		output_sync=>"0",
+		pin_aliases=>"",
+		pin_mode=>"O",
+		por_state=>4,
+		sio_group_cnt=>0,
+		sio_hifreq=>"",
+		sio_hyst=>"0",
+		sio_ibuf=>"00000000",
+		sio_info=>"00",
+		sio_obuf=>"00000000",
+		sio_refsel=>"00000000",
+		sio_vtrip=>"00000000",
+		slew_rate=>"0",
+		spanning=>'0',
+		sw_only=>'0',
+		vtrip=>"10",
+		width=>1,
+		port_alias_required=>'0',
+		port_alias_group=>"")
+	PORT MAP(oe=>(tmpOE__OE_net_0),
+		y=>Net_156,
+		fb=>(tmpFB_0__SCLK_net_0),
+		analog=>(open),
+		io=>(tmpIO_0__SCLK_net_0),
+		siovref=>(tmpSIOVREF__SCLK_net_0),
+		interrupt=>tmpINTERRUPT_0__SCLK_net_0);
+DATA:cy_psoc3_pins_v1_10
+	GENERIC MAP(id=>"3f3246ce-84f8-4cce-b011-9d40a0443957",
+		drive_mode=>"110",
+		ibuf_enabled=>"1",
+		init_dr_st=>"0",
+		input_sync=>"1",
+		intr_mode=>"00",
+		io_voltage=>"",
+		layout_mode=>"CONTIGUOUS",
+		output_conn=>"1",
+		output_sync=>"0",
+		pin_aliases=>"",
+		pin_mode=>"O",
+		por_state=>4,
+		sio_group_cnt=>0,
+		sio_hifreq=>"",
+		sio_hyst=>"0",
+		sio_ibuf=>"00000000",
+		sio_info=>"00",
+		sio_obuf=>"00000000",
+		sio_refsel=>"00000000",
+		sio_vtrip=>"00000000",
+		slew_rate=>"0",
+		spanning=>'0',
+		sw_only=>'0',
+		vtrip=>"10",
+		width=>1,
+		port_alias_required=>'0',
+		port_alias_group=>"")
+	PORT MAP(oe=>(tmpOE__OE_net_0),
+		y=>Net_175,
+		fb=>(tmpFB_0__DATA_net_0),
+		analog=>(open),
+		io=>(tmpIO_0__DATA_net_0),
+		siovref=>(tmpSIOVREF__DATA_net_0),
+		interrupt=>tmpINTERRUPT_0__DATA_net_0);
+\Counter_1:CounterHW\:cy_psoc3_timer_v1_0
+	GENERIC MAP(cy_registers=>"")
+	PORT MAP(clock=>Net_162,
+		kill=>zero,
+		enable=>zero,
+		capture=>zero,
+		timer_reset=>zero,
+		tc=>Net_156,
+		compare=>\Counter_1:Net_54\,
+		interrupt=>\Counter_1:Net_42\);
+Clock_1:cy_clock_v1_0
+	GENERIC MAP(cy_registers=>"",
+		id=>"04a5ce28-63ac-492b-ab8c-c309a86b9fe2",
+		source_clock_id=>"",
+		divisor=>0,
+		period=>"25000000",
+		is_direct=>'0',
+		is_digital=>'1')
+	PORT MAP(clock_out=>Net_78,
+		dig_domain_out=>open);
+\PRISM:CtlClkSync\:cy_psoc3_udb_clock_enable_v1_0
+	GENERIC MAP(sync_mode=>'1')
+	PORT MAP(clock_in=>Net_78,
+		enable=>tmpOE__OE_net_0,
+		clock_out=>\PRISM:clock_cnt\);
+\PRISM:SyncCtl:ControlReg\:cy_psoc3_control
+	GENERIC MAP(cy_init_value=>"00000000",
+		cy_force_order=>'1',
+		cy_ctrl_mode_1=>"00000000",
+		cy_ctrl_mode_0=>"00000111",
+		cy_ext_reset=>'0')
+	PORT MAP(reset=>zero,
+		clock=>\PRISM:clock_cnt\,
+		control=>(\PRISM:control_7\, \PRISM:control_6\, \PRISM:control_5\, \PRISM:control_4\,
+			\PRISM:control_3\, \PRISM:compare_type1\, \PRISM:compare_type0\, \PRISM:ctrl_enable\));
+\PRISM:ClkSync\:cy_psoc3_udb_clock_enable_v1_0
+	GENERIC MAP(sync_mode=>'1')
+	PORT MAP(clock_in=>Net_78,
+		enable=>\PRISM:enable_final_reg\,
+		clock_out=>\PRISM:clock_op\);
+\PRISM:sC16:PrISMdp:u0\:cy_psoc3_dp
+	GENERIC MAP(cy_dpconfig=>"0000000000000000101011010100100000000000110000000000000011000000000000000000000000000000000000000000000000000000000000000000000011111111000000001111111111111111001000000000001000000000111110000000000000000000",
+		d0_init=>"00000000",
+		d1_init=>"00000000",
+		a0_init=>"00000000",
+		a1_init=>"00000000",
+		ce0_sync=>'1',
+		cl0_sync=>'1',
+		z0_sync=>'1',
+		ff0_sync=>'1',
+		ce1_sync=>'1',
+		cl1_sync=>'1',
+		z1_sync=>'1',
+		ff1_sync=>'1',
+		ov_msb_sync=>'1',
+		co_msb_sync=>'1',
+		cmsb_sync=>'1',
+		so_sync=>'1',
+		f0_bus_sync=>'1',
+		f0_blk_sync=>'1',
+		f1_bus_sync=>'1',
+		f1_blk_sync=>'1')
+	PORT MAP(reset=>zero,
+		clk=>\PRISM:clock_op\,
+		cs_addr=>(zero, \PRISM:reset_reg\, tmpOE__OE_net_0),
+		route_si=>zero,
+		route_ci=>zero,
+		f0_load=>zero,
+		f1_load=>zero,
+		d0_load=>zero,
+		d1_load=>zero,
+		ce0=>\PRISM:chained1\,
+		cl0=>\PRISM:chained2\,
+		z0=>open,
+		ff0=>open,
+		ce1=>\PRISM:chained4\,
+		cl1=>\PRISM:chained5\,
+		z1=>open,
+		ff1=>open,
+		ov_msb=>open,
+		co_msb=>open,
+		cmsb=>open,
+		so=>open,
+		f0_bus_stat=>open,
+		f0_blk_stat=>open,
+		f1_bus_stat=>open,
+		f1_blk_stat=>open,
+		ce0_reg=>open,
+		cl0_reg=>open,
+		z0_reg=>open,
+		ff0_reg=>\PRISM:chained3\,
+		ce1_reg=>open,
+		cl1_reg=>open,
+		z1_reg=>open,
+		ff1_reg=>open,
+		ov_msb_reg=>open,
+		co_msb_reg=>open,
+		cmsb_reg=>\PRISM:nc1\,
+		so_reg=>open,
+		f0_bus_stat_reg=>open,
+		f0_blk_stat_reg=>open,
+		f1_bus_stat_reg=>open,
+		f1_blk_stat_reg=>open,
+		ci=>zero,
+		co=>\PRISM:sC16:PrISMdp:carry\,
+		sir=>zero,
+		sor=>open,
+		sil=>\PRISM:sC16:PrISMdp:sh_right\,
+		sol=>\PRISM:sC16:PrISMdp:sh_left\,
+		msbi=>\PRISM:sC16:PrISMdp:msb\,
+		msbo=>open,
+		cei=>(zero, zero),
+		ceo=>(\PRISM:sC16:PrISMdp:cmp_eq_1\, \PRISM:sC16:PrISMdp:cmp_eq_0\),
+		cli=>(zero, zero),
+		clo=>(\PRISM:sC16:PrISMdp:cmp_lt_1\, \PRISM:sC16:PrISMdp:cmp_lt_0\),
+		zi=>(zero, zero),
+		zo=>(\PRISM:sC16:PrISMdp:cmp_zero_1\, \PRISM:sC16:PrISMdp:cmp_zero_0\),
+		fi=>(zero, zero),
+		fo=>(\PRISM:sC16:PrISMdp:cmp_ff_1\, \PRISM:sC16:PrISMdp:cmp_ff_0\),
+		capi=>(zero, zero),
+		capo=>(\PRISM:sC16:PrISMdp:cap_1\, \PRISM:sC16:PrISMdp:cap_0\),
+		cfbi=>zero,
+		cfbo=>\PRISM:sC16:PrISMdp:cfb\,
+		pi=>(zero, zero, zero, zero,
+			zero, zero, zero, zero),
+		po=>open);
+\PRISM:sC16:PrISMdp:u1\:cy_psoc3_dp
+	GENERIC MAP(cy_dpconfig=>"0000000000000000101011010100100000000000110000000000000011000000000000000000000000000000000000000000000000000000000000000000000011111111000000001111111111111111001000000000001100000000111101110000000000000000",
+		d0_init=>"00000000",
+		d1_init=>"00000000",
+		a0_init=>"00000000",
+		a1_init=>"00000000",
+		ce0_sync=>'1',
+		cl0_sync=>'1',
+		z0_sync=>'1',
+		ff0_sync=>'1',
+		ce1_sync=>'1',
+		cl1_sync=>'1',
+		z1_sync=>'1',
+		ff1_sync=>'1',
+		ov_msb_sync=>'1',
+		co_msb_sync=>'1',
+		cmsb_sync=>'1',
+		so_sync=>'1',
+		f0_bus_sync=>'1',
+		f0_blk_sync=>'1',
+		f1_bus_sync=>'1',
+		f1_blk_sync=>'1')
+	PORT MAP(reset=>zero,
+		clk=>\PRISM:clock_op\,
+		cs_addr=>(zero, \PRISM:reset_reg\, tmpOE__OE_net_0),
+		route_si=>zero,
+		route_ci=>zero,
+		f0_load=>zero,
+		f1_load=>zero,
+		d0_load=>zero,
+		d1_load=>zero,
+		ce0=>\PRISM:ce0\,
+		cl0=>\PRISM:cl0\,
+		z0=>open,
+		ff0=>open,
+		ce1=>\PRISM:ce1\,
+		cl1=>\PRISM:cl1\,
+		z1=>open,
+		ff1=>open,
+		ov_msb=>open,
+		co_msb=>open,
+		cmsb=>open,
+		so=>open,
+		f0_bus_stat=>open,
+		f0_blk_stat=>open,
+		f1_bus_stat=>open,
+		f1_blk_stat=>open,
+		ce0_reg=>open,
+		cl0_reg=>open,
+		z0_reg=>open,
+		ff0_reg=>Net_89,
+		ce1_reg=>open,
+		cl1_reg=>open,
+		z1_reg=>open,
+		ff1_reg=>open,
+		ov_msb_reg=>open,
+		co_msb_reg=>open,
+		cmsb_reg=>Net_88,
+		so_reg=>open,
+		f0_bus_stat_reg=>open,
+		f0_blk_stat_reg=>open,
+		f1_bus_stat_reg=>open,
+		f1_blk_stat_reg=>open,
+		ci=>\PRISM:sC16:PrISMdp:carry\,
+		co=>open,
+		sir=>\PRISM:sC16:PrISMdp:sh_left\,
+		sor=>\PRISM:sC16:PrISMdp:sh_right\,
+		sil=>zero,
+		sol=>open,
+		msbi=>zero,
+		msbo=>\PRISM:sC16:PrISMdp:msb\,
+		cei=>(\PRISM:sC16:PrISMdp:cmp_eq_1\, \PRISM:sC16:PrISMdp:cmp_eq_0\),
+		ceo=>open,
+		cli=>(\PRISM:sC16:PrISMdp:cmp_lt_1\, \PRISM:sC16:PrISMdp:cmp_lt_0\),
+		clo=>open,
+		zi=>(\PRISM:sC16:PrISMdp:cmp_zero_1\, \PRISM:sC16:PrISMdp:cmp_zero_0\),
+		zo=>open,
+		fi=>(\PRISM:sC16:PrISMdp:cmp_ff_1\, \PRISM:sC16:PrISMdp:cmp_ff_0\),
+		fo=>open,
+		capi=>(\PRISM:sC16:PrISMdp:cap_1\, \PRISM:sC16:PrISMdp:cap_0\),
+		capo=>open,
+		cfbi=>\PRISM:sC16:PrISMdp:cfb\,
+		cfbo=>open,
+		pi=>(zero, zero, zero, zero,
+			zero, zero, zero, zero),
+		po=>open);
+Clock_2:cy_clock_v1_0
+	GENERIC MAP(cy_registers=>"",
+		id=>"bc715645-33c4-4f1b-a6d5-762c97a1c169",
+		source_clock_id=>"",
+		divisor=>0,
+		period=>"500000000",
+		is_direct=>'0',
+		is_digital=>'1')
+	PORT MAP(clock_out=>Net_162,
+		dig_domain_out=>open);
+MAGNET:cy_psoc3_pins_v1_10
+	GENERIC MAP(id=>"1425177d-0d0e-4468-8bcc-e638e5509a9b",
+		drive_mode=>"001",
+		ibuf_enabled=>"1",
+		init_dr_st=>"0",
+		input_sync=>"1",
+		intr_mode=>"00",
+		io_voltage=>"",
+		layout_mode=>"CONTIGUOUS",
+		output_conn=>"0",
+		output_sync=>"0",
+		pin_aliases=>"",
+		pin_mode=>"I",
+		por_state=>4,
+		sio_group_cnt=>0,
+		sio_hifreq=>"",
+		sio_hyst=>"0",
+		sio_ibuf=>"00000000",
+		sio_info=>"00",
+		sio_obuf=>"00000000",
+		sio_refsel=>"00000000",
+		sio_vtrip=>"00000000",
+		slew_rate=>"0",
+		spanning=>'0',
+		sw_only=>'0',
+		vtrip=>"00",
+		width=>1,
+		port_alias_required=>'0',
+		port_alias_group=>"")
+	PORT MAP(oe=>(tmpOE__OE_net_0),
+		y=>(zero),
+		fb=>Net_173,
+		analog=>(open),
+		io=>(tmpIO_0__MAGNET_net_0),
+		siovref=>(tmpSIOVREF__MAGNET_net_0),
+		interrupt=>tmpINTERRUPT_0__MAGNET_net_0);
+Net_113:cy_dff
+	PORT MAP(d=>Net_113D,
+		clk=>\PRISM:clock_op\,
+		q=>Net_113);
+\PRISM:enable_final_reg\:cy_dff
+	PORT MAP(d=>\PRISM:ctrl_enable\,
+		clk=>\PRISM:clock_cnt\,
+		q=>\PRISM:enable_final_reg\);
+\PRISM:reset_reg\:cy_dff
+	PORT MAP(d=>zero,
+		clk=>\PRISM:clock_op\,
+		q=>\PRISM:reset_reg\);
+Net_87:cy_dff
+	PORT MAP(d=>Net_87D,
+		clk=>\PRISM:clock_op\,
+		q=>Net_87);
+
+END R_T_L;

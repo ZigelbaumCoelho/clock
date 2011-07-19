@@ -1,0 +1,302 @@
+C51 COMPILER V8.16   COUNTER_1_PM                                                          07/15/2011 13:52:48 PAGE 1   
+
+
+C51 COMPILER V8.16, COMPILATION OF MODULE COUNTER_1_PM
+OBJECT MODULE PLACED IN C:/Users/Jon Moeller/Documents/PSoC Creator/clockARM/ClockTest/ClockTest.cydsn/DP8051_Keil_816/Debug/Counter_1_PM.OBJ
+COMPILER INVOKED BY: C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\import\keil\pk51\8.16\C51\BIN\c51.exe C:\Use
+                    -rs\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\Generated_Source\PSoC3\Counter_1_PM.c NOIV LARG
+                    -E MODDP2 OMF2 VB(1) PR(C:/Users/Jon Moeller/Documents/PSoC Creator/clockARM/ClockTest/ClockTest.cydsn/DP8051_Keil_816/De
+                    -bug/Counter_1_PM.lst) CD DB NOIP OT(2,SIZE) INCDIR(Generated_Source/PSoC3) OJ(C:/Users/Jon Moeller/Documents/PSoC Creato
+                    -r/clockARM/ClockTest/ClockTest.cydsn/DP8051_Keil_816/Debug/Counter_1_PM.OBJ)
+
+line level    source
+
+   1          /*******************************************************************************
+   2          * File Name: Counter_1_PM.c  
+   3          * Version 2.0
+   4          *
+   5          *  Description:
+   6          *     This file provides the power management source code to API for the
+   7          *     Counter.  
+   8          *
+   9          *   Note:
+  10          *     None
+  11          *
+  12          *******************************************************************************
+  13          * Copyright 2008-2010, Cypress Semiconductor Corporation.  All rights reserved.
+  14          * You may use this file only in accordance with the license, terms, conditions, 
+  15          * disclaimers, and limitations in the end user license agreement accompanying 
+  16          * the software package with which this file was provided.
+  17          ********************************************************************************/
+  18          
+  19          #include "Counter_1.h"
+  20          
+  21          static Counter_1_backupStruct Counter_1_backup;
+  22          
+  23          /*******************************************************************************
+  24          * Function Name: Counter_1_SaveConfig
+  25          ********************************************************************************
+  26          * Summary:
+  27          *     Save the current user configuration
+  28          *
+  29          * Parameters:  
+  30          *  void
+  31          *
+  32          * Return: 
+  33          *  void
+  34          *
+  35          * Global variables:
+  36          *  Counter_1_backup:  Variables of this global structure are modified to 
+  37          *  store the values of non retention configuration registers when Sleep() API is 
+  38          *  called.
+  39          *
+  40          * Reentrant:
+  41          *    No
+  42          *
+  43          *******************************************************************************/
+  44          void Counter_1_SaveConfig(void)
+  45          {
+  46   1          #if (!Counter_1_UsingFixedFunction)
+                      /* Backup the UDB non-rentention registers for PSoC3 ES2 and PSoC5 ES1*/
+                      #if (Counter_1_PSOC3_ES2 || Counter_1_PSOC5_ES1)
+                          Counter_1_backup.CounterUdb = Counter_1_ReadCounter();
+                          Counter_1_backup.CounterPeriod = Counter_1_ReadPeriod();
+                          Counter_1_backup.CompareValue = Counter_1_ReadCompare();
+C51 COMPILER V8.16   COUNTER_1_PM                                                          07/15/2011 13:52:48 PAGE 2   
+
+                          Counter_1_backup.InterruptMaskValue = Counter_1_STATUS_MASK;
+                      #endif
+                              
+                              #if (Counter_1_PSOC3_ES3 || Counter_1_PSOC5_ES2)
+                                      Counter_1_backup.CounterUdb = Counter_1_ReadCounter();
+                                      Counter_1_backup.InterruptMaskValue = Counter_1_STATUS_MASK;
+                              #endif
+                              
+                      #if(!Counter_1_ControlRegRemoved)
+                          Counter_1_backup.CounterControlRegister = Counter_1_ReadControlRegister();
+                              #endif
+                  #endif
+  64   1      }
+  65          
+  66          /*******************************************************************************
+  67          * Function Name: Counter_1_RestoreConfig
+  68          ********************************************************************************
+  69          *
+  70          * Summary:
+  71          *  Restores the current user configuration.
+  72          *
+  73          * Parameters:  
+  74          *  void
+  75          *
+  76          * Return: 
+  77          *  void
+  78          *
+  79          * Global variables:
+  80          *  Counter_1_backup:  Variables of this global structure are used to restore 
+  81          *  the values of non retention registers on wakeup from sleep mode.
+  82          *
+  83          * Reentrant:
+  84          *  Yes
+  85          *
+  86          *******************************************************************************/
+  87          void Counter_1_RestoreConfig(void) 
+  88          {      
+  89   1          #if (!Counter_1_UsingFixedFunction)     
+                      /* Restore the UDB non-rentention registers for PSoC3 ES2 and PSoC5 ES1*/
+                      #if (Counter_1_PSOC3_ES2 || Counter_1_PSOC5_ES1)
+                          Counter_1_WriteCounter(Counter_1_backup.CounterUdb);
+                          Counter_1_WritePeriod(Counter_1_backup.CounterPeriod);
+                          Counter_1_WriteCompare(Counter_1_backup.CompareValue);
+                          Counter_1_STATUS_MASK = Counter_1_backup.InterruptMaskValue;
+                      #endif
+                              
+                              #if (Counter_1_PSOC3_ES3 || Counter_1_PSOC5_ES2)
+                                      Counter_1_WriteCounter(Counter_1_backup.CounterUdb);
+                                      Counter_1_STATUS_MASK = Counter_1_backup.InterruptMaskValue;
+                              #endif
+                              
+                              
+                      #if(!Counter_1_ControlRegRemoved)
+                          Counter_1_WriteControlRegister(Counter_1_backup.CounterControlRegister);
+                      #endif
+                  #endif
+ 108   1      }
+ 109          
+ 110          
+ 111          /*******************************************************************************
+ 112          * Function Name: Counter_1_Sleep
+ 113          ********************************************************************************
+C51 COMPILER V8.16   COUNTER_1_PM                                                          07/15/2011 13:52:48 PAGE 3   
+
+ 114          * Summary:
+ 115          *     Stop and Save the user configuration
+ 116          *
+ 117          * Parameters:  
+ 118          *  void
+ 119          *
+ 120          * Return: 
+ 121          *  void
+ 122          *
+ 123          * Global variables:
+ 124          *  Counter_1_backup.enableState:  Is modified depending on the enable state
+ 125          *  of the block before entering sleep mode.
+ 126          *
+ 127          * Reentrant:
+ 128          *  No
+ 129          *
+ 130          *******************************************************************************/
+ 131          void Counter_1_Sleep(void)
+ 132          {
+ 133   1          #if(!Counter_1_ControlRegRemoved)
+ 134   1              /* Save Counter's enable state */
+ 135   1              if(Counter_1_CTRL_ENABLE == (Counter_1_CONTROL & Counter_1_CTRL_ENABLE))
+ 136   1              {
+ 137   2                  /* Counter is enabled */
+ 138   2                  Counter_1_backup.CounterEnableState = 1u;
+ 139   2              }
+ 140   1              else
+ 141   1              {
+ 142   2                  /* Counter is disabled */
+ 143   2                  Counter_1_backup.CounterEnableState = 0u;
+ 144   2              }
+ 145   1          #endif
+ 146   1          Counter_1_Stop();
+ 147   1          Counter_1_SaveConfig();
+ 148   1      }
+ 149          
+ 150          
+ 151          /*******************************************************************************
+ 152          * Function Name: Counter_1_Wakeup
+ 153          ********************************************************************************
+ 154          *
+ 155          * Summary:
+ 156          *  Restores and enables the user configuration
+ 157          *  
+ 158          * Parameters:  
+ 159          *  void
+ 160          *
+ 161          * Return: 
+ 162          *  void
+ 163          *
+ 164          * Global variables:
+ 165          *  Counter_1_backup.enableState:  Is used to restore the enable state of 
+ 166          *  block on wakeup from sleep mode.
+ 167          *
+ 168          * Reentrant:
+ 169          *  Yes
+ 170          *
+ 171          *******************************************************************************/
+ 172          void Counter_1_Wakeup(void) 
+ 173          {
+ 174   1          Counter_1_RestoreConfig();
+ 175   1          #if(!Counter_1_ControlRegRemoved)
+C51 COMPILER V8.16   COUNTER_1_PM                                                          07/15/2011 13:52:48 PAGE 4   
+
+ 176   1              if(Counter_1_backup.CounterEnableState == 1u)
+ 177   1              {
+ 178   2                  /* Enable Counter's operation */
+ 179   2                  Counter_1_Enable();
+ 180   2              } /* Do nothing if Counter was disabled before */    
+ 181   1          #endif
+ 182   1          
+ 183   1      }
+ 184          
+ 185          
+ 186          /* [] END OF FILE */
+C51 COMPILER V8.16   COUNTER_1_PM                                                          07/15/2011 13:52:48 PAGE 5   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION Counter_1_SaveConfig (BEGIN)
+                                           ; SOURCE LINE # 44
+                                           ; SOURCE LINE # 45
+                                           ; SOURCE LINE # 64
+0000 22                RET     
+             ; FUNCTION Counter_1_SaveConfig (END)
+
+             ; FUNCTION Counter_1_RestoreConfig (BEGIN)
+                                           ; SOURCE LINE # 87
+                                           ; SOURCE LINE # 88
+                                           ; SOURCE LINE # 108
+0000 22                RET     
+             ; FUNCTION Counter_1_RestoreConfig (END)
+
+             ; FUNCTION Counter_1_Sleep (BEGIN)
+                                           ; SOURCE LINE # 131
+                                           ; SOURCE LINE # 132
+                                           ; SOURCE LINE # 135
+0000 904F00            MOV     DPTR,#04F00H
+0003 E0                MOVX    A,@DPTR
+0004 FF                MOV     R7,A
+0005 EF                MOV     A,R7
+0006 5401              ANL     A,#01H
+0008 FF                MOV     R7,A
+0009 7E00              MOV     R6,#00H
+000B EF                MOV     A,R7
+000C 6401              XRL     A,#01H
+000E 4E                ORL     A,R6
+000F 7008              JNZ     ?C0003
+                                           ; SOURCE LINE # 136
+                                           ; SOURCE LINE # 138
+0011 900000      R     MOV     DPTR,#Counter_1_backup
+0014 7401              MOV     A,#01H
+0016 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 139
+0017 8005              SJMP    ?C0004
+0019         ?C0003:
+                                           ; SOURCE LINE # 141
+                                           ; SOURCE LINE # 143
+0019 900000      R     MOV     DPTR,#Counter_1_backup
+001C E4                CLR     A
+001D F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 144
+001E         ?C0004:
+                                           ; SOURCE LINE # 146
+001E 120000      E     LCALL   Counter_1_Stop
+                                           ; SOURCE LINE # 147
+0021 120000      R     LCALL   Counter_1_SaveConfig
+                                           ; SOURCE LINE # 148
+0024 22                RET     
+             ; FUNCTION Counter_1_Sleep (END)
+
+             ; FUNCTION Counter_1_Wakeup (BEGIN)
+                                           ; SOURCE LINE # 172
+                                           ; SOURCE LINE # 173
+                                           ; SOURCE LINE # 174
+0000 120000      R     LCALL   Counter_1_RestoreConfig
+                                           ; SOURCE LINE # 176
+0003 900000      R     MOV     DPTR,#Counter_1_backup
+C51 COMPILER V8.16   COUNTER_1_PM                                                          07/15/2011 13:52:48 PAGE 6   
+
+0006 E0                MOVX    A,@DPTR
+0007 FF                MOV     R7,A
+0008 EF                MOV     A,R7
+0009 B40103            CJNE    A,#01H,?C0007
+                                           ; SOURCE LINE # 177
+                                           ; SOURCE LINE # 179
+000C 120000      E     LCALL   Counter_1_Enable
+                                           ; SOURCE LINE # 180
+                                           ; SOURCE LINE # 183
+000F         ?C0007:
+000F 22                RET     
+             ; FUNCTION Counter_1_Wakeup (END)
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     55    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =      4    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

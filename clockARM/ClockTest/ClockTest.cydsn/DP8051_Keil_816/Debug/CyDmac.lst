@@ -1,0 +1,2892 @@
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 1   
+
+
+C51 COMPILER V8.16, COMPILATION OF MODULE CYDMAC
+OBJECT MODULE PLACED IN C:/Users/Jon Moeller/Documents/PSoC Creator/clockARM/ClockTest/ClockTest.cydsn/DP8051_Keil_816/Debug/CyDmac.OBJ
+COMPILER INVOKED BY: C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\import\keil\pk51\8.16\C51\BIN\c51.exe C:\Use
+                    -rs\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\Generated_Source\PSoC3\CyDmac.c NOIV LARGE MODD
+                    -P2 OMF2 VB(1) PR(C:/Users/Jon Moeller/Documents/PSoC Creator/clockARM/ClockTest/ClockTest.cydsn/DP8051_Keil_816/Debug/Cy
+                    -Dmac.lst) CD DB NOIP OT(2,SIZE) INCDIR(Generated_Source/PSoC3) OJ(C:/Users/Jon Moeller/Documents/PSoC Creator/clockARM/C
+                    -lockTest/ClockTest.cydsn/DP8051_Keil_816/Debug/CyDmac.OBJ)
+
+line level    source
+
+   1          /*******************************************************************************
+   2          * File Name: CyDmac.c  
+   3          * Version 2.20
+   4          *
+   5          *  Description:
+   6          *   Provides an API for the DMAC component. The API includes functions
+   7          *   for the DMA controller, DMA channels and Transfer Descriptors.
+   8          *
+   9          *   This API is the library version not the auto generated code that gets
+  10          *   generated when the user places a DMA component on the schematic.
+  11          *   The auto generated code would use the APi's in this module.
+  12          *
+  13          *  Note:
+  14          *   This code is endian agnostic.
+  15          *
+  16          *   The Transfer Descriptor memory can be used as regular memory if the TD's
+  17          *   are not being used.
+  18          *
+  19          *   This code uses the first byte of each TD to manage
+  20          *   the free list of TD's. The user can over write this once the TD is
+  21          *   allocated.
+  22          *
+  23          *  Note: 
+  24          *   Documentation of the API's in this file is located in the
+  25          *   System Reference Guide provided with PSoC Creator.
+  26          * 
+  27          *
+  28          *******************************************************************************
+  29          * Copyright 2008-2010, Cypress Semiconductor Corporation.  All rights reserved.
+  30          * You may use this file only in accordance with the license, terms, conditions, 
+  31          * disclaimers, and limitations in the end user license agreement accompanying 
+  32          * the software package with which this file was provided.
+  33          ********************************************************************************/
+  34          
+  35          #include <CYDMAC.H>
+  36          
+  37          /* Current Number of free elements in the list. */
+  38          static uint8 CyDmaTdCurrentNumber;
+  39          
+  40          /* Index of the first available TD. */
+  41          static uint8 CyDmaTdFreeIndex;
+  42          
+  43          /* Bit map of DMA channel ownership. */
+  44          static uint32 CyDmaChannels = DMA_CHANNELS_USED__MASK0;
+  45          
+  46          /*Pointer type conversions are restricted to avoid conflicts with compiler 
+  47          optimizations. */
+  48          typedef union { volatile uint8 bytes[2]; uint16 word; } CONVERT_WORD;
+  49          
+  50          /*******************************************************************************
+  51          * Function Name: CyDmacConfigure
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 2   
+
+  52          ********************************************************************************
+  53          * Summary:
+  54          *   Sets the DMAC Configuration register with the default values.
+  55          *   Initializes the linked list of Transfer Descriptors.
+  56          *
+  57          * Parameters:
+  58          *   void.
+  59          *
+  60          *
+  61          * Return:
+  62          *   void.
+  63          *
+  64          *
+  65          *******************************************************************************/
+  66          void CyDmacConfigure(void)
+  67          {
+  68   1          uint8 index;
+  69   1      
+  70   1      
+  71   1          /* Set TD list variables. */
+  72   1          CyDmaTdFreeIndex = NUMBEROF_TDS - 1;
+  73   1          CyDmaTdCurrentNumber = NUMBEROF_TDS;
+  74   1      
+  75   1          /* Make TD free list. */
+  76   1          for(index = NUMBEROF_TDS - 1; index; index--)
+  77   1          {
+  78   2              DMAC_TDMEM[index].TD0[0] = index - 1;
+  79   2          }
+  80   1      
+  81   1          /* Make the last one point to zero. */
+  82   1          DMAC_TDMEM[index].TD0[0] = 0;
+  83   1      }
+  84          
+  85          
+  86          /*******************************************************************************
+  87          * Function Name: CyDmacError
+  88          ********************************************************************************
+  89          * Summary:
+  90          * Gets the error bits from the DMAC.
+  91          *
+  92          * Parameters:
+  93          *   void.
+  94          *
+  95          *
+  96          *
+  97          * Return:
+  98          *   Returns the 4 bits of error data from the DMAC error register.
+  99          *
+ 100          *   should each bit get described here?
+ 101          *
+ 102          *
+ 103          *******************************************************************************/
+ 104          uint8 CyDmacError(void) 
+ 105          {
+ 106   1          return (0x0Fu & *DMAC_ERR);
+ 107   1      }
+ 108          
+ 109          
+ 110          /*******************************************************************************
+ 111          * Function Name: CyDmacClearError
+ 112          ********************************************************************************
+ 113          * Summary:
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 3   
+
+ 114          *   Clears the error bits in the error register of the DMAC..
+ 115          *
+ 116          * Parameters:
+ 117          * error:
+ 118          *   Clears the error bits in the DMAC error register.
+ 119          *
+ 120          *
+ 121          *
+ 122          * Return:
+ 123          *   void.
+ 124          *
+ 125          * Theory:
+ 126          *   Once an error occurs the error bits are sticky and are only cleared
+ 127          *   by a write to the error register.
+ 128          *
+ 129          *******************************************************************************/
+ 130          void CyDmacClearError(uint8 error) 
+ 131          {
+ 132   1          *DMAC_ERR = 0x0Fu & error;
+ 133   1      }
+ 134          
+ 135          
+ 136          /*******************************************************************************
+ 137          * Function Name: CyDmacErrorAddress
+ 138          ********************************************************************************
+ 139          * Summary:
+ 140          *   when an BUS_TIMEOUT, UNPOP_ACC and PERIPH_ERR occurs the address
+ 141          *   of the error is written to the error address register and
+ 142          *   can be read with this function.
+ 143          *
+ 144          *   If there are multiple errors, only the address of the first is
+ 145          *   saved.
+ 146          *
+ 147          * Parameters:
+ 148          *   void.
+ 149          *
+ 150          *
+ 151          *
+ 152          * Return:
+ 153          *   The address that caused the error.
+ 154          *
+ 155          *
+ 156          *******************************************************************************/
+ 157          uint32 CyDmacErrorAddress(void) 
+ 158          {
+ 159   1          return CY_GET_REG32(DMAC_ERR_ADR);
+ 160   1      }
+ 161          
+ 162          
+ 163          /*******************************************************************************
+ 164          * Function Name: CyDmaChAlloc
+ 165          ********************************************************************************
+ 166          * Summary:
+ 167          *   Allocates a channel of the DMAC to be used by the caller.
+ 168          *
+ 169          * Parameters:
+ 170          *   void.
+ 171          *
+ 172          *
+ 173          *
+ 174          * Return:
+ 175          *   The channel that can be used by the caller for DMA activity.
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 4   
+
+ 176          *   DMA_INVALID_CHANNEL if there are no channels left. 
+ 177          *
+ 178          *
+ 179          *******************************************************************************/
+ 180          uint8 CyDmaChAlloc(void) 
+ 181          {
+ 182   1          uint8 interruptState;
+ 183   1          uint8 index;
+ 184   1          uint32 channel;
+ 185   1      
+ 186   1      
+ 187   1          /* Enter critical section! */
+ 188   1          interruptState = CyEnterCriticalSection();
+ 189   1      
+ 190   1          /* Look for a free channel. */
+ 191   1          for(index = 0, channel = 1; index < NUMBEROF_CHANNELS; index++, channel <<= 1)
+ 192   1          {
+ 193   2              if(!(CyDmaChannels & channel))
+ 194   2              {
+ 195   3                  /* Mark the channel as used. */
+ 196   3                  CyDmaChannels |= channel;
+ 197   3                  break;
+ 198   3              }
+ 199   2          }
+ 200   1      
+ 201   1          if(index >= NUMBEROF_CHANNELS)
+ 202   1          {
+ 203   2              index = DMA_INVALID_CHANNEL;    
+ 204   2          }
+ 205   1      
+ 206   1          /* Exit critical section! */
+ 207   1          CyExitCriticalSection(interruptState);
+ 208   1      
+ 209   1          return index;
+ 210   1      }
+ 211          
+ 212          
+ 213          /*******************************************************************************
+ 214          * Function Name: CyDmaChFree
+ 215          ********************************************************************************
+ 216          * Summary:
+ 217          * Frees a channel allocated by DmaChAlloc.
+ 218          *
+ 219          * Parameters:
+ 220          * chHandle:
+ 221          *   Handle to the DMA channel previously allocated by a call to DmaChAlloc.
+ 222          *
+ 223          *
+ 224          * Return:
+ 225          *   0 in successful or CYRET_BAD_PARAM.
+ 226          *
+ 227          *
+ 228          *******************************************************************************/
+ 229          cystatus CyDmaChFree(uint8 chHandle) 
+ 230          {
+ 231   1          cystatus status;
+ 232   1      
+ 233   1      
+ 234   1          if(chHandle < NUMBEROF_CHANNELS)
+ 235   1          {
+ 236   2              /* Enter critical section! */
+ 237   2              uint8 interruptState = CyEnterCriticalSection();
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 5   
+
+ 238   2      
+ 239   2              /* Clear the bit mask that keeps track of ownership. */
+ 240   2              CyDmaChannels &= ~(1 << chHandle);
+ 241   2      
+ 242   2              /* Exit critical section! */
+ 243   2              CyExitCriticalSection(interruptState);
+ 244   2              status = CYRET_SUCCESS;
+ 245   2          }
+ 246   1          else
+ 247   1          {
+ 248   2              status = CYRET_BAD_PARAM;
+ 249   2          }
+ 250   1      
+ 251   1          return status;
+ 252   1      }
+ 253          
+ 254          
+ 255          /*******************************************************************************
+ 256          * Function Name: CyDmaChEnable
+ 257          ********************************************************************************
+ 258          * Summary:
+ 259          * Enables the DMA channel for execution depending on how it was configured.
+ 260          *
+ 261          * Parameters:
+ 262          * chHandle:
+ 263          *   Handle to the dma channel to be enabled.
+ 264          *
+ 265          * preserveTds;
+ 266          *   0 if elements of TD should reflect current state of TD execuction.
+ 267          *   1 if the DMA controller should not change values of the TD.
+ 268          *
+ 269          * Return:
+ 270          *   0 in successful or CYRET_BAD_PARAM.
+ 271          *
+ 272          *
+ 273          *******************************************************************************/
+ 274          cystatus CyDmaChEnable(uint8 chHandle, uint8 preserveTds) 
+ 275          {
+ 276   1          cystatus status;
+ 277   1      
+ 278   1      
+ 279   1          if(chHandle < NUMBEROF_CHANNELS)
+ 280   1          {
+ 281   2              DMAC_CH[chHandle].basic_cfg[0] = (DMAC_CH[chHandle].basic_cfg[0] &  ~0x20u) | ((preserveTds) ? 0x2
+             -1u:0x01u);
+ 282   2              status = CYRET_SUCCESS;
+ 283   2          }
+ 284   1          else
+ 285   1          {
+ 286   2              status = CYRET_BAD_PARAM;
+ 287   2          }
+ 288   1      
+ 289   1          return status;
+ 290   1      }
+ 291          
+ 292          
+ 293          /*******************************************************************************
+ 294          * Function Name: CyDmaChDisable
+ 295          ********************************************************************************
+ 296          * Summary:
+ 297          *   Disables the DMA channel.
+ 298          *
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 6   
+
+ 299          * Parameters:
+ 300          * chHandle:
+ 301          *   Handle to the dma channel.
+ 302          *
+ 303          *
+ 304          * Return:
+ 305          *   0 in successful or CYRET_BAD_PARAM.
+ 306          *
+ 307          * Theory:
+ 308          *   Once this function has been called. DmaChStatus can be polled
+ 309          *   to determine when the Channel has been disabled and determine
+ 310          *   which TD was being executed.
+ 311          *
+ 312          *   If it is currently executing it will
+ 313          *   allow the current burst to finish naturally.
+ 314          *
+ 315          *******************************************************************************/
+ 316          cystatus CyDmaChDisable(uint8 chHandle) 
+ 317          {
+ 318   1          cystatus status;
+ 319   1      
+ 320   1      
+ 321   1          if(chHandle < NUMBEROF_CHANNELS)
+ 322   1          {
+ 323   2              DMAC_CH[chHandle].basic_cfg[0] &= ~0x21u;
+ 324   2              status = CYRET_SUCCESS;
+ 325   2          }
+ 326   1          else
+ 327   1          {
+ 328   2              status = CYRET_BAD_PARAM;
+ 329   2          }
+ 330   1      
+ 331   1          return status;
+ 332   1      }
+ 333          
+ 334          /*******************************************************************************
+ 335          * Function Name: CyDmaClearPendingDrq
+ 336          ********************************************************************************
+ 337          * Summary:
+ 338          *   Clears pending DMA data request.
+ 339          *
+ 340          * Parameters:
+ 341          * chHandle:
+ 342          *   Handle to the dma channel.
+ 343          *
+ 344          *
+ 345          * Return:
+ 346          *   0 in successful or CYRET_BAD_PARAM.
+ 347          *
+ 348          *******************************************************************************/
+ 349          cystatus CyDmaClearPendingDrq(uint8 chHandle) 
+ 350          {
+ 351   1              cystatus status;
+ 352   1              
+ 353   1              if(chHandle < NUMBEROF_CHANNELS)
+ 354   1              {
+ 355   2                      DMAC_CH[chHandle].action[0] |= CPU_TERM_CHAIN;
+ 356   2                      DMAC_CH[chHandle].basic_cfg[0] |= 0x01u;
+ 357   2                      status = CYRET_SUCCESS;
+ 358   2              }
+ 359   1              else
+ 360   1              {
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 7   
+
+ 361   2                      status = CYRET_BAD_PARAM;
+ 362   2              }
+ 363   1              
+ 364   1              return status;
+ 365   1      }
+ 366          
+ 367          
+ 368          /*******************************************************************************
+ 369          * Function Name: CyDmaChPriority
+ 370          ********************************************************************************
+ 371          * Summary:
+ 372          * Sets the priority of a DMA channel.
+ 373          *
+ 374          * Parameters:
+ 375          * chHandle:
+ 376          *   Handle to the dma channel.
+ 377          *
+ 378          * priority:
+ 379          *   Priority to set the channel to, 0 - 7.
+ 380          *
+ 381          *
+ 382          *
+ 383          * Return:
+ 384          *   0 in successful or CYRET_BAD_PARAM.
+ 385          *
+ 386          *
+ 387          *******************************************************************************/
+ 388          cystatus CyDmaChPriority(uint8 chHandle, uint8 priority) 
+ 389          {
+ 390   1          uint8 Value;
+ 391   1          cystatus status;
+ 392   1      
+ 393   1      
+ 394   1          if(chHandle < NUMBEROF_CHANNELS)
+ 395   1          {
+ 396   2              Value = DMAC_CH[chHandle].basic_cfg[0] & ~(0x0Eu);
+ 397   2              DMAC_CH[chHandle].basic_cfg[0] = Value | (priority << 0x01u);
+ 398   2              status = CYRET_SUCCESS;
+ 399   2          }
+ 400   1          else
+ 401   1          {
+ 402   2              status = CYRET_BAD_PARAM;
+ 403   2          }
+ 404   1      
+ 405   1          return status;
+ 406   1      }
+ 407          
+ 408          
+ 409          /*******************************************************************************
+ 410          * Function Name: CyDmaChSetExtendedAddress
+ 411          ********************************************************************************
+ 412          * Summary:
+ 413          *   Sets the high 16 bits of the source and destination addresses for
+ 414          *   the DMA channel (all TD's in the chain).
+ 415          *
+ 416          * Parameters:
+ 417          * chHandle:
+ 418          *   Handle to the dma channel.
+ 419          *
+ 420          * source:
+ 421          *   The source of the DMA transfer.
+ 422          *
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 8   
+
+ 423          * destination:
+ 424          *   The destination of the DMA transfer.
+ 425          *
+ 426          *
+ 427          *
+ 428          * Return:
+ 429          *   0 in successful or CYRET_BAD_PARAM.
+ 430          *
+ 431          *
+ 432          *******************************************************************************/
+ 433          cystatus CyDmaChSetExtendedAddress(uint8 chHandle, uint16 source, uint16 destination) 
+ 434          {
+ 435   1          cystatus status;
+ 436   1      
+ 437   1      #if CYDEV_CHIP_MEMBER_USED == CYDEV_CHIP_MEMBER_5A
+                  /* 0x1FFF8000-0x1FFFFFFF needs to use alias at 0x20008000-0x2000FFFF */
+                  if (source == 0x1FFF)
+                      source = 0x2000;
+                  if (destination == 0x1FFF)
+                      destination = 0x2000;
+              #endif
+ 444   1      
+ 445   1          if(chHandle < NUMBEROF_CHANNELS)
+ 446   1          {
+ 447   2              /* Set Source address. */
+ 448   2              CONVERT_WORD *convert = (CONVERT_WORD *)&DMAC_CFGMEM[chHandle].CFG1[0];
+ 449   2              CY_SET_REG16(&convert->word, source);
+ 450   2      
+ 451   2              /* Set Destination address. */
+ 452   2              CY_SET_REG16((reg16 *) &DMAC_CFGMEM[chHandle].CFG1[2], destination);
+ 453   2              status = CYRET_SUCCESS;
+ 454   2          }
+ 455   1          else
+ 456   1          {
+ 457   2              status = CYRET_BAD_PARAM;
+ 458   2          }
+ 459   1      
+ 460   1          return status;
+ 461   1      }
+ 462          
+ 463          
+ 464          /*******************************************************************************
+ 465          * Function Name: CyDmaChSetTd
+ 466          ********************************************************************************
+ 467          * Summary:
+ 468          * Set the initial TD for the channel.
+ 469          *
+ 470          * Parameters:
+ 471          * chHandle:
+ 472          *   Handle to the dma channel.
+ 473          *
+ 474          * startTd:
+ 475          *   Index of TD to set as the first TD associated with the Channel.
+ 476          *
+ 477          *
+ 478          * Return:
+ 479          *   0 in successful or CYRET_BAD_PARAM.
+ 480          *
+ 481          *
+ 482          *******************************************************************************/
+ 483          cystatus CyDmaChSetInitialTd(uint8 chHandle, uint8 startTd) 
+ 484          {
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 9   
+
+ 485   1          cystatus status;
+ 486   1      
+ 487   1      
+ 488   1          if(chHandle < NUMBEROF_CHANNELS)
+ 489   1          {
+ 490   2              DMAC_CH[chHandle].basic_status[1] = startTd;
+ 491   2              status = CYRET_SUCCESS;
+ 492   2          }
+ 493   1          else
+ 494   1          {
+ 495   2              status = CYRET_BAD_PARAM;
+ 496   2          }
+ 497   1      
+ 498   1          return status;
+ 499   1      }
+ 500          
+ 501          
+ 502          /*******************************************************************************
+ 503          * Function Name: CyDmaChSetRequest
+ 504          ********************************************************************************
+ 505          * Summary:
+ 506          *   Allows the caller to terminate a chain of TD's, terminate one TD or
+ 507          *   Create a direct request to start the DMA channel.
+ 508          *
+ 509          * Parameters:
+ 510          * chHandle:
+ 511          *   Handle to the dma channel.
+ 512          *
+ 513          * request:
+ 514          *   3 bit field describing the request.
+ 515          *
+ 516          *   CPU_REQ       
+ 517          *   CPU_TERM_TD   
+ 518          *   CPU_TERM_CHAIN
+ 519          *
+ 520          *
+ 521          * Return:
+ 522          *   0 in successful or CYRET_BAD_PARAM.
+ 523          *
+ 524          *
+ 525          *******************************************************************************/
+ 526          cystatus CyDmaChSetRequest(uint8 chHandle, uint8 request) 
+ 527          {
+ 528   1          cystatus status;
+ 529   1      
+ 530   1      
+ 531   1          if(chHandle < NUMBEROF_CHANNELS)
+ 532   1          {
+ 533   2              DMAC_CH[chHandle].action[0] |= request;
+ 534   2              status = CYRET_SUCCESS;
+ 535   2          }
+ 536   1          else
+ 537   1          {
+ 538   2              status = CYRET_BAD_PARAM;
+ 539   2          }
+ 540   1      
+ 541   1          return status;
+ 542   1      }
+ 543          
+ 544          
+ 545          /*******************************************************************************
+ 546          * Function Name: CyDmaChGetRequest
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 10  
+
+ 547          ********************************************************************************
+ 548          * Summary:
+ 549          *   Allows the caller of DmaChSetRequest to check if the request was
+ 550          *   satisfied.
+ 551          *
+ 552          * Parameters:
+ 553          * chHandle:
+ 554          *   Handle to the dma channel.
+ 555          *
+ 556          *
+ 557          *
+ 558          * Return:
+ 559          *   The state of the 3 bit field describing the requests previous
+ 560          *   request. If the bit is cleared the request has be satisfied.
+ 561          *
+ 562          *   DMA_INVALID_CHANNEL if the handle is invalid.
+ 563          *
+ 564          *
+ 565          *******************************************************************************/
+ 566          cystatus CyDmaChGetRequest(uint8 chHandle) 
+ 567          {
+ 568   1          cystatus status;
+ 569   1      
+ 570   1      
+ 571   1          if(chHandle < NUMBEROF_CHANNELS)
+ 572   1          {
+ 573   2              status = DMAC_CH[chHandle].action[0] & (CPU_REQ | CPU_TERM_TD | CPU_TERM_CHAIN);
+ 574   2          }
+ 575   1          else
+ 576   1          {
+ 577   2              status = DMA_INVALID_CHANNEL;
+ 578   2          }
+ 579   1      
+ 580   1          return status;
+ 581   1      }
+ 582          
+ 583          
+ 584          /*******************************************************************************
+ 585          * Function Name: CyDmaChStatus
+ 586          ********************************************************************************
+ 587          * Summary:
+ 588          *   Determines the status of the current Transfer descriptor.
+ 589          *
+ 590          * Parameters:
+ 591          * chHandle:
+ 592          *   Handle to the dma channel.
+ 593          *
+ 594          * currentTd:
+ 595          *   Address to store the Index of the current Transfer Descriptor.
+ 596          *   Can be NULL if the value is not needed.
+ 597          *
+ 598          * state:
+ 599          *   Address to store the State of the Channel.
+ 600          *   Can be NULL if the value is not needed.
+ 601          *
+ 602          *
+ 603          * Return:
+ 604          *   0 in successful or CYRET_BAD_PARAM.
+ 605          *   
+ 606          *
+ 607          * Theory:
+ 608          *   The caller can check on the activity of the Current TD and the
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 11  
+
+ 609          *   Chain.
+ 610          *
+ 611          *******************************************************************************/
+ 612          cystatus CyDmaChStatus(uint8 chHandle, uint8 * currentTd, uint8 * state) 
+ 613          {
+ 614   1          cystatus status;
+ 615   1      
+ 616   1      
+ 617   1          if(chHandle < NUMBEROF_CHANNELS)
+ 618   1          {
+ 619   2              if(currentTd)
+ 620   2              {
+ 621   3                  *currentTd = DMAC_CH[chHandle].basic_status[1] & 0x7Fu;
+ 622   3              }
+ 623   2      
+ 624   2              if(state)
+ 625   2              {
+ 626   3                  *state= DMAC_CH[chHandle].basic_status[0];
+ 627   3              }
+ 628   2      
+ 629   2              status = CYRET_SUCCESS;
+ 630   2          }
+ 631   1          else
+ 632   1          {
+ 633   2              status = CYRET_BAD_PARAM;
+ 634   2          }
+ 635   1      
+ 636   1          return status;
+ 637   1      }
+ 638          
+ 639          
+ 640          /*******************************************************************************
+ 641          * Function Name: CyDmaChSetConfiguration
+ 642          ********************************************************************************
+ 643          * Summary:
+ 644          * Sets Configuration information for the channel.
+ 645          *
+ 646          * Parameters:
+ 647          * chHandle:
+ 648          *   Handle to the dma channel.
+ 649          *
+ 650          * burstCount:
+ 651          *   Number of bytes in a burst.
+ 652          *
+ 653          * requestPerBurst:
+ 654          *   A DMA request is required per burst.
+ 655          *
+ 656          * tdDone0:
+ 657          *   Selects one of the TERMOUT0 interrupt lines to signal completion.
+ 658          *
+ 659          * tdDone1:
+ 660          *   Selects one of the TERMOUT1 interrupt lines to signal complete.
+ 661          *
+ 662          *
+ 663          * tdStop:
+ 664          *   Selects one of the TERMIN interrupt lines to signal to the DMAC
+ 665          *   that the TD should terminate.
+ 666          *
+ 667          * Return:
+ 668          *   0 in successful or CYRET_BAD_PARAM.
+ 669          *
+ 670          *
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 12  
+
+ 671          *******************************************************************************/
+ 672          cystatus CyDmaChSetConfiguration(uint8 chHandle, uint8 burstCount, uint8 requestPerBurst, uint8 tdDone0, u
+             -int8 tdDone1, uint8 tdStop) 
+ 673          {
+ 674   1          cystatus status;
+ 675   1      
+ 676   1      
+ 677   1          if(chHandle < NUMBEROF_CHANNELS)
+ 678   1          {
+ 679   2              DMAC_CFGMEM[chHandle].CFG0[0] = burstCount | (requestPerBurst << 7);
+ 680   2              DMAC_CFGMEM[chHandle].CFG0[1] = (tdDone1 << 4) | tdDone0;
+ 681   2              DMAC_CFGMEM[chHandle].CFG0[2] = 0x0Fu & tdStop;
+ 682   2              DMAC_CFGMEM[chHandle].CFG0[3] = 0; /* burstcount_remain. */
+ 683   2      
+ 684   2              status = CYRET_SUCCESS;
+ 685   2          }
+ 686   1          else
+ 687   1          {
+ 688   2              status = CYRET_BAD_PARAM;
+ 689   2          }
+ 690   1      
+ 691   1          return status;
+ 692   1      }
+ 693          
+ 694          
+ 695          /*******************************************************************************
+ 696          * Function Name: CyDmaTdAllocate
+ 697          ********************************************************************************
+ 698          * Summary:
+ 699          *   Removes a Transfer Descriptor from the free list for use by the
+ 700          *   caller.
+ 701          *
+ 702          * Parameters:
+ 703          *   void.
+ 704          *
+ 705          *
+ 706          * Return:
+ 707          *   Zero based index of the Transfer Descriptor to be used by the
+ 708          *   caller. Zero is a valid TD index. DMA_INVALID_TD implies
+ 709          *   there are no free TD's available.
+ 710          *
+ 711          *
+ 712          *******************************************************************************/
+ 713          uint8 CyDmaTdAllocate(void) 
+ 714          {
+ 715   1          uint8 interruptState;
+ 716   1          uint8 Element;
+ 717   1      
+ 718   1      
+ 719   1          /* Enter critical section! */
+ 720   1          interruptState = CyEnterCriticalSection();
+ 721   1      
+ 722   1          if(CyDmaTdCurrentNumber)
+ 723   1          {
+ 724   2              /* Get pointer to the Next available. */
+ 725   2              Element = CyDmaTdFreeIndex;
+ 726   2      
+ 727   2              /* Decrement the count. */
+ 728   2              CyDmaTdCurrentNumber--;
+ 729   2      
+ 730   2              /* Update the next available pointer. */
+ 731   2              CyDmaTdFreeIndex = DMAC_TDMEM[Element].TD0[0];
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 13  
+
+ 732   2          }
+ 733   1          else
+ 734   1          {
+ 735   2              Element = DMA_INVALID_TD;
+ 736   2          }
+ 737   1      
+ 738   1          /* Exit critical section! */
+ 739   1          CyExitCriticalSection(interruptState);
+ 740   1      
+ 741   1          return Element;
+ 742   1      }
+ 743          
+ 744          
+ 745          /*******************************************************************************
+ 746          * Function Name: CyDmaTdFree
+ 747          ********************************************************************************
+ 748          * Summary:
+ 749          *   Returns a Transfer Descriptor back to the free list.
+ 750          *
+ 751          * Parameters:
+ 752          * tdHandle:
+ 753          *   Zero based index of the Transfer Descriptor to be freed.
+ 754          *
+ 755          *
+ 756          * Return:
+ 757          *   void.
+ 758          *
+ 759          *
+ 760          *******************************************************************************/
+ 761          void CyDmaTdFree(uint8 tdHandle) 
+ 762          {
+ 763   1          if(tdHandle < NUMBEROF_TDS)
+ 764   1          {
+ 765   2              /* Enter critical section! */
+ 766   2              uint8 interruptState = CyEnterCriticalSection();
+ 767   2      
+ 768   2              /* Get pointer to the Next available. */
+ 769   2              DMAC_TDMEM[tdHandle].TD0[0] = CyDmaTdFreeIndex;
+ 770   2      
+ 771   2              /* Set new Next Available. */
+ 772   2              CyDmaTdFreeIndex = tdHandle;
+ 773   2      
+ 774   2              /* Keep track of how many left. */
+ 775   2              CyDmaTdCurrentNumber++;
+ 776   2      
+ 777   2              /* Exit critical section! */
+ 778   2              CyExitCriticalSection(interruptState);
+ 779   2          }
+ 780   1      }
+ 781          
+ 782          
+ 783          /*******************************************************************************
+ 784          * Function Name: CyDmaTdFreeCount
+ 785          ********************************************************************************
+ 786          * Summary:
+ 787          *   Returns the number of free Transfer Descriptors available to be
+ 788          *   allocated.
+ 789          *
+ 790          * Parameters:
+ 791          *   void.
+ 792          *
+ 793          * Return:
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 14  
+
+ 794          *   The number of free Transfer Descriptors.
+ 795          *
+ 796          *
+ 797          *******************************************************************************/
+ 798          uint8 CyDmaTdFreeCount(void) 
+ 799          {
+ 800   1          uint8 number;
+ 801   1      
+ 802   1      
+ 803   1          number = CyDmaTdCurrentNumber;
+ 804   1      
+ 805   1      
+ 806   1          return number;
+ 807   1      }
+ 808          
+ 809          
+ 810          /*******************************************************************************
+ 811          * Function Name: CyDmaTdSetConfiguration
+ 812          ********************************************************************************
+ 813          * Summary:
+ 814          * Configures the TD.
+ 815          *
+ 816          * Parameters:
+ 817          * tdHandle:
+ 818          *   Handle to the TD.
+ 819          *
+ 820          * transferCount:
+ 821          *   Size of the data transfer (in bytes) for this Transfer Descriptor.
+ 822          *
+ 823          * nextTd:
+ 824          *   Zero based index of the next Transfer Descriptor in the TD chain.
+ 825          *   Zero is a valid pointer to the next TD, 0xFF is end of chain.
+ 826          *
+ 827          * configuration:
+ 828          *   Bit field with the following meaning.   
+ 829          *   
+ 830          *   bit 7 swap_en 0
+ 831          *   bit 6 swap_size
+ 832          *   bit 5 auto_exec_next
+ 833          *   bit 4 termin_en
+ 834          *   bit 3 termout1_en
+ 835          *   bit 2 termout0_en
+ 836          *   bit 1 inc_dst_adr
+ 837          *   bit 0 inc_src_adr
+ 838          *   
+ 839          *   As defined in ??HeaderFile??
+ 840          *   
+ 841          *
+ 842          * Return:
+ 843          *   0 in successful or CYRET_BAD_PARAM.
+ 844          *
+ 845          *
+ 846          *******************************************************************************/
+ 847          cystatus CyDmaTdSetConfiguration(uint8 tdHandle, uint16 transferCount, uint8 nextTd, uint8 configuration) 
+ 848          {
+ 849   1          cystatus status;
+ 850   1      
+ 851   1      
+ 852   1          if(tdHandle < NUMBEROF_TDS && !(0xF000u & transferCount))
+ 853   1          {
+ 854   2              /* Set 12 bits transfer count. */
+ 855   2              CONVERT_WORD *convert = (CONVERT_WORD *)&DMAC_TDMEM[tdHandle].TD0[0];
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 15  
+
+ 856   2              CY_SET_REG16(&convert->word, transferCount);
+ 857   2      
+ 858   2              /* Set Next TD pointer. */
+ 859   2              DMAC_TDMEM[tdHandle].TD0[2] = nextTd;
+ 860   2      
+ 861   2              /* Configure the TD */
+ 862   2              DMAC_TDMEM[tdHandle].TD0[3] = configuration;
+ 863   2      
+ 864   2              status = CYRET_SUCCESS;
+ 865   2          }
+ 866   1          else
+ 867   1          {
+ 868   2              status = CYRET_BAD_PARAM;
+ 869   2          }
+ 870   1      
+ 871   1          return status;
+ 872   1      }
+ 873          
+ 874          
+ 875          /*******************************************************************************
+ 876          * Function Name: CyDmaTdGetConfiguration
+ 877          ********************************************************************************
+ 878          * Summary:
+ 879          * Gets the configuration for the Configures.
+ 880          *
+ 881          *   if NULL is passed for a pointer parameter, that value will be
+ 882          *   skipped. The user can requestion only the values they are
+ 883          *   interested in.
+ 884          *
+ 885          * Parameters:
+ 886          * tdHandle:
+ 887          *   Handle to the TD.
+ 888          *
+ 889          * transferCount:
+ 890          *   Address to store the Size of the data transfer (in bytes) for
+ 891          *   this Transfer Descriptor.
+ 892          *
+ 893          * nextTd:
+ 894          *   Address to store the Zero based index of the next Transfer
+ 895          *   Descriptor in the TD chain.
+ 896          *
+ 897          * configurattion:
+ 898          *   Address to store the Bit field of configuration bits.
+ 899          *   
+ 900          *   bit 7 swap_en 0
+ 901          *   bit 6 swap_size
+ 902          *   bit 5 auto_exec_next
+ 903          *   bit 4 termin_en
+ 904          *   bit 3 termout1_en
+ 905          *   bit 2 termout0_en
+ 906          *   bit 1 inc_dst_adr
+ 907          *   bit 0 inc_src_adr
+ 908          *   
+ 909          *   As defined in ??HeaderFile??
+ 910          *   
+ 911          *
+ 912          * Return:
+ 913          *   0 in successful or CYRET_BAD_PARAM.
+ 914          *
+ 915          *
+ 916          *******************************************************************************/
+ 917          cystatus CyDmaTdGetConfiguration(uint8 tdHandle, uint16 * transferCount, uint8 * nextTd, uint8 * configura
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 16  
+
+             -tion) 
+ 918          {
+ 919   1          cystatus status;
+ 920   1      
+ 921   1      
+ 922   1          if(tdHandle < NUMBEROF_TDS)
+ 923   1          {
+ 924   2              /* If we have a pointer. */
+ 925   2              if(transferCount)
+ 926   2              {
+ 927   3                  /* Get the 12 bitss of the transfer count. */
+ 928   3                  CONVERT_WORD *convert = (CONVERT_WORD *)&DMAC_TDMEM[tdHandle].TD0[0];
+ 929   3                  *transferCount = 0x0FFFu & CY_GET_REG16(&convert->word);
+ 930   3              }
+ 931   2      
+ 932   2              /* If we have a pointer. */
+ 933   2              if(nextTd)
+ 934   2              {
+ 935   3                  /* Get the Next TD pointer. */
+ 936   3                  *nextTd = DMAC_TDMEM[tdHandle].TD0[2];
+ 937   3              }
+ 938   2      
+ 939   2              /* If we have a pointer. */
+ 940   2              if(configuration)
+ 941   2              {
+ 942   3                  /* Get the configuration the TD */
+ 943   3                  *configuration = DMAC_TDMEM[tdHandle].TD0[3];
+ 944   3              }
+ 945   2      
+ 946   2              status = CYRET_SUCCESS;
+ 947   2          }
+ 948   1          else
+ 949   1          {
+ 950   2              status = CYRET_BAD_PARAM;
+ 951   2          }
+ 952   1      
+ 953   1          return status;
+ 954   1      }
+ 955          
+ 956          
+ 957          /*******************************************************************************
+ 958          * Function Name: CyDmaTdSetAddress
+ 959          ********************************************************************************
+ 960          * Summary:
+ 961          *   Sets the lower 16 bits of the source and destination addresses
+ 962          *   for this TD only.
+ 963          *
+ 964          * Parameters:
+ 965          * tdHandle:
+ 966          *   Handle to the TD.
+ 967          *
+ 968          * source:
+ 969          *   lower 16 address bits of the Source of the data transfer.
+ 970          *
+ 971          * destination:
+ 972          *   lower 16 address bits of the Destination of the data transfer.
+ 973          *
+ 974          *
+ 975          * Return:
+ 976          *   0 in successful or CYRET_BAD_PARAM.
+ 977          *
+ 978          *
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 17  
+
+ 979          *******************************************************************************/
+ 980          cystatus CyDmaTdSetAddress(uint8 tdHandle, uint16 source, uint16 destination) 
+ 981          {
+ 982   1          cystatus status;
+ 983   1      
+ 984   1      
+ 985   1          if(tdHandle < NUMBEROF_TDS)
+ 986   1          {
+ 987   2              /* Set Source address. */
+ 988   2              CONVERT_WORD *convert = (CONVERT_WORD *)&DMAC_TDMEM[tdHandle].TD1[0];
+ 989   2              CY_SET_REG16(&convert->word, source);
+ 990   2      
+ 991   2              /* Set Destination address. */
+ 992   2              CY_SET_REG16((reg16 *) &DMAC_TDMEM[tdHandle].TD1[2], destination);
+ 993   2      
+ 994   2              status = CYRET_SUCCESS;
+ 995   2          }
+ 996   1          else
+ 997   1          {
+ 998   2              status = CYRET_BAD_PARAM;
+ 999   2          }
+1000   1      
+1001   1          return status;
+1002   1      }
+1003          
+1004          
+1005          /*******************************************************************************
+1006          * Function Name: CyDmaTdGetAddress
+1007          ********************************************************************************
+1008          * Summary:
+1009          *   Gets the lower 16 bits of the source and/or destination addresses
+1010          *   for this TD only.
+1011          *
+1012          *   if NULL is passed for a pointer parameter, that value will be
+1013          *   skipped. The user can requestion only the values they are
+1014          *   interested in.
+1015          *
+1016          * Parameters:
+1017          * tdHandle:
+1018          *   Handle to the TD.
+1019          *
+1020          * source:
+1021          *   Address to store the lower 16 address bits of the Source of the
+1022          *   data transfer.
+1023          *
+1024          * destination:
+1025          *   Address to store the lower 16 address bits of the Destination of
+1026          *   the data transfer.
+1027          *
+1028          *
+1029          * Return:
+1030          *   0 in successful or CYRET_BAD_PARAM.
+1031          *
+1032          *
+1033          *******************************************************************************/
+1034          cystatus CyDmaTdGetAddress(uint8 tdHandle, uint16 * source, uint16 * destination) 
+1035          {
+1036   1          cystatus status;
+1037   1      
+1038   1      
+1039   1          if(tdHandle < NUMBEROF_TDS)
+1040   1          {
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 18  
+
+1041   2              /* If we have a pointer. */
+1042   2              if(source)
+1043   2              {
+1044   3                  /* Get Source address. */
+1045   3                  CONVERT_WORD *convert = (CONVERT_WORD *)&DMAC_TDMEM[tdHandle].TD1[0];
+1046   3                  *source = CY_GET_REG16(&convert->word);
+1047   3              }
+1048   2      
+1049   2              /* If we have a pointer. */
+1050   2              if(destination)
+1051   2              {
+1052   3                  /* Get Destination address. */
+1053   3                  *destination = CY_GET_REG16((reg16 *) &DMAC_TDMEM[tdHandle].TD1[2]);
+1054   3              }
+1055   2      
+1056   2              status = CYRET_SUCCESS;
+1057   2          }
+1058   1          else
+1059   1          {
+1060   2              status = CYRET_BAD_PARAM;
+1061   2          }
+1062   1      
+1063   1          return status;
+1064   1      }
+1065          
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 19  
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+             ; FUNCTION CyDmacConfigure (BEGIN)
+                                           ; SOURCE LINE # 66
+                                           ; SOURCE LINE # 67
+                                           ; SOURCE LINE # 72
+0000 900000      R     MOV     DPTR,#CyDmaTdFreeIndex
+0003 747F              MOV     A,#07FH
+0005 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 73
+0006 900000      R     MOV     DPTR,#CyDmaTdCurrentNumber
+0009 7480              MOV     A,#080H
+000B F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 76
+000C 900000      R     MOV     DPTR,#index
+000F 747F              MOV     A,#07FH
+0011 F0                MOVX    @DPTR,A
+0012         ?C0001:
+0012 900000      R     MOV     DPTR,#index
+0015 E0                MOVX    A,@DPTR
+0016 FF                MOV     R7,A
+0017 EF                MOV     A,R7
+0018 6021              JZ      ?C0002
+                                           ; SOURCE LINE # 77
+                                           ; SOURCE LINE # 78
+001A 900000      R     MOV     DPTR,#index
+001D E0                MOVX    A,@DPTR
+001E FF                MOV     R7,A
+001F EF                MOV     A,R7
+0020 14                DEC     A
+0021 FF                MOV     R7,A
+0022 900000      R     MOV     DPTR,#index
+0025 E0                MOVX    A,@DPTR
+0026 FE                MOV     R6,A
+0027 75F008            MOV     B,#08H
+002A EE                MOV     A,R6
+002B 907800            MOV     DPTR,#07800H
+002E 120000      E     LCALL   ?C?OFFXADD
+0031 EF                MOV     A,R7
+0032 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 79
+0033 900000      R     MOV     DPTR,#index
+0036 E0                MOVX    A,@DPTR
+0037 14                DEC     A
+0038 F0                MOVX    @DPTR,A
+0039 80D7              SJMP    ?C0001
+003B         ?C0002:
+                                           ; SOURCE LINE # 82
+003B 900000      R     MOV     DPTR,#index
+003E E0                MOVX    A,@DPTR
+003F FF                MOV     R7,A
+0040 75F008            MOV     B,#08H
+0043 EF                MOV     A,R7
+0044 907800            MOV     DPTR,#07800H
+0047 120000      E     LCALL   ?C?OFFXADD
+004A E4                CLR     A
+004B F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 83
+004C 22                RET     
+             ; FUNCTION CyDmacConfigure (END)
+
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 20  
+
+             ; FUNCTION CyDmacError (BEGIN)
+                                           ; SOURCE LINE # 104
+                                           ; SOURCE LINE # 105
+                                           ; SOURCE LINE # 106
+0000 907004            MOV     DPTR,#07004H
+0003 120000      E     LCALL   ?C?LLDXDATA
+0006 EF                MOV     A,R7
+0007 540F              ANL     A,#0FH
+0009 FF                MOV     R7,A
+000A EE                MOV     A,R6
+000B 5400              ANL     A,#00H
+000D FE                MOV     R6,A
+000E ED                MOV     A,R5
+000F 5400              ANL     A,#00H
+0011 FD                MOV     R5,A
+0012 EC                MOV     A,R4
+0013 5400              ANL     A,#00H
+0015 FC                MOV     R4,A
+                                           ; SOURCE LINE # 107
+0016         ?C0005:
+0016 22                RET     
+             ; FUNCTION CyDmacError (END)
+
+             ; FUNCTION _CyDmacClearError (BEGIN)
+                                           ; SOURCE LINE # 130
+0000 900000      R     MOV     DPTR,#error
+0003 EF                MOV     A,R7
+0004 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 131
+                                           ; SOURCE LINE # 132
+0005 900000      R     MOV     DPTR,#error
+0008 E0                MOVX    A,@DPTR
+0009 FF                MOV     R7,A
+000A EF                MOV     A,R7
+000B 540F              ANL     A,#0FH
+000D FF                MOV     R7,A
+000E E4                CLR     A
+000F FC                MOV     R4,A
+0010 FD                MOV     R5,A
+0011 FE                MOV     R6,A
+0012 907004            MOV     DPTR,#07004H
+0015 120000      E     LCALL   ?C?LSTXDATA
+                                           ; SOURCE LINE # 133
+0018 22                RET     
+             ; FUNCTION _CyDmacClearError (END)
+
+             ; FUNCTION CyDmacErrorAddress (BEGIN)
+                                           ; SOURCE LINE # 157
+                                           ; SOURCE LINE # 158
+                                           ; SOURCE LINE # 159
+0000 7B02              MOV     R3,#02H
+0002 7A70              MOV     R2,#070H
+0004 7908              MOV     R1,#08H
+0006 120000      E     LCALL   _cyread32_nodpx
+                                           ; SOURCE LINE # 160
+0009         ?C0007:
+0009 22                RET     
+             ; FUNCTION CyDmacErrorAddress (END)
+
+             ; FUNCTION CyDmaChAlloc (BEGIN)
+                                           ; SOURCE LINE # 180
+                                           ; SOURCE LINE # 181
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 21  
+
+                                           ; SOURCE LINE # 188
+0000 120000      E     LCALL   CyEnterCriticalSection
+0003 900000      R     MOV     DPTR,#interruptState
+0006 EF                MOV     A,R7
+0007 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 191
+0008 900000      R     MOV     DPTR,#index
+000B E4                CLR     A
+000C F0                MOVX    @DPTR,A
+000D 7F01              MOV     R7,#01H
+000F 7E00              MOV     R6,#00H
+0011 7D00              MOV     R5,#00H
+0013 7C00              MOV     R4,#00H
+0015 900000      R     MOV     DPTR,#channel
+0018 120000      E     LCALL   ?C?LSTXDATA
+001B         ?C0008:
+001B 900000      R     MOV     DPTR,#index
+001E E0                MOVX    A,@DPTR
+001F FF                MOV     R7,A
+0020 EF                MOV     A,R7
+0021 C3                CLR     C
+0022 9418              SUBB    A,#018H
+0024 5045              JNC     ?C0009
+                                           ; SOURCE LINE # 192
+                                           ; SOURCE LINE # 193
+0026 900000      R     MOV     DPTR,#channel
+0029 120000      E     LCALL   ?C?LLDXDATA
+002C 900000      R     MOV     DPTR,#CyDmaChannels
+002F 120000      E     LCALL   ?C?LLDXDATA0
+0032 120000      E     LCALL   ?C?LAND
+0035 EC                MOV     A,R4
+0036 4D                ORL     A,R5
+0037 4E                ORL     A,R6
+0038 4F                ORL     A,R7
+0039 7017              JNZ     ?C0010
+                                           ; SOURCE LINE # 194
+                                           ; SOURCE LINE # 196
+003B 900000      R     MOV     DPTR,#CyDmaChannels
+003E 120000      E     LCALL   ?C?LLDXDATA
+0041 900000      R     MOV     DPTR,#channel
+0044 120000      E     LCALL   ?C?LLDXDATA0
+0047 120000      E     LCALL   ?C?LOR
+004A 900000      R     MOV     DPTR,#CyDmaChannels
+004D 120000      E     LCALL   ?C?LSTXDATA
+                                           ; SOURCE LINE # 197
+0050 8019              SJMP    ?C0009
+                                           ; SOURCE LINE # 198
+                                           ; SOURCE LINE # 199
+0052         ?C0010:
+0052 900000      R     MOV     DPTR,#index
+0055 E0                MOVX    A,@DPTR
+0056 04                INC     A
+0057 F0                MOVX    @DPTR,A
+0058 900000      R     MOV     DPTR,#channel
+005B 120000      E     LCALL   ?C?LLDXDATA
+005E 7801              MOV     R0,#01H
+0060 120000      E     LCALL   ?C?LSHL
+0063 900000      R     MOV     DPTR,#channel
+0066 120000      E     LCALL   ?C?LSTXDATA
+0069 80B0              SJMP    ?C0008
+006B         ?C0009:
+                                           ; SOURCE LINE # 201
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 22  
+
+006B 900000      R     MOV     DPTR,#index
+006E E0                MOVX    A,@DPTR
+006F FF                MOV     R7,A
+0070 EF                MOV     A,R7
+0071 C3                CLR     C
+0072 9418              SUBB    A,#018H
+0074 4006              JC      ?C0012
+                                           ; SOURCE LINE # 202
+                                           ; SOURCE LINE # 203
+0076 900000      R     MOV     DPTR,#index
+0079 74FF              MOV     A,#0FFH
+007B F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 204
+007C         ?C0012:
+                                           ; SOURCE LINE # 207
+007C 900000      R     MOV     DPTR,#interruptState
+007F E0                MOVX    A,@DPTR
+0080 FF                MOV     R7,A
+0081 120000      E     LCALL   _CyExitCriticalSection
+                                           ; SOURCE LINE # 209
+0084 900000      R     MOV     DPTR,#index
+0087 E0                MOVX    A,@DPTR
+0088 FF                MOV     R7,A
+                                           ; SOURCE LINE # 210
+0089         ?C0013:
+0089 22                RET     
+             ; FUNCTION CyDmaChAlloc (END)
+
+             ; FUNCTION _CyDmaChFree (BEGIN)
+                                           ; SOURCE LINE # 229
+0000 900000      R     MOV     DPTR,#chHandle
+0003 EF                MOV     A,R7
+0004 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 230
+                                           ; SOURCE LINE # 234
+0005 900000      R     MOV     DPTR,#chHandle
+0008 E0                MOVX    A,@DPTR
+0009 FF                MOV     R7,A
+000A EF                MOV     A,R7
+000B C3                CLR     C
+000C 9418              SUBB    A,#018H
+000E 505C              JNC     ?C0014
+                                           ; SOURCE LINE # 235
+                                           ; SOURCE LINE # 237
+0010 120000      E     LCALL   CyEnterCriticalSection
+0013 900000      R     MOV     DPTR,#interruptState
+0016 EF                MOV     A,R7
+0017 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 240
+0018 900000      R     MOV     DPTR,#CyDmaChannels
+001B 120000      E     LCALL   ?C?LLDXDATA
+001E C004              PUSH    AR4
+0020 C005              PUSH    AR5
+0022 C006              PUSH    AR6
+0024 C007              PUSH    AR7
+0026 900000      R     MOV     DPTR,#chHandle
+0029 E0                MOVX    A,@DPTR
+002A FF                MOV     R7,A
+002B 7401              MOV     A,#01H
+002D 7E00              MOV     R6,#00H
+002F A807              MOV     R0,AR7
+0031 08                INC     R0
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 23  
+
+0032 8005              SJMP    ?C0075
+0034         ?C0074:
+0034 C3                CLR     C
+0035 33                RLC     A
+0036 CE                XCH     A,R6
+0037 33                RLC     A
+0038 CE                XCH     A,R6
+0039         ?C0075:
+0039 D8F9              DJNZ    R0,?C0074
+003B FF                MOV     R7,A
+003C EF                MOV     A,R7
+003D F4                CPL     A
+003E FF                MOV     R7,A
+003F EE                MOV     A,R6
+0040 F4                CPL     A
+0041 FE                MOV     R6,A
+0042 AB07              MOV     R3,AR7
+0044 AA06              MOV     R2,AR6
+0046 EA                MOV     A,R2
+0047 33                RLC     A
+0048 95E0              SUBB    A,ACC
+004A F9                MOV     R1,A
+004B F8                MOV     R0,A
+004C D007              POP     AR7
+004E D006              POP     AR6
+0050 D005              POP     AR5
+0052 D004              POP     AR4
+0054 120000      E     LCALL   ?C?LAND
+0057 900000      R     MOV     DPTR,#CyDmaChannels
+005A 120000      E     LCALL   ?C?LSTXDATA
+                                           ; SOURCE LINE # 243
+005D 900000      R     MOV     DPTR,#interruptState
+0060 E0                MOVX    A,@DPTR
+0061 FF                MOV     R7,A
+0062 120000      E     LCALL   _CyExitCriticalSection
+                                           ; SOURCE LINE # 244
+0065 900000      R     MOV     DPTR,#status
+0068 E4                CLR     A
+0069 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 245
+006A 8006              SJMP    ?C0015
+006C         ?C0014:
+                                           ; SOURCE LINE # 247
+                                           ; SOURCE LINE # 248
+006C 900000      R     MOV     DPTR,#status
+006F 7401              MOV     A,#01H
+0071 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 249
+0072         ?C0015:
+                                           ; SOURCE LINE # 251
+0072 900000      R     MOV     DPTR,#status
+0075 E0                MOVX    A,@DPTR
+0076 FF                MOV     R7,A
+                                           ; SOURCE LINE # 252
+0077         ?C0016:
+0077 22                RET     
+             ; FUNCTION _CyDmaChFree (END)
+
+             ; FUNCTION _CyDmaChEnable (BEGIN)
+                                           ; SOURCE LINE # 274
+0000 900000      R     MOV     DPTR,#chHandle
+0003 EF                MOV     A,R7
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 24  
+
+0004 F0                MOVX    @DPTR,A
+0005 900000      R     MOV     DPTR,#preserveTds
+0008 ED                MOV     A,R5
+0009 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 275
+                                           ; SOURCE LINE # 279
+000A 900000      R     MOV     DPTR,#chHandle
+000D E0                MOVX    A,@DPTR
+000E FF                MOV     R7,A
+000F EF                MOV     A,R7
+0010 C3                CLR     C
+0011 9418              SUBB    A,#018H
+0013 503E              JNC     ?C0017
+                                           ; SOURCE LINE # 280
+                                           ; SOURCE LINE # 281
+0015 900000      R     MOV     DPTR,#chHandle
+0018 E0                MOVX    A,@DPTR
+0019 FF                MOV     R7,A
+001A 75F010            MOV     B,#010H
+001D EF                MOV     A,R7
+001E 907010            MOV     DPTR,#07010H
+0021 120000      E     LCALL   ?C?OFFXADD
+0024 E0                MOVX    A,@DPTR
+0025 FF                MOV     R7,A
+0026 EF                MOV     A,R7
+0027 54DF              ANL     A,#0DFH
+0029 FF                MOV     R7,A
+002A 900000      R     MOV     DPTR,#preserveTds
+002D E0                MOVX    A,@DPTR
+002E FE                MOV     R6,A
+002F EE                MOV     A,R6
+0030 6004              JZ      ?C0018
+0032 7E21              MOV     R6,#021H
+0034 8002              SJMP    ?C0019
+0036         ?C0018:
+0036 7E01              MOV     R6,#01H
+0038         ?C0019:
+0038 EF                MOV     A,R7
+0039 4E                ORL     A,R6
+003A FF                MOV     R7,A
+003B 900000      R     MOV     DPTR,#chHandle
+003E E0                MOVX    A,@DPTR
+003F FE                MOV     R6,A
+0040 75F010            MOV     B,#010H
+0043 EE                MOV     A,R6
+0044 907010            MOV     DPTR,#07010H
+0047 120000      E     LCALL   ?C?OFFXADD
+004A EF                MOV     A,R7
+004B F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 282
+004C 900000      R     MOV     DPTR,#status
+004F E4                CLR     A
+0050 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 283
+0051 8006              SJMP    ?C0020
+0053         ?C0017:
+                                           ; SOURCE LINE # 285
+                                           ; SOURCE LINE # 286
+0053 900000      R     MOV     DPTR,#status
+0056 7401              MOV     A,#01H
+0058 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 287
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 25  
+
+0059         ?C0020:
+                                           ; SOURCE LINE # 289
+0059 900000      R     MOV     DPTR,#status
+005C E0                MOVX    A,@DPTR
+005D FF                MOV     R7,A
+                                           ; SOURCE LINE # 290
+005E         ?C0021:
+005E 22                RET     
+             ; FUNCTION _CyDmaChEnable (END)
+
+             ; FUNCTION _CyDmaChDisable (BEGIN)
+                                           ; SOURCE LINE # 316
+0000 900000      R     MOV     DPTR,#chHandle
+0003 EF                MOV     A,R7
+0004 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 317
+                                           ; SOURCE LINE # 321
+0005 900000      R     MOV     DPTR,#chHandle
+0008 E0                MOVX    A,@DPTR
+0009 FF                MOV     R7,A
+000A EF                MOV     A,R7
+000B C3                CLR     C
+000C 9418              SUBB    A,#018H
+000E 501E              JNC     ?C0022
+                                           ; SOURCE LINE # 322
+                                           ; SOURCE LINE # 323
+0010 900000      R     MOV     DPTR,#chHandle
+0013 E0                MOVX    A,@DPTR
+0014 FF                MOV     R7,A
+0015 75F010            MOV     B,#010H
+0018 EF                MOV     A,R7
+0019 907010            MOV     DPTR,#07010H
+001C 120000      E     LCALL   ?C?OFFXADD
+001F E0                MOVX    A,@DPTR
+0020 FF                MOV     R7,A
+0021 EF                MOV     A,R7
+0022 54DE              ANL     A,#0DEH
+0024 FF                MOV     R7,A
+0025 EF                MOV     A,R7
+0026 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 324
+0027 900000      R     MOV     DPTR,#status
+002A E4                CLR     A
+002B F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 325
+002C 8006              SJMP    ?C0023
+002E         ?C0022:
+                                           ; SOURCE LINE # 327
+                                           ; SOURCE LINE # 328
+002E 900000      R     MOV     DPTR,#status
+0031 7401              MOV     A,#01H
+0033 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 329
+0034         ?C0023:
+                                           ; SOURCE LINE # 331
+0034 900000      R     MOV     DPTR,#status
+0037 E0                MOVX    A,@DPTR
+0038 FF                MOV     R7,A
+                                           ; SOURCE LINE # 332
+0039         ?C0024:
+0039 22                RET     
+             ; FUNCTION _CyDmaChDisable (END)
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 26  
+
+
+             ; FUNCTION _CyDmaClearPendingDrq (BEGIN)
+                                           ; SOURCE LINE # 349
+0000 900000      R     MOV     DPTR,#chHandle
+0003 EF                MOV     A,R7
+0004 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 350
+                                           ; SOURCE LINE # 353
+0005 900000      R     MOV     DPTR,#chHandle
+0008 E0                MOVX    A,@DPTR
+0009 FF                MOV     R7,A
+000A EF                MOV     A,R7
+000B C3                CLR     C
+000C 9418              SUBB    A,#018H
+000E 5035              JNC     ?C0025
+                                           ; SOURCE LINE # 354
+                                           ; SOURCE LINE # 355
+0010 900000      R     MOV     DPTR,#chHandle
+0013 E0                MOVX    A,@DPTR
+0014 FF                MOV     R7,A
+0015 75F010            MOV     B,#010H
+0018 EF                MOV     A,R7
+0019 907014            MOV     DPTR,#07014H
+001C 120000      E     LCALL   ?C?OFFXADD
+001F E0                MOVX    A,@DPTR
+0020 FF                MOV     R7,A
+0021 EF                MOV     A,R7
+0022 4404              ORL     A,#04H
+0024 FF                MOV     R7,A
+0025 EF                MOV     A,R7
+0026 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 356
+0027 900000      R     MOV     DPTR,#chHandle
+002A E0                MOVX    A,@DPTR
+002B FF                MOV     R7,A
+002C 75F010            MOV     B,#010H
+002F EF                MOV     A,R7
+0030 907010            MOV     DPTR,#07010H
+0033 120000      E     LCALL   ?C?OFFXADD
+0036 E0                MOVX    A,@DPTR
+0037 FF                MOV     R7,A
+0038 EF                MOV     A,R7
+0039 4401              ORL     A,#01H
+003B FF                MOV     R7,A
+003C EF                MOV     A,R7
+003D F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 357
+003E 900000      R     MOV     DPTR,#status
+0041 E4                CLR     A
+0042 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 358
+0043 8006              SJMP    ?C0026
+0045         ?C0025:
+                                           ; SOURCE LINE # 360
+                                           ; SOURCE LINE # 361
+0045 900000      R     MOV     DPTR,#status
+0048 7401              MOV     A,#01H
+004A F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 362
+004B         ?C0026:
+                                           ; SOURCE LINE # 364
+004B 900000      R     MOV     DPTR,#status
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 27  
+
+004E E0                MOVX    A,@DPTR
+004F FF                MOV     R7,A
+                                           ; SOURCE LINE # 365
+0050         ?C0027:
+0050 22                RET     
+             ; FUNCTION _CyDmaClearPendingDrq (END)
+
+             ; FUNCTION _CyDmaChPriority (BEGIN)
+                                           ; SOURCE LINE # 388
+0000 900000      R     MOV     DPTR,#chHandle
+0003 EF                MOV     A,R7
+0004 F0                MOVX    @DPTR,A
+0005 900000      R     MOV     DPTR,#priority
+0008 ED                MOV     A,R5
+0009 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 389
+                                           ; SOURCE LINE # 394
+000A 900000      R     MOV     DPTR,#chHandle
+000D E0                MOVX    A,@DPTR
+000E FF                MOV     R7,A
+000F EF                MOV     A,R7
+0010 C3                CLR     C
+0011 9418              SUBB    A,#018H
+0013 5043              JNC     ?C0028
+                                           ; SOURCE LINE # 395
+                                           ; SOURCE LINE # 396
+0015 900000      R     MOV     DPTR,#chHandle
+0018 E0                MOVX    A,@DPTR
+0019 FF                MOV     R7,A
+001A 75F010            MOV     B,#010H
+001D EF                MOV     A,R7
+001E 907010            MOV     DPTR,#07010H
+0021 120000      E     LCALL   ?C?OFFXADD
+0024 E0                MOVX    A,@DPTR
+0025 FF                MOV     R7,A
+0026 EF                MOV     A,R7
+0027 54F1              ANL     A,#0F1H
+0029 FF                MOV     R7,A
+002A 900000      R     MOV     DPTR,#Value
+002D EF                MOV     A,R7
+002E F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 397
+002F 900000      R     MOV     DPTR,#priority
+0032 E0                MOVX    A,@DPTR
+0033 FF                MOV     R7,A
+0034 EF                MOV     A,R7
+0035 25E0              ADD     A,ACC
+0037 FF                MOV     R7,A
+0038 900000      R     MOV     DPTR,#Value
+003B E0                MOVX    A,@DPTR
+003C FE                MOV     R6,A
+003D EF                MOV     A,R7
+003E 4E                ORL     A,R6
+003F FF                MOV     R7,A
+0040 900000      R     MOV     DPTR,#chHandle
+0043 E0                MOVX    A,@DPTR
+0044 FE                MOV     R6,A
+0045 75F010            MOV     B,#010H
+0048 EE                MOV     A,R6
+0049 907010            MOV     DPTR,#07010H
+004C 120000      E     LCALL   ?C?OFFXADD
+004F EF                MOV     A,R7
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 28  
+
+0050 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 398
+0051 900000      R     MOV     DPTR,#status
+0054 E4                CLR     A
+0055 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 399
+0056 8006              SJMP    ?C0029
+0058         ?C0028:
+                                           ; SOURCE LINE # 401
+                                           ; SOURCE LINE # 402
+0058 900000      R     MOV     DPTR,#status
+005B 7401              MOV     A,#01H
+005D F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 403
+005E         ?C0029:
+                                           ; SOURCE LINE # 405
+005E 900000      R     MOV     DPTR,#status
+0061 E0                MOVX    A,@DPTR
+0062 FF                MOV     R7,A
+                                           ; SOURCE LINE # 406
+0063         ?C0030:
+0063 22                RET     
+             ; FUNCTION _CyDmaChPriority (END)
+
+             ; FUNCTION _CyDmaChSetExtendedAddress (BEGIN)
+                                           ; SOURCE LINE # 433
+0000 900000      R     MOV     DPTR,#chHandle
+0003 EF                MOV     A,R7
+0004 F0                MOVX    @DPTR,A
+0005 900000      R     MOV     DPTR,#source
+0008 EC                MOV     A,R4
+0009 F0                MOVX    @DPTR,A
+000A A3                INC     DPTR
+000B ED                MOV     A,R5
+000C F0                MOVX    @DPTR,A
+000D 900000      R     MOV     DPTR,#destination
+0010 EA                MOV     A,R2
+0011 F0                MOVX    @DPTR,A
+0012 A3                INC     DPTR
+0013 EB                MOV     A,R3
+0014 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 434
+                                           ; SOURCE LINE # 445
+0015 900000      R     MOV     DPTR,#chHandle
+0018 E0                MOVX    A,@DPTR
+0019 FF                MOV     R7,A
+001A EF                MOV     A,R7
+001B C3                CLR     C
+001C 9418              SUBB    A,#018H
+001E 506B              JNC     ?C0031
+                                           ; SOURCE LINE # 446
+                                           ; SOURCE LINE # 448
+0020 900000      R     MOV     DPTR,#chHandle
+0023 E0                MOVX    A,@DPTR
+0024 FF                MOV     R7,A
+0025 7E08              MOV     R6,#08H
+0027 EF                MOV     A,R7
+0028 8EF0              MOV     B,R6
+002A A4                MUL     AB
+002B FF                MOV     R7,A
+002C AEF0              MOV     R6,B
+002E EF                MOV     A,R7
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 29  
+
+002F 2404              ADD     A,#04H
+0031 FF                MOV     R7,A
+0032 EE                MOV     A,R6
+0033 3476              ADDC    A,#076H
+0035 FE                MOV     R6,A
+0036 AA06              MOV     R2,AR6
+0038 A907              MOV     R1,AR7
+003A 7B01              MOV     R3,#01H
+003C 900000      R     MOV     DPTR,#convert
+003F 120000      E     LCALL   ?C?PSTXDATA
+                                           ; SOURCE LINE # 449
+0042 900000      R     MOV     DPTR,#convert
+0045 120000      E     LCALL   ?C?PLDXDATA
+0048 AE02              MOV     R6,AR2
+004A AF01              MOV     R7,AR1
+004C AA06              MOV     R2,AR6
+004E A907              MOV     R1,AR7
+0050 7B01              MOV     R3,#01H
+0052 900000      R     MOV     DPTR,#source
+0055 E0                MOVX    A,@DPTR
+0056 FC                MOV     R4,A
+0057 A3                INC     DPTR
+0058 E0                MOVX    A,@DPTR
+0059 FD                MOV     R5,A
+005A 120000      E     LCALL   _cywrite16_nodpx
+                                           ; SOURCE LINE # 452
+005D 900000      R     MOV     DPTR,#chHandle
+0060 E0                MOVX    A,@DPTR
+0061 FF                MOV     R7,A
+0062 7E08              MOV     R6,#08H
+0064 EF                MOV     A,R7
+0065 8EF0              MOV     B,R6
+0067 A4                MUL     AB
+0068 FF                MOV     R7,A
+0069 AEF0              MOV     R6,B
+006B EF                MOV     A,R7
+006C 2406              ADD     A,#06H
+006E FF                MOV     R7,A
+006F EE                MOV     A,R6
+0070 3476              ADDC    A,#076H
+0072 FE                MOV     R6,A
+0073 AA06              MOV     R2,AR6
+0075 A907              MOV     R1,AR7
+0077 7B01              MOV     R3,#01H
+0079 900000      R     MOV     DPTR,#destination
+007C E0                MOVX    A,@DPTR
+007D FC                MOV     R4,A
+007E A3                INC     DPTR
+007F E0                MOVX    A,@DPTR
+0080 FD                MOV     R5,A
+0081 120000      E     LCALL   _cywrite16_nodpx
+                                           ; SOURCE LINE # 453
+0084 900000      R     MOV     DPTR,#status
+0087 E4                CLR     A
+0088 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 454
+0089 8006              SJMP    ?C0032
+008B         ?C0031:
+                                           ; SOURCE LINE # 456
+                                           ; SOURCE LINE # 457
+008B 900000      R     MOV     DPTR,#status
+008E 7401              MOV     A,#01H
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 30  
+
+0090 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 458
+0091         ?C0032:
+                                           ; SOURCE LINE # 460
+0091 900000      R     MOV     DPTR,#status
+0094 E0                MOVX    A,@DPTR
+0095 FF                MOV     R7,A
+                                           ; SOURCE LINE # 461
+0096         ?C0033:
+0096 22                RET     
+             ; FUNCTION _CyDmaChSetExtendedAddress (END)
+
+             ; FUNCTION _CyDmaChSetInitialTd (BEGIN)
+                                           ; SOURCE LINE # 483
+0000 900000      R     MOV     DPTR,#chHandle
+0003 EF                MOV     A,R7
+0004 F0                MOVX    @DPTR,A
+0005 900000      R     MOV     DPTR,#startTd
+0008 ED                MOV     A,R5
+0009 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 484
+                                           ; SOURCE LINE # 488
+000A 900000      R     MOV     DPTR,#chHandle
+000D E0                MOVX    A,@DPTR
+000E FF                MOV     R7,A
+000F EF                MOV     A,R7
+0010 C3                CLR     C
+0011 9418              SUBB    A,#018H
+0013 501D              JNC     ?C0034
+                                           ; SOURCE LINE # 489
+                                           ; SOURCE LINE # 490
+0015 900000      R     MOV     DPTR,#startTd
+0018 E0                MOVX    A,@DPTR
+0019 FF                MOV     R7,A
+001A 900000      R     MOV     DPTR,#chHandle
+001D E0                MOVX    A,@DPTR
+001E FE                MOV     R6,A
+001F 75F010            MOV     B,#010H
+0022 EE                MOV     A,R6
+0023 907019            MOV     DPTR,#07019H
+0026 120000      E     LCALL   ?C?OFFXADD
+0029 EF                MOV     A,R7
+002A F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 491
+002B 900000      R     MOV     DPTR,#status
+002E E4                CLR     A
+002F F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 492
+0030 8006              SJMP    ?C0035
+0032         ?C0034:
+                                           ; SOURCE LINE # 494
+                                           ; SOURCE LINE # 495
+0032 900000      R     MOV     DPTR,#status
+0035 7401              MOV     A,#01H
+0037 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 496
+0038         ?C0035:
+                                           ; SOURCE LINE # 498
+0038 900000      R     MOV     DPTR,#status
+003B E0                MOVX    A,@DPTR
+003C FF                MOV     R7,A
+                                           ; SOURCE LINE # 499
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 31  
+
+003D         ?C0036:
+003D 22                RET     
+             ; FUNCTION _CyDmaChSetInitialTd (END)
+
+             ; FUNCTION _CyDmaChSetRequest (BEGIN)
+                                           ; SOURCE LINE # 526
+0000 900000      R     MOV     DPTR,#chHandle
+0003 EF                MOV     A,R7
+0004 F0                MOVX    @DPTR,A
+0005 900000      R     MOV     DPTR,#request
+0008 ED                MOV     A,R5
+0009 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 527
+                                           ; SOURCE LINE # 531
+000A 900000      R     MOV     DPTR,#chHandle
+000D E0                MOVX    A,@DPTR
+000E FF                MOV     R7,A
+000F EF                MOV     A,R7
+0010 C3                CLR     C
+0011 9418              SUBB    A,#018H
+0013 502A              JNC     ?C0037
+                                           ; SOURCE LINE # 532
+                                           ; SOURCE LINE # 533
+0015 900000      R     MOV     DPTR,#chHandle
+0018 E0                MOVX    A,@DPTR
+0019 FF                MOV     R7,A
+001A 75F010            MOV     B,#010H
+001D EF                MOV     A,R7
+001E 907014            MOV     DPTR,#07014H
+0021 120000      E     LCALL   ?C?OFFXADD
+0024 C083              PUSH    DPH
+0026 C082              PUSH    DPL
+0028 E0                MOVX    A,@DPTR
+0029 FF                MOV     R7,A
+002A 900000      R     MOV     DPTR,#request
+002D E0                MOVX    A,@DPTR
+002E FE                MOV     R6,A
+002F EF                MOV     A,R7
+0030 4E                ORL     A,R6
+0031 FF                MOV     R7,A
+0032 D082              POP     DPL
+0034 D083              POP     DPH
+0036 EF                MOV     A,R7
+0037 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 534
+0038 900000      R     MOV     DPTR,#status
+003B E4                CLR     A
+003C F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 535
+003D 8006              SJMP    ?C0038
+003F         ?C0037:
+                                           ; SOURCE LINE # 537
+                                           ; SOURCE LINE # 538
+003F 900000      R     MOV     DPTR,#status
+0042 7401              MOV     A,#01H
+0044 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 539
+0045         ?C0038:
+                                           ; SOURCE LINE # 541
+0045 900000      R     MOV     DPTR,#status
+0048 E0                MOVX    A,@DPTR
+0049 FF                MOV     R7,A
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 32  
+
+                                           ; SOURCE LINE # 542
+004A         ?C0039:
+004A 22                RET     
+             ; FUNCTION _CyDmaChSetRequest (END)
+
+             ; FUNCTION _CyDmaChGetRequest (BEGIN)
+                                           ; SOURCE LINE # 566
+0000 900000      R     MOV     DPTR,#chHandle
+0003 EF                MOV     A,R7
+0004 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 567
+                                           ; SOURCE LINE # 571
+0005 900000      R     MOV     DPTR,#chHandle
+0008 E0                MOVX    A,@DPTR
+0009 FF                MOV     R7,A
+000A EF                MOV     A,R7
+000B C3                CLR     C
+000C 9418              SUBB    A,#018H
+000E 501C              JNC     ?C0040
+                                           ; SOURCE LINE # 572
+                                           ; SOURCE LINE # 573
+0010 900000      R     MOV     DPTR,#chHandle
+0013 E0                MOVX    A,@DPTR
+0014 FF                MOV     R7,A
+0015 75F010            MOV     B,#010H
+0018 EF                MOV     A,R7
+0019 907014            MOV     DPTR,#07014H
+001C 120000      E     LCALL   ?C?OFFXADD
+001F E0                MOVX    A,@DPTR
+0020 FF                MOV     R7,A
+0021 EF                MOV     A,R7
+0022 5407              ANL     A,#07H
+0024 FF                MOV     R7,A
+0025 900000      R     MOV     DPTR,#status
+0028 EF                MOV     A,R7
+0029 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 574
+002A 8006              SJMP    ?C0041
+002C         ?C0040:
+                                           ; SOURCE LINE # 576
+                                           ; SOURCE LINE # 577
+002C 900000      R     MOV     DPTR,#status
+002F 74FF              MOV     A,#0FFH
+0031 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 578
+0032         ?C0041:
+                                           ; SOURCE LINE # 580
+0032 900000      R     MOV     DPTR,#status
+0035 E0                MOVX    A,@DPTR
+0036 FF                MOV     R7,A
+                                           ; SOURCE LINE # 581
+0037         ?C0042:
+0037 22                RET     
+             ; FUNCTION _CyDmaChGetRequest (END)
+
+             ; FUNCTION _CyDmaChStatus (BEGIN)
+                                           ; SOURCE LINE # 612
+0000 900000      R     MOV     DPTR,#chHandle
+0003 EF                MOV     A,R7
+0004 F0                MOVX    @DPTR,A
+0005 900000      R     MOV     DPTR,#currentTd
+0008 120000      E     LCALL   ?C?PSTXDATA
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 33  
+
+                                           ; SOURCE LINE # 613
+                                           ; SOURCE LINE # 617
+000B 900000      R     MOV     DPTR,#chHandle
+000E E0                MOVX    A,@DPTR
+000F FF                MOV     R7,A
+0010 EF                MOV     A,R7
+0011 C3                CLR     C
+0012 9418              SUBB    A,#018H
+0014 5057              JNC     ?C0043
+                                           ; SOURCE LINE # 618
+                                           ; SOURCE LINE # 619
+0016 900000      R     MOV     DPTR,#currentTd
+0019 120000      E     LCALL   ?C?PLDXDATA
+001C EA                MOV     A,R2
+001D 49                ORL     A,R1
+001E 4B                ORL     A,R3
+001F 601F              JZ      ?C0044
+                                           ; SOURCE LINE # 620
+                                           ; SOURCE LINE # 621
+0021 900000      R     MOV     DPTR,#chHandle
+0024 E0                MOVX    A,@DPTR
+0025 FF                MOV     R7,A
+0026 75F010            MOV     B,#010H
+0029 EF                MOV     A,R7
+002A 907019            MOV     DPTR,#07019H
+002D 120000      E     LCALL   ?C?OFFXADD
+0030 E0                MOVX    A,@DPTR
+0031 FF                MOV     R7,A
+0032 EF                MOV     A,R7
+0033 547F              ANL     A,#07FH
+0035 FF                MOV     R7,A
+0036 900000      R     MOV     DPTR,#currentTd
+0039 120000      E     LCALL   ?C?PLDXDATA
+003C EF                MOV     A,R7
+003D 120000      E     LCALL   ?C?CSTPTR
+                                           ; SOURCE LINE # 622
+0040         ?C0044:
+                                           ; SOURCE LINE # 624
+0040 900000      R     MOV     DPTR,#state
+0043 120000      E     LCALL   ?C?PLDXDATA
+0046 EA                MOV     A,R2
+0047 49                ORL     A,R1
+0048 4B                ORL     A,R3
+0049 601B              JZ      ?C0045
+                                           ; SOURCE LINE # 625
+                                           ; SOURCE LINE # 626
+004B 900000      R     MOV     DPTR,#chHandle
+004E E0                MOVX    A,@DPTR
+004F FF                MOV     R7,A
+0050 75F010            MOV     B,#010H
+0053 EF                MOV     A,R7
+0054 907018            MOV     DPTR,#07018H
+0057 120000      E     LCALL   ?C?OFFXADD
+005A E0                MOVX    A,@DPTR
+005B FF                MOV     R7,A
+005C 900000      R     MOV     DPTR,#state
+005F 120000      E     LCALL   ?C?PLDXDATA
+0062 EF                MOV     A,R7
+0063 120000      E     LCALL   ?C?CSTPTR
+                                           ; SOURCE LINE # 627
+0066         ?C0045:
+                                           ; SOURCE LINE # 629
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 34  
+
+0066 900000      R     MOV     DPTR,#status
+0069 E4                CLR     A
+006A F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 630
+006B 8006              SJMP    ?C0046
+006D         ?C0043:
+                                           ; SOURCE LINE # 632
+                                           ; SOURCE LINE # 633
+006D 900000      R     MOV     DPTR,#status
+0070 7401              MOV     A,#01H
+0072 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 634
+0073         ?C0046:
+                                           ; SOURCE LINE # 636
+0073 900000      R     MOV     DPTR,#status
+0076 E0                MOVX    A,@DPTR
+0077 FF                MOV     R7,A
+                                           ; SOURCE LINE # 637
+0078         ?C0047:
+0078 22                RET     
+             ; FUNCTION _CyDmaChStatus (END)
+
+             ; FUNCTION _CyDmaChSetConfiguration (BEGIN)
+                                           ; SOURCE LINE # 672
+0000 900000      R     MOV     DPTR,#chHandle
+0003 EF                MOV     A,R7
+0004 F0                MOVX    @DPTR,A
+0005 900000      R     MOV     DPTR,#burstCount
+0008 ED                MOV     A,R5
+0009 F0                MOVX    @DPTR,A
+000A 900000      R     MOV     DPTR,#requestPerBurst
+000D EB                MOV     A,R3
+000E F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 673
+                                           ; SOURCE LINE # 677
+000F 900000      R     MOV     DPTR,#chHandle
+0012 E0                MOVX    A,@DPTR
+0013 FF                MOV     R7,A
+0014 EF                MOV     A,R7
+0015 C3                CLR     C
+0016 9418              SUBB    A,#018H
+0018 507B              JNC     ?C0048
+                                           ; SOURCE LINE # 678
+                                           ; SOURCE LINE # 679
+001A 900000      R     MOV     DPTR,#requestPerBurst
+001D E0                MOVX    A,@DPTR
+001E FF                MOV     R7,A
+001F EF                MOV     A,R7
+0020 C4                SWAP    A
+0021 33                RLC     A
+0022 33                RLC     A
+0023 33                RLC     A
+0024 5480              ANL     A,#080H
+0026 FF                MOV     R7,A
+0027 900000      R     MOV     DPTR,#burstCount
+002A E0                MOVX    A,@DPTR
+002B FE                MOV     R6,A
+002C EF                MOV     A,R7
+002D 4E                ORL     A,R6
+002E FF                MOV     R7,A
+002F 900000      R     MOV     DPTR,#chHandle
+0032 E0                MOVX    A,@DPTR
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 35  
+
+0033 FE                MOV     R6,A
+0034 75F008            MOV     B,#08H
+0037 EE                MOV     A,R6
+0038 907600            MOV     DPTR,#07600H
+003B 120000      E     LCALL   ?C?OFFXADD
+003E EF                MOV     A,R7
+003F F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 680
+0040 900000      R     MOV     DPTR,#tdDone1
+0043 E0                MOVX    A,@DPTR
+0044 FF                MOV     R7,A
+0045 EF                MOV     A,R7
+0046 C4                SWAP    A
+0047 54F0              ANL     A,#0F0H
+0049 FF                MOV     R7,A
+004A 900000      R     MOV     DPTR,#tdDone0
+004D E0                MOVX    A,@DPTR
+004E FE                MOV     R6,A
+004F EF                MOV     A,R7
+0050 4E                ORL     A,R6
+0051 FF                MOV     R7,A
+0052 900000      R     MOV     DPTR,#chHandle
+0055 E0                MOVX    A,@DPTR
+0056 FE                MOV     R6,A
+0057 75F008            MOV     B,#08H
+005A EE                MOV     A,R6
+005B 907601            MOV     DPTR,#07601H
+005E 120000      E     LCALL   ?C?OFFXADD
+0061 EF                MOV     A,R7
+0062 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 681
+0063 900000      R     MOV     DPTR,#tdStop
+0066 E0                MOVX    A,@DPTR
+0067 FF                MOV     R7,A
+0068 EF                MOV     A,R7
+0069 540F              ANL     A,#0FH
+006B FF                MOV     R7,A
+006C 900000      R     MOV     DPTR,#chHandle
+006F E0                MOVX    A,@DPTR
+0070 FE                MOV     R6,A
+0071 75F008            MOV     B,#08H
+0074 EE                MOV     A,R6
+0075 907602            MOV     DPTR,#07602H
+0078 120000      E     LCALL   ?C?OFFXADD
+007B EF                MOV     A,R7
+007C F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 682
+007D 900000      R     MOV     DPTR,#chHandle
+0080 E0                MOVX    A,@DPTR
+0081 FF                MOV     R7,A
+0082 75F008            MOV     B,#08H
+0085 EF                MOV     A,R7
+0086 907603            MOV     DPTR,#07603H
+0089 120000      E     LCALL   ?C?OFFXADD
+008C E4                CLR     A
+008D F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 684
+008E 900000      R     MOV     DPTR,#status
+0091 E4                CLR     A
+0092 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 685
+0093 8006              SJMP    ?C0049
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 36  
+
+0095         ?C0048:
+                                           ; SOURCE LINE # 687
+                                           ; SOURCE LINE # 688
+0095 900000      R     MOV     DPTR,#status
+0098 7401              MOV     A,#01H
+009A F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 689
+009B         ?C0049:
+                                           ; SOURCE LINE # 691
+009B 900000      R     MOV     DPTR,#status
+009E E0                MOVX    A,@DPTR
+009F FF                MOV     R7,A
+                                           ; SOURCE LINE # 692
+00A0         ?C0050:
+00A0 22                RET     
+             ; FUNCTION _CyDmaChSetConfiguration (END)
+
+             ; FUNCTION CyDmaTdAllocate (BEGIN)
+                                           ; SOURCE LINE # 713
+                                           ; SOURCE LINE # 714
+                                           ; SOURCE LINE # 720
+0000 120000      E     LCALL   CyEnterCriticalSection
+0003 900000      R     MOV     DPTR,#interruptState
+0006 EF                MOV     A,R7
+0007 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 722
+0008 900000      R     MOV     DPTR,#CyDmaTdCurrentNumber
+000B E0                MOVX    A,@DPTR
+000C FF                MOV     R7,A
+000D EF                MOV     A,R7
+000E 6028              JZ      ?C0051
+                                           ; SOURCE LINE # 723
+                                           ; SOURCE LINE # 725
+0010 900000      R     MOV     DPTR,#CyDmaTdFreeIndex
+0013 E0                MOVX    A,@DPTR
+0014 FF                MOV     R7,A
+0015 900000      R     MOV     DPTR,#Element
+0018 EF                MOV     A,R7
+0019 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 728
+001A 900000      R     MOV     DPTR,#CyDmaTdCurrentNumber
+001D E0                MOVX    A,@DPTR
+001E 14                DEC     A
+001F F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 731
+0020 900000      R     MOV     DPTR,#Element
+0023 E0                MOVX    A,@DPTR
+0024 FF                MOV     R7,A
+0025 75F008            MOV     B,#08H
+0028 EF                MOV     A,R7
+0029 907800            MOV     DPTR,#07800H
+002C 120000      E     LCALL   ?C?OFFXADD
+002F E0                MOVX    A,@DPTR
+0030 FF                MOV     R7,A
+0031 900000      R     MOV     DPTR,#CyDmaTdFreeIndex
+0034 EF                MOV     A,R7
+0035 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 732
+0036 8006              SJMP    ?C0052
+0038         ?C0051:
+                                           ; SOURCE LINE # 734
+                                           ; SOURCE LINE # 735
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 37  
+
+0038 900000      R     MOV     DPTR,#Element
+003B 74FF              MOV     A,#0FFH
+003D F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 736
+003E         ?C0052:
+                                           ; SOURCE LINE # 739
+003E 900000      R     MOV     DPTR,#interruptState
+0041 E0                MOVX    A,@DPTR
+0042 FF                MOV     R7,A
+0043 120000      E     LCALL   _CyExitCriticalSection
+                                           ; SOURCE LINE # 741
+0046 900000      R     MOV     DPTR,#Element
+0049 E0                MOVX    A,@DPTR
+004A FF                MOV     R7,A
+                                           ; SOURCE LINE # 742
+004B         ?C0053:
+004B 22                RET     
+             ; FUNCTION CyDmaTdAllocate (END)
+
+             ; FUNCTION _CyDmaTdFree (BEGIN)
+                                           ; SOURCE LINE # 761
+0000 900000      R     MOV     DPTR,#tdHandle
+0003 EF                MOV     A,R7
+0004 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 762
+                                           ; SOURCE LINE # 763
+0005 900000      R     MOV     DPTR,#tdHandle
+0008 E0                MOVX    A,@DPTR
+0009 FF                MOV     R7,A
+000A EF                MOV     A,R7
+000B C3                CLR     C
+000C 9480              SUBB    A,#080H
+000E 5036              JNC     ?C0055
+                                           ; SOURCE LINE # 764
+                                           ; SOURCE LINE # 766
+0010 120000      E     LCALL   CyEnterCriticalSection
+0013 900000      R     MOV     DPTR,#interruptState
+0016 EF                MOV     A,R7
+0017 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 769
+0018 900000      R     MOV     DPTR,#CyDmaTdFreeIndex
+001B E0                MOVX    A,@DPTR
+001C FF                MOV     R7,A
+001D 900000      R     MOV     DPTR,#tdHandle
+0020 E0                MOVX    A,@DPTR
+0021 FE                MOV     R6,A
+0022 75F008            MOV     B,#08H
+0025 EE                MOV     A,R6
+0026 907800            MOV     DPTR,#07800H
+0029 120000      E     LCALL   ?C?OFFXADD
+002C EF                MOV     A,R7
+002D F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 772
+002E 900000      R     MOV     DPTR,#tdHandle
+0031 E0                MOVX    A,@DPTR
+0032 FF                MOV     R7,A
+0033 900000      R     MOV     DPTR,#CyDmaTdFreeIndex
+0036 EF                MOV     A,R7
+0037 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 775
+0038 900000      R     MOV     DPTR,#CyDmaTdCurrentNumber
+003B E0                MOVX    A,@DPTR
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 38  
+
+003C 04                INC     A
+003D F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 778
+003E 900000      R     MOV     DPTR,#interruptState
+0041 E0                MOVX    A,@DPTR
+0042 FF                MOV     R7,A
+0043 120000      E     LCALL   _CyExitCriticalSection
+                                           ; SOURCE LINE # 779
+                                           ; SOURCE LINE # 780
+0046         ?C0055:
+0046 22                RET     
+             ; FUNCTION _CyDmaTdFree (END)
+
+             ; FUNCTION CyDmaTdFreeCount (BEGIN)
+                                           ; SOURCE LINE # 798
+                                           ; SOURCE LINE # 799
+                                           ; SOURCE LINE # 803
+0000 900000      R     MOV     DPTR,#CyDmaTdCurrentNumber
+0003 E0                MOVX    A,@DPTR
+0004 FF                MOV     R7,A
+0005 900000      R     MOV     DPTR,#number
+0008 EF                MOV     A,R7
+0009 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 806
+000A 900000      R     MOV     DPTR,#number
+000D E0                MOVX    A,@DPTR
+000E FF                MOV     R7,A
+                                           ; SOURCE LINE # 807
+000F         ?C0056:
+000F 22                RET     
+             ; FUNCTION CyDmaTdFreeCount (END)
+
+             ; FUNCTION _CyDmaTdSetConfiguration (BEGIN)
+                                           ; SOURCE LINE # 847
+0000 900000      R     MOV     DPTR,#tdHandle
+0003 EF                MOV     A,R7
+0004 F0                MOVX    @DPTR,A
+0005 900000      R     MOV     DPTR,#transferCount
+0008 EC                MOV     A,R4
+0009 F0                MOVX    @DPTR,A
+000A A3                INC     DPTR
+000B ED                MOV     A,R5
+000C F0                MOVX    @DPTR,A
+000D 900000      R     MOV     DPTR,#nextTd
+0010 EB                MOV     A,R3
+0011 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 848
+                                           ; SOURCE LINE # 852
+0012 900000      R     MOV     DPTR,#tdHandle
+0015 E0                MOVX    A,@DPTR
+0016 FF                MOV     R7,A
+0017 EF                MOV     A,R7
+0018 C3                CLR     C
+0019 9480              SUBB    A,#080H
+001B 4003              JC      $ + 5H
+001D 020000      R     LJMP    ?C0057
+0020 900000      R     MOV     DPTR,#transferCount
+0023 E0                MOVX    A,@DPTR
+0024 FE                MOV     R6,A
+0025 A3                INC     DPTR
+0026 E0                MOVX    A,@DPTR
+0027 FF                MOV     R7,A
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 39  
+
+0028 EE                MOV     A,R6
+0029 54F0              ANL     A,#0F0H
+002B FE                MOV     R6,A
+002C 7F00              MOV     R7,#00H
+002E EF                MOV     A,R7
+002F 4E                ORL     A,R6
+0030 7070              JNZ     ?C0057
+                                           ; SOURCE LINE # 853
+                                           ; SOURCE LINE # 855
+0032 900000      R     MOV     DPTR,#tdHandle
+0035 E0                MOVX    A,@DPTR
+0036 FF                MOV     R7,A
+0037 7E08              MOV     R6,#08H
+0039 EF                MOV     A,R7
+003A 8EF0              MOV     B,R6
+003C A4                MUL     AB
+003D FF                MOV     R7,A
+003E AEF0              MOV     R6,B
+0040 EF                MOV     A,R7
+0041 2400              ADD     A,#00H
+0043 FF                MOV     R7,A
+0044 EE                MOV     A,R6
+0045 3478              ADDC    A,#078H
+0047 FE                MOV     R6,A
+0048 AA06              MOV     R2,AR6
+004A A907              MOV     R1,AR7
+004C 7B01              MOV     R3,#01H
+004E 900000      R     MOV     DPTR,#convert
+0051 120000      E     LCALL   ?C?PSTXDATA
+                                           ; SOURCE LINE # 856
+0054 900000      R     MOV     DPTR,#convert
+0057 120000      E     LCALL   ?C?PLDXDATA
+005A AE02              MOV     R6,AR2
+005C AF01              MOV     R7,AR1
+005E AA06              MOV     R2,AR6
+0060 A907              MOV     R1,AR7
+0062 7B01              MOV     R3,#01H
+0064 900000      R     MOV     DPTR,#transferCount
+0067 E0                MOVX    A,@DPTR
+0068 FC                MOV     R4,A
+0069 A3                INC     DPTR
+006A E0                MOVX    A,@DPTR
+006B FD                MOV     R5,A
+006C 120000      E     LCALL   _cywrite16_nodpx
+                                           ; SOURCE LINE # 859
+006F 900000      R     MOV     DPTR,#nextTd
+0072 E0                MOVX    A,@DPTR
+0073 FF                MOV     R7,A
+0074 900000      R     MOV     DPTR,#tdHandle
+0077 E0                MOVX    A,@DPTR
+0078 FE                MOV     R6,A
+0079 75F008            MOV     B,#08H
+007C EE                MOV     A,R6
+007D 907802            MOV     DPTR,#07802H
+0080 120000      E     LCALL   ?C?OFFXADD
+0083 EF                MOV     A,R7
+0084 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 862
+0085 900000      R     MOV     DPTR,#configuration
+0088 E0                MOVX    A,@DPTR
+0089 FF                MOV     R7,A
+008A 900000      R     MOV     DPTR,#tdHandle
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 40  
+
+008D E0                MOVX    A,@DPTR
+008E FE                MOV     R6,A
+008F 75F008            MOV     B,#08H
+0092 EE                MOV     A,R6
+0093 907803            MOV     DPTR,#07803H
+0096 120000      E     LCALL   ?C?OFFXADD
+0099 EF                MOV     A,R7
+009A F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 864
+009B 900000      R     MOV     DPTR,#status
+009E E4                CLR     A
+009F F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 865
+00A0 8006              SJMP    ?C0058
+00A2         ?C0057:
+                                           ; SOURCE LINE # 867
+                                           ; SOURCE LINE # 868
+00A2 900000      R     MOV     DPTR,#status
+00A5 7401              MOV     A,#01H
+00A7 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 869
+00A8         ?C0058:
+                                           ; SOURCE LINE # 871
+00A8 900000      R     MOV     DPTR,#status
+00AB E0                MOVX    A,@DPTR
+00AC FF                MOV     R7,A
+                                           ; SOURCE LINE # 872
+00AD         ?C0059:
+00AD 22                RET     
+             ; FUNCTION _CyDmaTdSetConfiguration (END)
+
+             ; FUNCTION _CyDmaTdGetConfiguration (BEGIN)
+                                           ; SOURCE LINE # 917
+0000 900000      R     MOV     DPTR,#tdHandle
+0003 EF                MOV     A,R7
+0004 F0                MOVX    @DPTR,A
+0005 900000      R     MOV     DPTR,#transferCount
+0008 120000      E     LCALL   ?C?PSTXDATA
+                                           ; SOURCE LINE # 918
+                                           ; SOURCE LINE # 922
+000B 900000      R     MOV     DPTR,#tdHandle
+000E E0                MOVX    A,@DPTR
+000F FF                MOV     R7,A
+0010 EF                MOV     A,R7
+0011 C3                CLR     C
+0012 9480              SUBB    A,#080H
+0014 4003              JC      $ + 5H
+0016 020000      R     LJMP    ?C0060
+                                           ; SOURCE LINE # 923
+                                           ; SOURCE LINE # 925
+0019 900000      R     MOV     DPTR,#transferCount
+001C 120000      E     LCALL   ?C?PLDXDATA
+001F EA                MOV     A,R2
+0020 49                ORL     A,R1
+0021 4B                ORL     A,R3
+0022 6045              JZ      ?C0061
+                                           ; SOURCE LINE # 926
+                                           ; SOURCE LINE # 928
+0024 900000      R     MOV     DPTR,#tdHandle
+0027 E0                MOVX    A,@DPTR
+0028 FF                MOV     R7,A
+0029 7E08              MOV     R6,#08H
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 41  
+
+002B EF                MOV     A,R7
+002C 8EF0              MOV     B,R6
+002E A4                MUL     AB
+002F FF                MOV     R7,A
+0030 AEF0              MOV     R6,B
+0032 EF                MOV     A,R7
+0033 2400              ADD     A,#00H
+0035 FF                MOV     R7,A
+0036 EE                MOV     A,R6
+0037 3478              ADDC    A,#078H
+0039 FE                MOV     R6,A
+003A AA06              MOV     R2,AR6
+003C A907              MOV     R1,AR7
+003E 7B01              MOV     R3,#01H
+0040 900000      R     MOV     DPTR,#convert
+0043 120000      E     LCALL   ?C?PSTXDATA
+                                           ; SOURCE LINE # 929
+0046 900000      R     MOV     DPTR,#convert
+0049 120000      E     LCALL   ?C?PLDXDATA
+004C AE02              MOV     R6,AR2
+004E AF01              MOV     R7,AR1
+0050 AA06              MOV     R2,AR6
+0052 A907              MOV     R1,AR7
+0054 7B01              MOV     R3,#01H
+0056 120000      E     LCALL   _cyread16_nodpx
+0059 EE                MOV     A,R6
+005A 540F              ANL     A,#0FH
+005C FE                MOV     R6,A
+005D 900000      R     MOV     DPTR,#transferCount
+0060 120000      E     LCALL   ?C?PLDXDATA
+0063 EE                MOV     A,R6
+0064 8FF0              MOV     B,R7
+0066 120000      E     LCALL   ?C?ISTPTR
+                                           ; SOURCE LINE # 930
+0069         ?C0061:
+                                           ; SOURCE LINE # 933
+0069 900000      R     MOV     DPTR,#nextTd
+006C 120000      E     LCALL   ?C?PLDXDATA
+006F EA                MOV     A,R2
+0070 49                ORL     A,R1
+0071 4B                ORL     A,R3
+0072 601B              JZ      ?C0062
+                                           ; SOURCE LINE # 934
+                                           ; SOURCE LINE # 936
+0074 900000      R     MOV     DPTR,#tdHandle
+0077 E0                MOVX    A,@DPTR
+0078 FF                MOV     R7,A
+0079 75F008            MOV     B,#08H
+007C EF                MOV     A,R7
+007D 907802            MOV     DPTR,#07802H
+0080 120000      E     LCALL   ?C?OFFXADD
+0083 E0                MOVX    A,@DPTR
+0084 FF                MOV     R7,A
+0085 900000      R     MOV     DPTR,#nextTd
+0088 120000      E     LCALL   ?C?PLDXDATA
+008B EF                MOV     A,R7
+008C 120000      E     LCALL   ?C?CSTPTR
+                                           ; SOURCE LINE # 937
+008F         ?C0062:
+                                           ; SOURCE LINE # 940
+008F 900000      R     MOV     DPTR,#configuration
+0092 120000      E     LCALL   ?C?PLDXDATA
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 42  
+
+0095 EA                MOV     A,R2
+0096 49                ORL     A,R1
+0097 4B                ORL     A,R3
+0098 601B              JZ      ?C0063
+                                           ; SOURCE LINE # 941
+                                           ; SOURCE LINE # 943
+009A 900000      R     MOV     DPTR,#tdHandle
+009D E0                MOVX    A,@DPTR
+009E FF                MOV     R7,A
+009F 75F008            MOV     B,#08H
+00A2 EF                MOV     A,R7
+00A3 907803            MOV     DPTR,#07803H
+00A6 120000      E     LCALL   ?C?OFFXADD
+00A9 E0                MOVX    A,@DPTR
+00AA FF                MOV     R7,A
+00AB 900000      R     MOV     DPTR,#configuration
+00AE 120000      E     LCALL   ?C?PLDXDATA
+00B1 EF                MOV     A,R7
+00B2 120000      E     LCALL   ?C?CSTPTR
+                                           ; SOURCE LINE # 944
+00B5         ?C0063:
+                                           ; SOURCE LINE # 946
+00B5 900000      R     MOV     DPTR,#status
+00B8 E4                CLR     A
+00B9 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 947
+00BA 8006              SJMP    ?C0064
+00BC         ?C0060:
+                                           ; SOURCE LINE # 949
+                                           ; SOURCE LINE # 950
+00BC 900000      R     MOV     DPTR,#status
+00BF 7401              MOV     A,#01H
+00C1 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 951
+00C2         ?C0064:
+                                           ; SOURCE LINE # 953
+00C2 900000      R     MOV     DPTR,#status
+00C5 E0                MOVX    A,@DPTR
+00C6 FF                MOV     R7,A
+                                           ; SOURCE LINE # 954
+00C7         ?C0065:
+00C7 22                RET     
+             ; FUNCTION _CyDmaTdGetConfiguration (END)
+
+             ; FUNCTION _CyDmaTdSetAddress (BEGIN)
+                                           ; SOURCE LINE # 980
+0000 900000      R     MOV     DPTR,#tdHandle
+0003 EF                MOV     A,R7
+0004 F0                MOVX    @DPTR,A
+0005 900000      R     MOV     DPTR,#source
+0008 EC                MOV     A,R4
+0009 F0                MOVX    @DPTR,A
+000A A3                INC     DPTR
+000B ED                MOV     A,R5
+000C F0                MOVX    @DPTR,A
+000D 900000      R     MOV     DPTR,#destination
+0010 EA                MOV     A,R2
+0011 F0                MOVX    @DPTR,A
+0012 A3                INC     DPTR
+0013 EB                MOV     A,R3
+0014 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 981
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 43  
+
+                                           ; SOURCE LINE # 985
+0015 900000      R     MOV     DPTR,#tdHandle
+0018 E0                MOVX    A,@DPTR
+0019 FF                MOV     R7,A
+001A EF                MOV     A,R7
+001B C3                CLR     C
+001C 9480              SUBB    A,#080H
+001E 506B              JNC     ?C0066
+                                           ; SOURCE LINE # 986
+                                           ; SOURCE LINE # 988
+0020 900000      R     MOV     DPTR,#tdHandle
+0023 E0                MOVX    A,@DPTR
+0024 FF                MOV     R7,A
+0025 7E08              MOV     R6,#08H
+0027 EF                MOV     A,R7
+0028 8EF0              MOV     B,R6
+002A A4                MUL     AB
+002B FF                MOV     R7,A
+002C AEF0              MOV     R6,B
+002E EF                MOV     A,R7
+002F 2404              ADD     A,#04H
+0031 FF                MOV     R7,A
+0032 EE                MOV     A,R6
+0033 3478              ADDC    A,#078H
+0035 FE                MOV     R6,A
+0036 AA06              MOV     R2,AR6
+0038 A907              MOV     R1,AR7
+003A 7B01              MOV     R3,#01H
+003C 900000      R     MOV     DPTR,#convert
+003F 120000      E     LCALL   ?C?PSTXDATA
+                                           ; SOURCE LINE # 989
+0042 900000      R     MOV     DPTR,#convert
+0045 120000      E     LCALL   ?C?PLDXDATA
+0048 AE02              MOV     R6,AR2
+004A AF01              MOV     R7,AR1
+004C AA06              MOV     R2,AR6
+004E A907              MOV     R1,AR7
+0050 7B01              MOV     R3,#01H
+0052 900000      R     MOV     DPTR,#source
+0055 E0                MOVX    A,@DPTR
+0056 FC                MOV     R4,A
+0057 A3                INC     DPTR
+0058 E0                MOVX    A,@DPTR
+0059 FD                MOV     R5,A
+005A 120000      E     LCALL   _cywrite16_nodpx
+                                           ; SOURCE LINE # 992
+005D 900000      R     MOV     DPTR,#tdHandle
+0060 E0                MOVX    A,@DPTR
+0061 FF                MOV     R7,A
+0062 7E08              MOV     R6,#08H
+0064 EF                MOV     A,R7
+0065 8EF0              MOV     B,R6
+0067 A4                MUL     AB
+0068 FF                MOV     R7,A
+0069 AEF0              MOV     R6,B
+006B EF                MOV     A,R7
+006C 2406              ADD     A,#06H
+006E FF                MOV     R7,A
+006F EE                MOV     A,R6
+0070 3478              ADDC    A,#078H
+0072 FE                MOV     R6,A
+0073 AA06              MOV     R2,AR6
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 44  
+
+0075 A907              MOV     R1,AR7
+0077 7B01              MOV     R3,#01H
+0079 900000      R     MOV     DPTR,#destination
+007C E0                MOVX    A,@DPTR
+007D FC                MOV     R4,A
+007E A3                INC     DPTR
+007F E0                MOVX    A,@DPTR
+0080 FD                MOV     R5,A
+0081 120000      E     LCALL   _cywrite16_nodpx
+                                           ; SOURCE LINE # 994
+0084 900000      R     MOV     DPTR,#status
+0087 E4                CLR     A
+0088 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 995
+0089 8006              SJMP    ?C0067
+008B         ?C0066:
+                                           ; SOURCE LINE # 997
+                                           ; SOURCE LINE # 998
+008B 900000      R     MOV     DPTR,#status
+008E 7401              MOV     A,#01H
+0090 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 999
+0091         ?C0067:
+                                           ; SOURCE LINE # 1001
+0091 900000      R     MOV     DPTR,#status
+0094 E0                MOVX    A,@DPTR
+0095 FF                MOV     R7,A
+                                           ; SOURCE LINE # 1002
+0096         ?C0068:
+0096 22                RET     
+             ; FUNCTION _CyDmaTdSetAddress (END)
+
+             ; FUNCTION _CyDmaTdGetAddress (BEGIN)
+                                           ; SOURCE LINE # 1034
+0000 900000      R     MOV     DPTR,#tdHandle
+0003 EF                MOV     A,R7
+0004 F0                MOVX    @DPTR,A
+0005 900000      R     MOV     DPTR,#source
+0008 120000      E     LCALL   ?C?PSTXDATA
+                                           ; SOURCE LINE # 1035
+                                           ; SOURCE LINE # 1039
+000B 900000      R     MOV     DPTR,#tdHandle
+000E E0                MOVX    A,@DPTR
+000F FF                MOV     R7,A
+0010 EF                MOV     A,R7
+0011 C3                CLR     C
+0012 9480              SUBB    A,#080H
+0014 4003              JC      $ + 5H
+0016 020000      R     LJMP    ?C0069
+                                           ; SOURCE LINE # 1040
+                                           ; SOURCE LINE # 1042
+0019 900000      R     MOV     DPTR,#source
+001C 120000      E     LCALL   ?C?PLDXDATA
+001F EA                MOV     A,R2
+0020 49                ORL     A,R1
+0021 4B                ORL     A,R3
+0022 6041              JZ      ?C0070
+                                           ; SOURCE LINE # 1043
+                                           ; SOURCE LINE # 1045
+0024 900000      R     MOV     DPTR,#tdHandle
+0027 E0                MOVX    A,@DPTR
+0028 FF                MOV     R7,A
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 45  
+
+0029 7E08              MOV     R6,#08H
+002B EF                MOV     A,R7
+002C 8EF0              MOV     B,R6
+002E A4                MUL     AB
+002F FF                MOV     R7,A
+0030 AEF0              MOV     R6,B
+0032 EF                MOV     A,R7
+0033 2404              ADD     A,#04H
+0035 FF                MOV     R7,A
+0036 EE                MOV     A,R6
+0037 3478              ADDC    A,#078H
+0039 FE                MOV     R6,A
+003A AA06              MOV     R2,AR6
+003C A907              MOV     R1,AR7
+003E 7B01              MOV     R3,#01H
+0040 900000      R     MOV     DPTR,#convert
+0043 120000      E     LCALL   ?C?PSTXDATA
+                                           ; SOURCE LINE # 1046
+0046 900000      R     MOV     DPTR,#convert
+0049 120000      E     LCALL   ?C?PLDXDATA
+004C AE02              MOV     R6,AR2
+004E AF01              MOV     R7,AR1
+0050 AA06              MOV     R2,AR6
+0052 A907              MOV     R1,AR7
+0054 7B01              MOV     R3,#01H
+0056 120000      E     LCALL   _cyread16_nodpx
+0059 900000      R     MOV     DPTR,#source
+005C 120000      E     LCALL   ?C?PLDXDATA
+005F EE                MOV     A,R6
+0060 8FF0              MOV     B,R7
+0062 120000      E     LCALL   ?C?ISTPTR
+                                           ; SOURCE LINE # 1047
+0065         ?C0070:
+                                           ; SOURCE LINE # 1050
+0065 900000      R     MOV     DPTR,#destination
+0068 120000      E     LCALL   ?C?PLDXDATA
+006B EA                MOV     A,R2
+006C 49                ORL     A,R1
+006D 4B                ORL     A,R3
+006E 602B              JZ      ?C0071
+                                           ; SOURCE LINE # 1051
+                                           ; SOURCE LINE # 1053
+0070 900000      R     MOV     DPTR,#tdHandle
+0073 E0                MOVX    A,@DPTR
+0074 FF                MOV     R7,A
+0075 7E08              MOV     R6,#08H
+0077 EF                MOV     A,R7
+0078 8EF0              MOV     B,R6
+007A A4                MUL     AB
+007B FF                MOV     R7,A
+007C AEF0              MOV     R6,B
+007E EF                MOV     A,R7
+007F 2406              ADD     A,#06H
+0081 FF                MOV     R7,A
+0082 EE                MOV     A,R6
+0083 3478              ADDC    A,#078H
+0085 FE                MOV     R6,A
+0086 AA06              MOV     R2,AR6
+0088 A907              MOV     R1,AR7
+008A 7B01              MOV     R3,#01H
+008C 120000      E     LCALL   _cyread16_nodpx
+008F 900000      R     MOV     DPTR,#destination
+C51 COMPILER V8.16   CYDMAC                                                                07/15/2011 13:52:49 PAGE 46  
+
+0092 120000      E     LCALL   ?C?PLDXDATA
+0095 EE                MOV     A,R6
+0096 8FF0              MOV     B,R7
+0098 120000      E     LCALL   ?C?ISTPTR
+                                           ; SOURCE LINE # 1054
+009B         ?C0071:
+                                           ; SOURCE LINE # 1056
+009B 900000      R     MOV     DPTR,#status
+009E E4                CLR     A
+009F F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 1057
+00A0 8006              SJMP    ?C0072
+00A2         ?C0069:
+                                           ; SOURCE LINE # 1059
+                                           ; SOURCE LINE # 1060
+00A2 900000      R     MOV     DPTR,#status
+00A5 7401              MOV     A,#01H
+00A7 F0                MOVX    @DPTR,A
+                                           ; SOURCE LINE # 1061
+00A8         ?C0072:
+                                           ; SOURCE LINE # 1063
+00A8 900000      R     MOV     DPTR,#status
+00AB E0                MOVX    A,@DPTR
+00AC FF                MOV     R7,A
+                                           ; SOURCE LINE # 1064
+00AD         ?C0073:
+00AD 22                RET     
+             ; FUNCTION _CyDmaTdGetAddress (END)
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   2215    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =      6     102
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

@@ -1,0 +1,67 @@
+C51 COMPILER V8.16   CYUTILS                                                               07/11/2011 11:33:49 PAGE 1   
+
+
+C51 COMPILER V8.16, COMPILATION OF MODULE CYUTILS
+OBJECT MODULE PLACED IN C:/Users/Jon Moeller/Documents/PSoC Creator/clockARM/ClockTest/ClockTest.cydsn/DP8051_Keil_816/Debug/cyutils.OBJ
+COMPILER INVOKED BY: C:\Program Files\Cypress\PSoC Creator\1.0\PSoC Creator\import\keil\pk51\8.16\C51\BIN\c51.exe C:\Use
+                    -rs\Jon Moeller\Documents\PSoC Creator\clockARM\ClockTest\ClockTest.cydsn\Generated_Source\PSoC3\cyutils.c NOIV LARGE MOD
+                    -DP2 OMF2 VB(1) PR(C:/Users/Jon Moeller/Documents/PSoC Creator/clockARM/ClockTest/ClockTest.cydsn/DP8051_Keil_816/Debug/c
+                    -yutils.lst) CD DB NOIP OT(2,SIZE) INCDIR(Generated_Source/PSoC3) OJ(C:/Users/Jon Moeller/Documents/PSoC Creator/clockARM
+                    -/ClockTest/ClockTest.cydsn/DP8051_Keil_816/Debug/cyutils.OBJ)
+
+line level    source
+
+   1          /*******************************************************************************
+   2          * FILENAME: cyutils.c
+   3          * Version 2.20
+   4          *  
+   5          *  Description:
+   6          *   CyUtils provides functions to handles endian issues for 16 and 32-bit 
+   7          *   registers.
+   8          * 
+   9          *  Note:
+  10          *
+  11          *******************************************************************************
+  12          * Copyright 2008-2010, Cypress Semiconductor Corporation.  All rights reserved.
+  13          * You may use this file only in accordance with the license, terms, conditions, 
+  14          * disclaimers, and limitations in the end user license agreement accompanying 
+  15          * the software package with which this file was provided.
+  16          ********************************************************************************/
+  17          
+  18          #include <cytypes.h>
+  19          
+  20          #if defined(__GNUC__) || defined(__ARMCC_VERSION)
+              void CySetReg24(uint8 volatile *addr, uint32 value)
+              {
+                      *addr = (uint8)value;
+                      addr++;
+                      value >>= 8;
+                      *addr = (uint8)value;
+                      addr++;
+                      value >>= 8;
+                      *addr = (uint8)value;
+              }
+              #endif
+C51 COMPILER V8.16   CYUTILS                                                               07/11/2011 11:33:49 PAGE 2   
+
+ASSEMBLY LISTING OF GENERATED OBJECT CODE
+
+
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   ----    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----    ----
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+   EDATA SIZE       =   ----    ----
+   HDATA SIZE       =   ----    ----
+   XDATA CONST SIZE =   ----    ----
+   FAR CONST SIZE   =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)
